@@ -1814,11 +1814,13 @@
                     }
                 } catch (err) {
                     formStatus.className = 'form-status error';
+                    console.error(err);
                     const waText = encodeURIComponent(`مرحباً، أود طلب موقع إلكتروني لـ (${businessName || 'مشروعي'}). الاسم: ${fullName}، الواتساب: ${whatsapp}`);
                     const waUrl = `https://wa.me/249964629236?text=${waText}`;
 
                     formStatus.innerHTML = `
                         <div>تعذر إرسال الطلب عبر النموذج حالياً. يمكنك التواصل المباشر معنا فوراً عبر الواتساب:</div>
+                        <div style="font-size:0.75rem; opacity:0.7; margin-top:0.5rem; direction:ltr; text-align:center;">${err.message || err}</div>
                         <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp form-status-btn">
                             إرسال الطلب عبر الواتساب مباشرة
                         </a>
@@ -1895,7 +1897,11 @@
                     }
                 } catch (err) {
                     reviewStatus.className = 'form-status error';
-                    reviewStatus.textContent = 'حدث خطأ أثناء إرسال التقييم، يرجى المحاولة لاحقاً أو إرساله لنا عبر الواتساب.';
+                    console.error(err);
+                    reviewStatus.innerHTML = `
+                        <div>حدث خطأ أثناء إرسال التقييم، يرجى المحاولة لاحقاً أو إرساله لنا عبر الواتساب.</div>
+                        <div style="font-size:0.75rem; opacity:0.7; margin-top:0.5rem; direction:ltr; text-align:center;">${err.message || err}</div>
+                    `;
                 } finally {
                     reviewSubmitBtn.disabled = false;
                     reviewSubmitBtn.textContent = 'إرسال التقييم';
