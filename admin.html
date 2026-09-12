@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم | مركز الدعم الرقمي DSC</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<style>
+    :root {
+        --bg-primary: #0a1128;
+        --bg-surface: #131b2e;
+        --bg-card: #1c2541;
+        --text-main: #ffffff;
+        --text-muted: #a0aec0;
+        --accent-gold: #f4a261;
+        --accent-gold-hover: #e76f51;
+        --accent-blue: #3a86ff;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --transition: all 0.25s ease;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'Cairo', system-ui, sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-main);
+        direction: rtl;
+        text-align: right;
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    a { color: inherit; }
+
+    /* Login screen */
+    #loginScreen {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+    .login-card {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 2.5rem;
+        max-width: 400px;
+        width: 100%;
+    }
+    .login-card h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+    .login-card p.subtitle {
+        color: var(--text-muted);
+        text-align: center;
+        margin-bottom: 1.75rem;
+        font-size: 0.9rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+    input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: var(--text-main);
+        font-family: inherit;
+        font-size: 0.95rem;
+    }
+    input:focus { outline: none; border-color: var(--accent-gold); }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-sm);
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        border: none;
+        transition: var(--transition);
+        font-family: inherit;
+    }
+    .btn-primary { background-color: var(--accent-gold); color: #0a1128; width: 100%; margin-top: 0.5rem; }
+    .btn-primary:hover { background-color: var(--accent-gold-hover); color: #fff; }
+    .btn-danger { background-color: rgba(255,95,86,0.15); color: #ff5f56; border: 1px solid #ff5f56; }
+    .btn-danger:hover { background-color: #ff5f56; color: #fff; }
+    .btn-success { background-color: rgba(39,201,63,0.15); color: #27c93f; border: 1px solid #27c93f; }
+    .btn-success:hover { background-color: #27c93f; color: #0a1128; }
+    .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg {
+        color: #ff5f56;
+        font-size: 0.85rem;
+        margin-top: 0.75rem;
+        text-align: center;
+        display: none;
+    }
+
+    /* Dashboard */
+    #dashboard { display: none; }
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+    }
+    .topbar h1 { font-size: 1.2rem; }
+    .topbar .user-email { color: var(--text-muted); font-size: 0.85rem; }
+
+    .tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .tab-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        padding: 0.75rem 1.25rem;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
+    .tab-btn.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .panel-header h2 { font-size: 1.1rem; }
+    .count-badge {
+        background: rgba(244,162,97,0.1);
+        color: var(--accent-gold);
+        padding: 0.2rem 0.7rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .card-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .item-card {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 1.25rem;
+    }
+    .item-card .item-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 0.6rem;
+        flex-wrap: wrap;
+    }
+    .item-card h3 { font-size: 1rem; }
+    .item-card .item-date { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
+    .item-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.5rem 1.5rem;
+        font-size: 0.88rem;
+        margin-bottom: 0.5rem;
+    }
+    .item-grid .label { color: var(--text-muted); }
+    .item-details { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border-color); }
+    .stars { color: var(--accent-gold); }
+    .status-pill {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.2rem 0.6rem;
+        border-radius: 50px;
+    }
+    .status-pending { background: rgba(244,162,97,0.15); color: var(--accent-gold); }
+    .status-approved { background: rgba(39,201,63,0.15); color: #27c93f; }
+    .status-rejected { background: rgba(255,95,86,0.15); color: #ff5f56; }
+    .item-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+    .empty-state { color: var(--text-muted); text-align: center; padding: 2.5rem 1rem; }
+
+    /* Portfolio add form */
+    .add-form {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .add-form .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    .add-form .full-width { grid-column: 1 / -1; }
+    select, textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: var(--text-main);
+        font-family: inherit;
+        font-size: 0.95rem;
+    }
+
+    .portfolio-item-card { display: flex; gap: 1rem; align-items: center; }
+    .portfolio-item-card img {
+        width: 80px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+    .portfolio-item-card .info { flex: 1; }
+    .portfolio-item-card .info h3 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .portfolio-item-card .info span { color: var(--text-muted); font-size: 0.8rem; }
+
+    .toast {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--bg-card);
+        border: 1px solid var(--accent-gold);
+        color: var(--text-main);
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.9rem;
+        display: none;
+        z-index: 999;
+    }
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="loginScreen">
+    <div class="login-card">
+        <h1>لوحة تحكم DSC</h1>
+        <p class="subtitle">سجّل الدخول لعرض الطلبات والتقييمات وإدارة معرض الأعمال</p>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">البريد الإلكتروني</label>
+                <input type="email" id="loginEmail" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">كلمة المرور</label>
+                <input type="password" id="loginPassword" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary" id="loginBtn">تسجيل الدخول</button>
+            <p class="error-msg" id="loginError"></p>
+        </form>
+    </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+    <div class="container">
+        <div class="topbar">
+            <h1>لوحة تحكم مركز الدعم الرقمي</h1>
+            <div style="display:flex; align-items:center; gap:1rem;">
+                <span class="user-email" id="userEmail"></span>
+                <button class="btn btn-danger btn-sm" id="logoutBtn">تسجيل الخروج</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="orders">طلبات المواقع <span class="count-badge" id="ordersCount">0</span></button>
+            <button class="tab-btn" data-tab="reviews">التقييمات <span class="count-badge" id="reviewsCount">0</span></button>
+            <button class="tab-btn" data-tab="portfolio">معرض الأعمال</button>
+        </div>
+
+        <!-- Orders Tab -->
+        <div class="tab-panel active" id="panel-orders">
+            <div class="panel-header"><h2>طلبات المواقع الواردة</h2></div>
+            <div class="card-list" id="ordersList"><div class="empty-state">جاري التحميل...</div></div>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div class="tab-panel" id="panel-reviews">
+            <div class="panel-header"><h2>التقييمات الواردة</h2></div>
+            <div class="card-list" id="reviewsList"><div class="empty-state">جاري التحميل...</div></div>
+        </div>
+
+        <!-- Portfolio Tab -->
+        <div class="tab-panel" id="panel-portfolio">
+            <div class="panel-header"><h2>إضافة مشروع سابق للموقع</h2></div>
+            <form class="add-form" id="portfolioForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="pTitle">عنوان المشروع *</label>
+                        <input type="text" id="pTitle" required placeholder="مثال: موقع مطعم الأصالة">
+                    </div>
+                    <div class="form-group">
+                        <label for="pCategory">التصنيف *</label>
+                        <select id="pCategory" required>
+                            <option value="restaurant" data-label="مطاعم ومقاهي">مطاعم ومقاهي</option>
+                            <option value="corporate" data-label="شركات ومؤسسات">شركات ومؤسسات</option>
+                            <option value="medical" data-label="عيادات ومراكز طبية">عيادات ومراكز طبية</option>
+                            <option value="other" data-label="أخرى">أخرى</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="pImageUrl">رابط الصورة *</label>
+                        <input type="url" id="pImageUrl" required placeholder="https://...">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="pDescription">وصف مختصر *</label>
+                        <textarea id="pDescription" rows="2" required placeholder="وصف قصير للمشروع"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="portfolioSubmitBtn" style="width:auto;">إضافة للمعرض</button>
+            </form>
+
+            <div class="panel-header"><h2>المشاريع المضافة حالياً</h2></div>
+            <div class="card-list" id="portfolioList"><div class="empty-state">جاري التحميل...</div></div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    // =========================
+    // Firebase Configuration — same project as the main site
+    // =========================
+    const firebaseConfig = {
+        apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
+        authDomain: "dsc-8e421.firebaseapp.com",
+        projectId: "dsc-8e421",
+        storageBucket: "dsc-8e421.firebasestorage.app",
+        messagingSenderId: "157087109660",
+        appId: "1:157087109660:web:6c5419e63714d3b4ca85d9"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const loginScreen = document.getElementById('loginScreen');
+    const dashboard = document.getElementById('dashboard');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginError = document.getElementById('loginError');
+    const userEmailEl = document.getElementById('userEmail');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    }
+
+    function fmtDate(ts) {
+        if (!ts || !ts.toDate) return '—';
+        return ts.toDate().toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' });
+    }
+
+    // ===== Auth =====
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.style.display = 'none';
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'جاري الدخول...';
+        try {
+            await auth.signInWithEmailAndPassword(
+                document.getElementById('loginEmail').value.trim(),
+                document.getElementById('loginPassword').value
+            );
+        } catch (err) {
+            loginError.textContent = 'بيانات الدخول غير صحيحة أو الحساب غير موجود.';
+            loginError.style.display = 'block';
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'تسجيل الدخول';
+        }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
+
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            loginScreen.style.display = 'none';
+            dashboard.style.display = 'block';
+            userEmailEl.textContent = user.email;
+            loadOrders();
+            loadReviews();
+            loadPortfolio();
+        } else {
+            loginScreen.style.display = 'flex';
+            dashboard.style.display = 'none';
+        }
+    });
+
+    // ===== Tabs =====
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+        });
+    });
+
+    // ===== Orders =====
+    function loadOrders() {
+        db.collection('orders').orderBy('createdAt', 'desc').get().then(snapshot => {
+            const list = document.getElementById('ordersList');
+            document.getElementById('ordersCount').textContent = snapshot.size;
+            if (snapshot.empty) {
+                list.innerHTML = '<div class="empty-state">لا توجد طلبات بعد.</div>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const o = doc.data();
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <div class="item-top">
+                        <h3>${o.businessName || ''} — ${o.fullName || ''}</h3>
+                        <span class="item-date">${fmtDate(o.createdAt)}</span>
+                    </div>
+                    <div class="item-grid">
+                        <div><span class="label">نوع النشاط: </span>${o.businessType || '—'}</div>
+                        <div><span class="label">الموقع: </span>${o.location || '—'}</div>
+                        <div><span class="label">واتساب: </span>${o.whatsapp || '—'}</div>
+                        <div><span class="label">إيميل: </span>${o.email || '—'}</div>
+                        <div><span class="label">لديه موقع؟ </span>${o.hasWebsite === 'yes' ? 'نعم' : 'لا'}</div>
+                        <div><span class="label">لغتين؟ </span>${o.needMultiLang === 'yes' ? 'نعم' : 'لا'}</div>
+                    </div>
+                    ${o.details ? `<div class="item-details">${o.details}</div>` : ''}
+                `;
+                list.appendChild(div);
+            });
+        }).catch(err => {
+            document.getElementById('ordersList').innerHTML = '<div class="empty-state">تعذر تحميل الطلبات.</div>';
+            console.error(err);
+        });
+    }
+
+    // ===== Reviews =====
+    function loadReviews() {
+        db.collection('reviews').orderBy('createdAt', 'desc').get().then(snapshot => {
+            const list = document.getElementById('reviewsList');
+            document.getElementById('reviewsCount').textContent = snapshot.size;
+            if (snapshot.empty) {
+                list.innerHTML = '<div class="empty-state">لا توجد تقييمات بعد.</div>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const r = doc.data();
+                const stars = '★'.repeat(parseInt(r.rating) || 5);
+                const statusClass = r.status === 'approved' ? 'status-approved' : (r.status === 'rejected' ? 'status-rejected' : 'status-pending');
+                const statusLabel = r.status === 'approved' ? 'معتمد' : (r.status === 'rejected' ? 'مرفوض' : 'قيد المراجعة');
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <div class="item-top">
+                        <h3>${r.reviewerName || ''} — <span style="color:var(--text-muted); font-weight:400;">${r.reviewerRole || ''}</span></h3>
+                        <span class="item-date">${fmtDate(r.createdAt)}</span>
+                    </div>
+                    <div class="stars">${stars}</div>
+                    <div class="item-details">${r.reviewMessage || ''}</div>
+                    <div class="item-actions">
+                        <span class="status-pill ${statusClass}">${statusLabel}</span>
+                        <button class="btn btn-success btn-sm" data-action="approve" data-id="${doc.id}">اعتماد</button>
+                        <button class="btn btn-danger btn-sm" data-action="reject" data-id="${doc.id}">رفض</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+
+            list.querySelectorAll('[data-action]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const newStatus = btn.dataset.action === 'approve' ? 'approved' : 'rejected';
+                    await db.collection('reviews').doc(btn.dataset.id).update({ status: newStatus });
+                    showToast(newStatus === 'approved' ? 'تم اعتماد التقييم' : 'تم رفض التقييم');
+                    loadReviews();
+                });
+            });
+        }).catch(err => {
+            document.getElementById('reviewsList').innerHTML = '<div class="empty-state">تعذر تحميل التقييمات.</div>';
+            console.error(err);
+        });
+    }
+
+    // ===== Portfolio =====
+    const portfolioForm = document.getElementById('portfolioForm');
+    const portfolioSubmitBtn = document.getElementById('portfolioSubmitBtn');
+
+    portfolioForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        portfolioSubmitBtn.disabled = true;
+        portfolioSubmitBtn.textContent = 'جاري الإضافة...';
+
+        const categorySelect = document.getElementById('pCategory');
+        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+
+        try {
+            await db.collection('portfolio').add({
+                title: document.getElementById('pTitle').value.trim(),
+                category: categorySelect.value,
+                categoryLabel: selectedOption.dataset.label,
+                imageUrl: document.getElementById('pImageUrl').value.trim(),
+                description: document.getElementById('pDescription').value.trim(),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            portfolioForm.reset();
+            showToast('تمت إضافة المشروع للمعرض بنجاح');
+            loadPortfolio();
+        } catch (err) {
+            showToast('حدث خطأ أثناء الإضافة');
+            console.error(err);
+        } finally {
+            portfolioSubmitBtn.disabled = false;
+            portfolioSubmitBtn.textContent = 'إضافة للمعرض';
+        }
+    });
+
+    function loadPortfolio() {
+        db.collection('portfolio').orderBy('createdAt', 'desc').get().then(snapshot => {
+            const list = document.getElementById('portfolioList');
+            if (snapshot.empty) {
+                list.innerHTML = '<div class="empty-state">لا توجد مشاريع مضافة بعد.</div>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                const div = document.createElement('div');
+                div.className = 'item-card portfolio-item-card';
+                div.innerHTML = `
+                    <img src="${p.imageUrl}" alt="${p.title || ''}">
+                    <div class="info">
+                        <h3>${p.title || ''}</h3>
+                        <span>${p.categoryLabel || ''} · ${p.description || ''}</span>
+                    </div>
+                    <button class="btn btn-danger btn-sm" data-id="${doc.id}">حذف</button>
+                `;
+                list.appendChild(div);
+            });
+
+            list.querySelectorAll('button[data-id]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!confirm('هل تريد حذف هذا المشروع من المعرض؟')) return;
+                    await db.collection('portfolio').doc(btn.dataset.id).delete();
+                    showToast('تم حذف المشروع');
+                    loadPortfolio();
+                });
+            });
+        }).catch(err => {
+            document.getElementById('portfolioList').innerHTML = '<div class="empty-state">تعذر تحميل المشاريع.</div>';
+            console.error(err);
+        });
+    }
+</script>
+</body>
+</html>
