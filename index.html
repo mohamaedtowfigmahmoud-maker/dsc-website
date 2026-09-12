@@ -31,7 +31,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
+    <!-- hCaptcha (explicit render: needed since this page has two widgets) -->
+    <script src="https://js.hcaptcha.com/1/api.js?render=explicit&onload=onHcaptchaLoad" async defer></script>
+
+    <!-- Firebase SDK (v9 compat, works with plain <script> tags, no build step) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <!-- CSS Styles -->
     <style>
         /* CSS Variables & Theme Setup */
@@ -781,6 +788,13 @@
             box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.15);
         }
 
+        /* hCaptcha widget wrapper */
+        .captcha-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 1.25rem 0;
+        }
+
         /* Honeypot field - hidden from real users, catches bots.
            Kept out of the visual flow without display:none/visibility:hidden,
            which some bots specifically detect and skip. */
@@ -1363,6 +1377,9 @@
                             <textarea id="reviewMessage" name="reviewMessage" rows="3" required placeholder="اكتب رأيك وتجربتك في التعامل معنا..."></textarea>
                         </div>
                     </div>
+                    <div class="captcha-wrap">
+                        <div id="review-hcaptcha"></div>
+                    </div>
                     <button type="submit" id="reviewSubmitBtn" class="btn btn-secondary btn-full">إرسال التقييم</button>
                     <div id="reviewStatus" class="form-status" role="alert"></div>
                 </form>
@@ -1450,6 +1467,9 @@
                             <label for="details">تفاصيل إضافية عن خدماتك ومتطلباتك</label>
                             <textarea id="details" name="details" rows="4" placeholder="اكتب هنا أي تفاصيل تود مشاركتها معنا..."></textarea>
                         </div>
+                    </div>
+                    <div class="captcha-wrap">
+                        <div id="order-hcaptcha"></div>
                     </div>
                     <button type="submit" id="submitBtn" class="btn btn-primary btn-full">إرسال طلب الموقع</button>
                     <div id="formStatus" class="form-status" role="alert"></div>
@@ -1551,6 +1571,57 @@
 
     <!-- Vanilla JavaScript -->
     <script>
+        // =========================
+        // Firebase Configuration
+        // =========================
+        // Replace with your own project's config from:
+        // Firebase Console → Project Settings → General → Your apps → SDK setup and configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
+            authDomain: "dsc-8e421.firebaseapp.com",
+            projectId: "dsc-8e421",
+            storageBucket: "dsc-8e421.firebasestorage.app",
+            messagingSenderId: "157087109660",
+            appId: "1:157087109660:web:6c5419e63714d3b4ca85d9"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // =========================
+        // Telegram Notifications
+        // =========================
+        // 1) Message @BotFather on Telegram → /newbot → get your bot token
+        // 2) Message your new bot once, then visit:
+        //    https://api.telegram.org/bot<TOKEN>/getUpdates
+        //    to find your chat id in the response
+        const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
+        const TELEGRAM_CHAT_ID = 'YOUR_TELEGRAM_CHAT_ID';
+
+        function sendTelegramNotification(text) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: 'HTML' })
+            }).catch(err => console.error('تعذر إرسال إشعار Telegram:', err));
+        }
+
+        // =========================
+        // hCaptcha Configuration
+        // =========================
+        // Replace with your site key from: https://dashboard.hcaptcha.com/sites
+        const HCAPTCHA_SITE_KEY = '36c0929c-b16e-4e56-83e0-6f5c039cf2b8';
+
+        let orderCaptchaWidgetId = null;
+        let reviewCaptchaWidgetId = null;
+
+        // Called automatically by the hCaptcha script once it finishes loading
+        function onHcaptchaLoad() {
+            orderCaptchaWidgetId = hcaptcha.render('order-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
+            reviewCaptchaWidgetId = hcaptcha.render('review-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             // Accessible Mobile Menu Toggle
             const hamburger = document.getElementById('hamburger');
@@ -1601,7 +1672,6 @@
 
             // Portfolio Filter & Accessibility Handling
             const filterBtns = document.querySelectorAll('.filter-btn');
-            const portfolioCards = document.querySelectorAll('.portfolio-card');
 
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -1616,7 +1686,9 @@
                     btn.setAttribute('aria-pressed', 'true');
 
                     const filterValue = btn.getAttribute('data-filter');
-                    portfolioCards.forEach(card => {
+                    // Re-query every click so projects added dynamically from the
+                    // admin dashboard after page load are included in the filter too.
+                    document.querySelectorAll('.portfolio-card').forEach(card => {
                         if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
                             card.style.display = 'block';
                         } else {
@@ -1625,6 +1697,30 @@
                     });
                 });
             });
+
+            // Load real portfolio projects added via the admin dashboard
+            const portfolioGrid = document.querySelector('.portfolio-grid');
+            db.collection('portfolio').orderBy('createdAt', 'desc').get()
+                .then(snapshot => {
+                    snapshot.forEach(doc => {
+                        const p = doc.data();
+                        const card = document.createElement('div');
+                        card.className = 'portfolio-card';
+                        card.setAttribute('data-category', p.category || 'other');
+                        card.innerHTML = `
+                            <div class="portfolio-img">
+                                <img src="${p.imageUrl}" alt="${p.title || ''}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            <div class="portfolio-body">
+                                <span class="portfolio-category">${p.categoryLabel || ''}</span>
+                                <h3>${p.title || ''}</h3>
+                                <p>${p.description || ''}</p>
+                            </div>
+                        `;
+                        portfolioGrid.appendChild(card);
+                    });
+                })
+                .catch(err => console.error('تعذر تحميل مشاريع المعرض:', err));
 
             // Dynamic Form Handling for Orders
             const orderForm = document.getElementById('orderForm');
@@ -1666,11 +1762,41 @@
                     }
                 }
 
+                const captchaToken = hcaptcha.getResponse(orderCaptchaWidgetId);
+                if (!captchaToken) {
+                    formStatus.className = 'form-status error';
+                    formStatus.textContent = 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.';
+                    return;
+                }
+
                 submitBtn.disabled = true;
                 submitBtn.setAttribute('aria-busy', 'true');
                 submitBtn.textContent = 'جاري الإرسال...';
 
+                const businessTypeVal = document.getElementById('businessType').value;
+                const hasWebsiteVal = document.getElementById('hasWebsite').value;
+                const needMultiLangVal = document.getElementById('needMultiLang').value;
+                const detailsVal = document.getElementById('details').value.trim();
+
                 try {
+                    // Save to Firestore (persistent record for the dashboard)
+                    await db.collection('orders').add({
+                        fullName, businessName, businessType: businessTypeVal,
+                        location, whatsapp, email,
+                        hasWebsite: hasWebsiteVal, needMultiLang: needMultiLangVal,
+                        details: detailsVal,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    sendTelegramNotification(
+                        `🆕 <b>طلب موقع جديد</b>\n` +
+                        `الاسم: ${fullName}\n` +
+                        `النشاط: ${businessName} (${businessTypeVal})\n` +
+                        `الموقع: ${location}\n` +
+                        `واتساب: ${whatsapp}`
+                    );
+
+                    // Also submit to Formspree so you still get an email notification
                     const formData = new FormData(orderForm);
                     const response = await fetch(orderForm.action, {
                         method: 'POST',
@@ -1682,8 +1808,9 @@
                         formStatus.className = 'form-status success';
                         formStatus.textContent = 'تم استلام طلبك بنجاح! وسنتواصل معك عبر الواتساب فوراً لمناقشة التفاصيل.';
                         orderForm.reset();
+                        hcaptcha.reset(orderCaptchaWidgetId);
                     } else {
-                        throw new Error('فشل الإرسال.');
+                        throw new Error('فشل الإرسال عبر البريد، لكن تم حفظ الطلب.');
                     }
                 } catch (err) {
                     formStatus.className = 'form-status error';
@@ -1725,10 +1852,32 @@
                     return;
                 }
 
+                const reviewCaptchaToken = hcaptcha.getResponse(reviewCaptchaWidgetId);
+                if (!reviewCaptchaToken) {
+                    reviewStatus.className = 'form-status error';
+                    reviewStatus.textContent = 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.';
+                    return;
+                }
+
                 reviewSubmitBtn.disabled = true;
                 reviewSubmitBtn.textContent = 'جاري إرسال التقييم...';
 
                 try {
+                    // Save to Firestore. status:'pending' lets you review before it appears live.
+                    await db.collection('reviews').add({
+                        rating: ratingSelected.value,
+                        reviewerName, reviewerRole, reviewMessage,
+                        status: 'pending',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    sendTelegramNotification(
+                        `⭐ <b>تقييم جديد</b> (${ratingSelected.value})\n` +
+                        `من: ${reviewerName} — ${reviewerRole}\n` +
+                        `"${reviewMessage}"`
+                    );
+
+                    // Also submit to Formspree so you still get an email notification
                     const formData = new FormData(reviewForm);
                     const response = await fetch(reviewForm.action, {
                         method: 'POST',
@@ -1740,8 +1889,9 @@
                         reviewStatus.className = 'form-status success';
                         reviewStatus.textContent = 'شكرًا لك! تم إرسال تقييمك بنجاح وسنعمل على مراجعته وإضافته للموقع.';
                         reviewForm.reset();
+                        hcaptcha.reset(reviewCaptchaWidgetId);
                     } else {
-                        throw new Error('فشل إرسال التقييم.');
+                        throw new Error('فشل إرسال التقييم عبر البريد، لكن تم حفظه.');
                     }
                 } catch (err) {
                     reviewStatus.className = 'form-status error';
