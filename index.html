@@ -622,6 +622,20 @@
             text-transform: uppercase;
         }
 
+        .portfolio-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .portfolio-link:hover {
+            color: var(--accent-gold);
+        }
+
         /* Reviews & Testimonials Section */
         .reviews-section {
             background-color: var(--bg-primary);
@@ -1707,12 +1721,41 @@
                                 <span class="portfolio-category">${p.categoryLabel || ''}</span>
                                 <h3>${p.title || ''}</h3>
                                 <p>${p.description || ''}</p>
+                                ${p.projectUrl ? `<a class="portfolio-link" href="${p.projectUrl}" target="_blank" rel="noopener noreferrer">زيارة المشروع ←</a>` : ''}
                             </div>
                         `;
                         portfolioGrid.appendChild(card);
                     });
                 })
                 .catch(err => console.error('تعذر تحميل مشاريع المعرض:', err));
+
+            // Load approved customer reviews (moderated from the admin dashboard)
+            const reviewsGrid = document.querySelector('.reviews-grid');
+            db.collection('reviews').where('status', '==', 'approved').orderBy('createdAt', 'desc').get()
+                .then(snapshot => {
+                    snapshot.forEach(doc => {
+                        const r = doc.data();
+                        const starCount = parseInt(r.rating) || 5;
+                        const initial = (r.reviewerName || '').trim().charAt(0) || '؟';
+                        const card = document.createElement('div');
+                        card.className = 'review-card';
+                        card.innerHTML = `
+                            <div>
+                                <div class="review-stars" aria-label="${starCount} من 5 نجوم">${'★'.repeat(starCount)}</div>
+                                <p>"${r.reviewMessage || ''}"</p>
+                            </div>
+                            <div class="review-author">
+                                <div class="avatar" aria-hidden="true">${initial}</div>
+                                <div class="author-info">
+                                    <h4>${r.reviewerName || ''}</h4>
+                                    <span>${r.reviewerRole || ''}</span>
+                                </div>
+                            </div>
+                        `;
+                        reviewsGrid.appendChild(card);
+                    });
+                })
+                .catch(err => console.error('تعذر تحميل التقييمات:', err));
 
             // Dynamic Form Handling for Orders
             const orderForm = document.getElementById('orderForm');
