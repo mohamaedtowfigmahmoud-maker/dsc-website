@@ -30,7 +30,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- hCaptcha (explicit render: needed since this page has two widgets) -->
     <script src="https://js.hcaptcha.com/1/api.js?render=explicit&onload=onHcaptchaLoad" async defer></script>
@@ -43,20 +43,20 @@
     <style>
         /* CSS Variables & Theme Setup */
         :root {
-            --bg-primary: #0a1128;
-            --bg-surface: #131b2e;
-            --bg-card: #1c2541;
-            --bg-card-hover: #253259;
-            --text-main: #ffffff;
-            --text-muted: #a0aec0;
-            --accent-gold: #f4a261;
-            --accent-gold-hover: #e76f51;
-            --accent-blue: #3a86ff;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(244, 162, 97, 0.4);
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
-            --shadow-md: 0 8px 24px rgba(0,0,0,0.3);
-            --shadow-glow: 0 0 20px rgba(244, 162, 97, 0.15);
+            --bg-primary: #F7F8FA;
+            --bg-surface: #FFFFFF;
+            --bg-card: #F4F5F8;
+            --bg-card-hover: #EAEDF2;
+            --text-main: #101826;
+            --text-muted: #5B6472;
+            --accent-gold: #B8863A;
+            --accent-gold-hover: #9C6F2E;
+            --accent-blue: #1F5C6E;
+            --border-color: rgba(16, 24, 38, 0.10);
+            --border-hover: rgba(184, 134, 58, 0.45);
+            --shadow-sm: 0 2px 8px rgba(16,24,38,0.05);
+            --shadow-md: 0 10px 28px rgba(16,24,38,0.08);
+            --shadow-glow: 0 0 0 4px rgba(184, 134, 58, 0.12);
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 20px;
@@ -77,7 +77,7 @@
         }
 
         body {
-            font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+            font-family: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-main);
             line-height: 1.6;
@@ -107,6 +107,7 @@
 
         /* Typography */
         h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cairo', system-ui, sans-serif;
             color: var(--text-main);
             font-weight: 700;
             line-height: 1.3;
@@ -157,9 +158,9 @@
         .badge {
             display: inline-block;
             padding: 0.35rem 1rem;
-            background: rgba(244, 162, 97, 0.1);
+            background: rgba(184, 134, 58, 0.1);
             color: var(--accent-gold);
-            border: 1px solid rgba(244, 162, 97, 0.2);
+            border: 1px solid rgba(184, 134, 58, 0.25);
             border-radius: 50px;
             font-size: 0.875rem;
             font-weight: 600;
@@ -174,6 +175,7 @@
             gap: 0.5rem;
             padding: 0.85rem 1.75rem;
             border-radius: var(--radius-sm);
+            font-family: 'Cairo', system-ui, sans-serif;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
@@ -199,7 +201,7 @@
 
         .btn-primary {
             background-color: var(--accent-gold);
-            color: #0a1128;
+            color: #ffffff;
         }
 
         .btn-primary:hover {
@@ -251,7 +253,7 @@
             right: 0;
             left: 0;
             z-index: 1000;
-            background-color: rgba(10, 17, 40, 0.9);
+            background-color: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             transition: var(--transition);
@@ -268,6 +270,7 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-family: 'Cairo', system-ui, sans-serif;
             font-size: 1.5rem;
             font-weight: 800;
             color: var(--text-main);
@@ -281,8 +284,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0a1128;
+            color: #ffffff;
             font-weight: 900;
+        }
+
+        .footer .logo {
+            color: #ffffff;
         }
 
         .nav-menu {
@@ -341,8 +348,8 @@
             padding-top: 160px;
             padding-bottom: 100px;
             position: relative;
-            background: radial-gradient(circle at 80% 20%, rgba(58, 134, 255, 0.08) 0%, transparent 40%),
-                        radial-gradient(circle at 20% 80%, rgba(244, 162, 97, 0.08) 0%, transparent 40%);
+            background: radial-gradient(circle at 80% 20%, rgba(31, 92, 110, 0.06) 0%, transparent 40%),
+                        radial-gradient(circle at 20% 80%, rgba(184, 134, 58, 0.06) 0%, transparent 40%);
         }
 
         .hero-grid {
@@ -403,7 +410,7 @@
 
         .mock-line {
             height: 8px;
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(16,24,38,0.08);
             border-radius: 4px;
             margin-bottom: 0.5rem;
         }
@@ -438,7 +445,7 @@
         .feature-icon {
             width: 50px;
             height: 50px;
-            background: rgba(244, 162, 97, 0.1);
+            background: rgba(184, 134, 58, 0.1);
             color: var(--accent-gold);
             border-radius: var(--radius-sm);
             display: flex;
@@ -512,7 +519,7 @@
         }
 
         .sectors-footer {
-            background: rgba(244, 162, 97, 0.05);
+            background: rgba(184, 134, 58, 0.05);
             border: 1px dashed var(--accent-gold);
             border-radius: var(--radius-md);
             padding: 1.5rem;
@@ -537,7 +544,7 @@
         .step-number {
             font-size: 2.5rem;
             font-weight: 800;
-            color: rgba(244, 162, 97, 0.2);
+            color: rgba(184, 134, 58, 0.22);
             position: absolute;
             top: 1rem;
             left: 1.5rem;
@@ -570,7 +577,7 @@
 
         .filter-btn:hover, .filter-btn.active {
             background-color: var(--accent-gold);
-            color: #0a1128;
+            color: #ffffff;
             border-color: var(--accent-gold);
         }
 
@@ -595,7 +602,7 @@
 
         .portfolio-img {
             height: 200px;
-            background-color: #0d1630;
+            background-color: #EEF1F4;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -666,7 +673,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0a1128;
+            color: #ffffff;
             font-weight: 800;
             font-size: 1rem;
         }
@@ -785,7 +792,7 @@
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--accent-gold);
-            box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.15);
+            box-shadow: 0 0 0 3px rgba(184, 134, 58, 0.18);
         }
 
         /* hCaptcha widget wrapper */
@@ -888,7 +895,7 @@
             overflow: hidden;
             transition: max-height 0.3s ease-out, padding 0.3s ease;
             padding: 0 1.5rem;
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(16,24,38,0.025);
         }
 
         .faq-item.active .faq-answer {
@@ -897,10 +904,14 @@
 
         /* Footer */
         .footer {
-            background-color: #050814;
+            background-color: var(--text-main);
             border-top: 1px solid var(--border-color);
             padding-top: 4rem;
             padding-bottom: 2rem;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.62);
         }
 
         .footer-grid {
@@ -915,7 +926,7 @@
         }
 
         .footer-title {
-            color: var(--text-main);
+            color: #ffffff;
             font-size: 1.1rem;
             margin-bottom: 1.25rem;
         }
@@ -929,7 +940,7 @@
         }
 
         .footer-links a {
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.62);
         }
 
         .footer-links a:hover {
@@ -938,10 +949,10 @@
 
         .footer-bottom {
             padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
             text-align: center;
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         /* Responsive Breakpoints */
@@ -1242,10 +1253,10 @@
                 <div class="portfolio-card" data-category="restaurant">
                     <div class="portfolio-img">
                         <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#131b2e"/>
-                            <circle cx="200" cy="100" r="50" fill="none" stroke="#f4a261" stroke-width="2" stroke-dasharray="4"/>
-                            <text x="200" y="105" text-anchor="middle" fill="#ffffff" font-family="Cairo" font-size="16" font-weight="bold">قائمة وجبات تفاعلية</text>
-                            <path d="M120,150 L280,150" stroke="rgba(255,255,255,0.1)" stroke-width="8" stroke-linecap="round"/>
+                            <rect width="400" height="200" fill="#EEF1F4"/>
+                            <circle cx="200" cy="100" r="50" fill="none" stroke="#B8863A" stroke-width="2" stroke-dasharray="4"/>
+                            <text x="200" y="105" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">قائمة وجبات تفاعلية</text>
+                            <path d="M120,150 L280,150" stroke="rgba(16,24,38,0.15)" stroke-width="8" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <div class="portfolio-body">
@@ -1258,9 +1269,9 @@
                 <div class="portfolio-card" data-category="corporate">
                     <div class="portfolio-img">
                         <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#131b2e"/>
-                            <rect x="80" y="40" width="240" height="120" rx="8" fill="#1c2541" stroke="#3a86ff" stroke-width="1.5"/>
-                            <text x="200" y="105" text-anchor="middle" fill="#ffffff" font-family="Cairo" font-size="16" font-weight="bold">بوابة استشارية متكاملة</text>
+                            <rect width="400" height="200" fill="#EEF1F4"/>
+                            <rect x="80" y="40" width="240" height="120" rx="8" fill="#FFFFFF" stroke="#1F5C6E" stroke-width="1.5"/>
+                            <text x="200" y="105" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">بوابة استشارية متكاملة</text>
                         </svg>
                     </div>
                     <div class="portfolio-body">
@@ -1273,9 +1284,9 @@
                 <div class="portfolio-card" data-category="medical">
                     <div class="portfolio-img">
                         <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#131b2e"/>
+                            <rect width="400" height="200" fill="#EEF1F4"/>
                             <path d="M180,100 L220,100 M200,80 L200,120" stroke="#27c93f" stroke-width="4" stroke-linecap="round"/>
-                            <text x="200" y="150" text-anchor="middle" fill="#ffffff" font-family="Cairo" font-size="16" font-weight="bold">نظام حجز مواعيد العيادة</text>
+                            <text x="200" y="150" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">نظام حجز مواعيد العيادة</text>
                         </svg>
                     </div>
                     <div class="portfolio-body">
@@ -1589,25 +1600,6 @@
         const db = firebase.firestore();
 
         // =========================
-        // Telegram Notifications
-        // =========================
-        // 1) Message @BotFather on Telegram → /newbot → get your bot token
-        // 2) Message your new bot once, then visit:
-        //    https://api.telegram.org/bot<TOKEN>/getUpdates
-        //    to find your chat id in the response
-        const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
-        const TELEGRAM_CHAT_ID = 'YOUR_TELEGRAM_CHAT_ID';
-
-        function sendTelegramNotification(text) {
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: 'HTML' })
-            }).catch(err => console.error('تعذر إرسال إشعار Telegram:', err));
-        }
-
-        // =========================
         // hCaptcha Configuration
         // =========================
         // Replace with your site key from: https://dashboard.hcaptcha.com/sites
@@ -1779,7 +1771,7 @@
                 const detailsVal = document.getElementById('details').value.trim();
 
                 try {
-                    // Save to Firestore (persistent record for the dashboard)
+                    // Save to Firestore (this is the record that matters — it feeds the dashboard)
                     await db.collection('orders').add({
                         fullName, businessName, businessType: businessTypeVal,
                         location, whatsapp, email,
@@ -1788,30 +1780,20 @@
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
-                    sendTelegramNotification(
-                        `🆕 <b>طلب موقع جديد</b>\n` +
-                        `الاسم: ${fullName}\n` +
-                        `النشاط: ${businessName} (${businessTypeVal})\n` +
-                        `الموقع: ${location}\n` +
-                        `واتساب: ${whatsapp}`
-                    );
+                    // The request is saved — tell the customer now, don't make them wait on email
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = 'تم إرسال طلبك بنجاح! سيتم التواصل معك خلال أقرب وقت.';
+                    orderForm.reset();
+                    hcaptcha.reset(orderCaptchaWidgetId);
 
-                    // Also submit to Formspree so you still get an email notification
+                    // Best-effort email notification via Formspree — failure here is silent
+                    // and never affects what the customer sees, since the order is already saved.
                     const formData = new FormData(orderForm);
-                    const response = await fetch(orderForm.action, {
+                    fetch(orderForm.action, {
                         method: 'POST',
                         body: formData,
                         headers: { 'Accept': 'application/json' }
-                    });
-
-                    if (response.ok) {
-                        formStatus.className = 'form-status success';
-                        formStatus.textContent = 'تم استلام طلبك بنجاح! وسنتواصل معك عبر الواتساب فوراً لمناقشة التفاصيل.';
-                        orderForm.reset();
-                        hcaptcha.reset(orderCaptchaWidgetId);
-                    } else {
-                        throw new Error('فشل الإرسال عبر البريد، لكن تم حفظ الطلب.');
-                    }
+                    }).catch(err => console.error('Formspree notification failed:', err));
                 } catch (err) {
                     formStatus.className = 'form-status error';
                     console.error(err);
@@ -1873,28 +1855,19 @@
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
-                    sendTelegramNotification(
-                        `⭐ <b>تقييم جديد</b> (${ratingSelected.value})\n` +
-                        `من: ${reviewerName} — ${reviewerRole}\n` +
-                        `"${reviewMessage}"`
-                    );
+                    reviewStatus.className = 'form-status success';
+                    reviewStatus.textContent = 'شكرًا لك! تم إرسال تقييمك بنجاح وسنعمل على مراجعته وإضافته للموقع.';
+                    reviewForm.reset();
+                    hcaptcha.reset(reviewCaptchaWidgetId);
 
-                    // Also submit to Formspree so you still get an email notification
+                    // Best-effort email notification — failure here is silent and never
+                    // affects what the reviewer sees, since the review is already saved.
                     const formData = new FormData(reviewForm);
-                    const response = await fetch(reviewForm.action, {
+                    fetch(reviewForm.action, {
                         method: 'POST',
                         body: formData,
                         headers: { 'Accept': 'application/json' }
-                    });
-
-                    if (response.ok) {
-                        reviewStatus.className = 'form-status success';
-                        reviewStatus.textContent = 'شكرًا لك! تم إرسال تقييمك بنجاح وسنعمل على مراجعته وإضافته للموقع.';
-                        reviewForm.reset();
-                        hcaptcha.reset(reviewCaptchaWidgetId);
-                    } else {
-                        throw new Error('فشل إرسال التقييم عبر البريد، لكن تم حفظه.');
-                    }
+                    }).catch(err => console.error('Formspree notification failed:', err));
                 } catch (err) {
                     reviewStatus.className = 'form-status error';
                     console.error(err);
