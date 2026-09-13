@@ -335,6 +335,10 @@
                         <input type="url" id="pImageUrl" required placeholder="https://...">
                     </div>
                     <div class="form-group full-width">
+                        <label for="pProjectUrl">رابط المشروع (اختياري)</label>
+                        <input type="url" id="pProjectUrl" placeholder="https://project-site.com">
+                    </div>
+                    <div class="form-group full-width">
                         <label for="pDescription">وصف مختصر *</label>
                         <textarea id="pDescription" rows="2" required placeholder="وصف قصير للمشروع"></textarea>
                     </div>
@@ -533,6 +537,7 @@
                 category: categorySelect.value,
                 categoryLabel: selectedOption.dataset.label,
                 imageUrl: document.getElementById('pImageUrl').value.trim(),
+                projectUrl: document.getElementById('pProjectUrl').value.trim(),
                 description: document.getElementById('pDescription').value.trim(),
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
@@ -565,6 +570,7 @@
                     <div class="info">
                         <h3>${p.title || ''}</h3>
                         <span>${p.categoryLabel || ''} · ${p.description || ''}</span>
+                        ${p.projectUrl ? `<br><a href="${p.projectUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-gold); font-size:0.8rem;">${p.projectUrl}</a>` : ''}
                     </div>
                     <button class="btn btn-danger btn-sm" data-id="${doc.id}">حذف</button>
                 `;
