@@ -1729,12 +1729,15 @@
                 })
                 .catch(err => console.error('تعذر تحميل مشاريع المعرض:', err));
 
-            // Load approved customer reviews (moderated from the admin dashboard)
+            // Load approved customer reviews (moderated from the admin dashboard).
+            // Filtering status client-side (instead of a server-side "where") avoids
+            // needing a Firestore composite index for this query.
             const reviewsGrid = document.querySelector('.reviews-grid');
-            db.collection('reviews').where('status', '==', 'approved').orderBy('createdAt', 'desc').get()
+            db.collection('reviews').orderBy('createdAt', 'desc').get()
                 .then(snapshot => {
                     snapshot.forEach(doc => {
                         const r = doc.data();
+                        if (r.status !== 'approved') return;
                         const starCount = parseInt(r.rating) || 5;
                         const initial = (r.reviewerName || '').trim().charAt(0) || '؟';
                         const card = document.createElement('div');
