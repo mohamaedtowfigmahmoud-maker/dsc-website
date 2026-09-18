@@ -273,10 +273,21 @@
         }
 
         .logo-img {
-            height: 40px;
-            width: auto;
+            height: 40px !important;
+            max-height: 40px !important;
+            width: auto !important;
+            max-width: 170px !important;
             display: block;
             object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 480px) {
+            .logo-img {
+                height: 32px !important;
+                max-height: 32px !important;
+                max-width: 130px !important;
+            }
         }
 
         /* Footer sits on a dark background — give the logo a light chip so it
@@ -1060,7 +1071,7 @@
     <header class="navbar">
         <div class="container nav-container">
             <a href="#" class="logo" aria-label="DSC Nova - مركز الدعم الرقمي - الصفحة الرئيسية">
-                <img src="img/DSC_Nova_Primary_Transparent.png" alt="DSC Nova" class="logo-img" onerror="this.style.display='none'">
+                <img src="logo.png" alt="DSC Nova" class="logo-img" width="170" height="40" onerror="this.style.display='none'">
                 <span class="logo-tagline">مركز الدعم الرقمي</span>
             </a>
             
@@ -1574,7 +1585,7 @@
             <div class="footer-grid">
                 <div>
                     <a href="#" class="logo footer-logo">
-                        <img src="logo.png" alt="DSC Nova" class="logo-img logo-img-on-dark" onerror="this.parentElement.style.background='none'; this.style.display='none'">
+                        <img src="logo.png" alt="DSC Nova" class="logo-img logo-img-on-dark" width="170" height="40" onerror="this.parentElement.style.background='none'; this.style.display='none'">
                         <span class="logo-tagline">مركز الدعم الرقمي</span>
                     </a>
                     <p>نحوّل نشاطك التجاري إلى حضور رقمي احترافي وعصري يرفع من ثقة عملائك ويبني هويتك الرقمية الخاصة.</p>
