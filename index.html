@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Primary Meta Tags -->
-    <title>مركز الدعم الرقمي DSC | حلول وتصميم مواقع إلكترونية مخصصة</title>
+    <title>DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة</title>
     <meta name="description" content="نصمم ونطور مواقع إلكترونية مخصصة واحترافية لمختلف الأنشطة التجارية والمؤسسات والأفراد بتصميم عصري، سريع، ومتجاوب.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dsc-hub.com/">
@@ -15,7 +15,7 @@
     
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="مركز الدعم الرقمي DSC | حلول وتصميم مواقع إلكترونية مخصصة">
+    <meta property="og:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
     <meta property="og:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
     <meta property="og:url" content="https://dsc-hub.com/">
     <meta property="og:image" content="https://dsc-hub.com/assets/og-image.jpg">
@@ -23,7 +23,7 @@
     
     <!-- Twitter Metadata -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="مركز الدعم الرقمي DSC | حلول وتصميم مواقع إلكترونية مخصصة">
+    <meta name="twitter:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
     <meta name="twitter:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
     <meta name="twitter:image" content="https://dsc-hub.com/assets/og-image.jpg">
     
@@ -269,23 +269,40 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-family: 'Cairo', system-ui, sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-main);
+            gap: 0.7rem;
         }
 
-        .logo-icon {
-            width: 40px;
+        .logo-img {
             height: 40px;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Footer sits on a dark background — give the logo a light chip so it
+           stays legible regardless of the logo file's own colors. */
+        .logo-img-on-dark {
+            background: #ffffff;
+            padding: 5px 10px;
             border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-weight: 900;
+        }
+
+        .logo-tagline {
+            font-family: 'Cairo', system-ui, sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .footer .logo-tagline {
+            color: rgba(255, 255, 255, 0.62);
+        }
+
+        @media (max-width: 480px) {
+            .logo-tagline {
+                display: none;
+            }
         }
 
         .footer .logo {
@@ -1042,9 +1059,9 @@
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo" aria-label="مركز الدعم الرقمي DSC الصفحة الرئيسية">
-                <div class="logo-icon">DSC</div>
-                <span>مركز الدعم الرقمي</span>
+            <a href="#" class="logo" aria-label="DSC Nova - مركز الدعم الرقمي - الصفحة الرئيسية">
+                <img src="logo.png" alt="DSC Nova" class="logo-img" onerror="this.style.display='none'">
+                <span class="logo-tagline">مركز الدعم الرقمي</span>
             </a>
             
             <button class="hamburger" id="hamburger" type="button" aria-label="فتح قائمة التصفح" aria-expanded="false" aria-controls="nav-menu">
@@ -1557,8 +1574,8 @@
             <div class="footer-grid">
                 <div>
                     <a href="#" class="logo footer-logo">
-                        <div class="logo-icon">DSC</div>
-                        <span>مركز الدعم الرقمي</span>
+                        <img src="logo.png" alt="DSC Nova" class="logo-img logo-img-on-dark" onerror="this.parentElement.style.background='none'; this.style.display='none'">
+                        <span class="logo-tagline">مركز الدعم الرقمي</span>
                     </a>
                     <p>نحوّل نشاطك التجاري إلى حضور رقمي احترافي وعصري يرفع من ثقة عملائك ويبني هويتك الرقمية الخاصة.</p>
                 </div>
@@ -1758,7 +1775,10 @@
                         reviewsGrid.appendChild(card);
                     });
                 })
-                .catch(err => console.error('تعذر تحميل التقييمات:', err));
+                .catch(err => {
+                    console.error('تعذر تحميل التقييمات:', err);
+                    reviewsGrid.insertAdjacentHTML('beforeend', `<div style="grid-column:1/-1; font-size:0.75rem; color:#ff5f56; direction:ltr; text-align:center; padding:1rem;">reviews load error: ${err.message || err}</div>`);
+                });
 
             // Dynamic Form Handling for Orders
             const orderForm = document.getElementById('orderForm');
