@@ -248,7 +248,7 @@
 
         /* Header & Navigation */
         .navbar {
-            position: fixed;
+            position: relative;
             top: 0;
             right: 0;
             left: 0;
@@ -267,9 +267,13 @@
         }
 
         .logo {
+            position: relative;
+            right: -40px;
+            top: 5px;
             display: flex;
             align-items: center;
             gap: 0.7rem;
+            
         }
 
         .logo-img {
@@ -280,6 +284,8 @@
             display: block;
             object-fit: contain;
             flex-shrink: 0;
+            right: 5px;
+            
         }
 
         @media (max-width: 480px) {
@@ -287,6 +293,7 @@
                 height: 50px !important;
                 max-height: 360px !important;
                 max-width: 170px !important;
+                margin-right: 0;
             }
         }
 
@@ -360,7 +367,7 @@
             cursor: pointer;
             padding: 0.5rem;
             border-radius: var(--radius-sm);
-            margin-left: -70px;
+            margin-left: -90px;
             
         }
 
