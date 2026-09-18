@@ -397,6 +397,109 @@
             max-width: 550px;
         }
 
+        /* Device scene: soft decorative blobs behind the laptop/phone mockup */
+        .device-scene {
+            position: relative;
+            padding: 2rem 1.5rem;
+        }
+
+        .device-scene::before,
+        .device-scene::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .device-scene::before {
+            width: 260px;
+            height: 260px;
+            top: -30px;
+            left: -30px;
+            background: radial-gradient(circle, rgba(184, 134, 58, 0.16), transparent 70%);
+        }
+
+        .device-scene::after {
+            width: 220px;
+            height: 220px;
+            bottom: -20px;
+            right: -10px;
+            background: radial-gradient(circle, rgba(31, 92, 110, 0.14), transparent 70%);
+        }
+
+        .laptop-mock {
+            position: relative;
+            z-index: 1;
+        }
+
+        .laptop-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 2.25rem 1rem;
+            text-align: center;
+        }
+
+        .laptop-screen img {
+            height: 30px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .laptop-screen span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .laptop-screen .mock-cta {
+            margin-top: 0.4rem;
+            padding: 0.4rem 1.1rem;
+            border-radius: 50px;
+            background: var(--accent-gold);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .laptop-base {
+            height: 10px;
+            background: linear-gradient(to bottom, var(--bg-card), var(--border-color));
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            margin-top: -1px;
+        }
+
+        .phone-mock {
+            position: absolute;
+            z-index: 2;
+            bottom: -22px;
+            left: -18px;
+            width: 92px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0.6rem 0.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .phone-mock .phone-notch {
+            width: 24px;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--border-color);
+            margin: 0 auto 0.5rem auto;
+        }
+
+        @media (max-width: 480px) {
+            .phone-mock {
+                width: 76px;
+                left: -10px;
+                bottom: -16px;
+            }
+        }
+
         .visual-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-color);
@@ -999,12 +1102,20 @@
 
         /* Responsive Breakpoints */
         @media (max-width: 992px) {
+            .hero {
+                padding-top: 100px;
+                padding-bottom: 60px;
+            }
+            .hero-content h1 {
+                line-height: 1.2;
+            }
             .hero-grid {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
             .hero-content p {
                 margin: 0 auto 2rem auto;
+                max-width: 460px;
             }
             .btn-group {
                 justify-content: center;
@@ -1101,36 +1212,35 @@
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <span class="badge">حلول ويب مخصصة بالكامل</span>
+                    <span class="badge">👑 حلول ويب مخصصة بالكامل</span>
                     <h1>نحوّل نشاطك إلى حضور رقمي احترافي</h1>
                     <p>في مركز الدعم الرقمي نصمم ونطور مواقع إلكترونية مخصصة لمختلف الأنشطة التجارية والمؤسسات والأفراد، بتصميم عصري وتجربة استخدام سهلة ومتوافقة مع جميع الأجهزة.</p>
                     <div class="btn-group">
-                        <a href="#order" class="btn btn-primary">اطلب موقعك الآن</a>
-                        <a href="#portfolio" class="btn btn-secondary">شاهد أعمالنا</a>
-                        <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">تحدث معنا عبر الواتساب</a>
+                        <a href="#order" class="btn btn-primary"><span aria-hidden="true">←</span> اطلب موقعك الآن</a>
+                        <a href="#portfolio" class="btn btn-secondary"><span aria-hidden="true">👁</span> شاهد أعمالنا</a>
+                        <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"><span aria-hidden="true">💬</span> تحدث معنا عبر الواتساب</a>
                     </div>
                 </div>
                 <div class="hero-visual" aria-hidden="true">
-                    <div class="visual-card">
-                        <div class="visual-header">
-                            <span class="dot dot-red"></span>
-                            <span class="dot dot-yellow"></span>
-                            <span class="dot dot-green"></span>
+                    <div class="device-scene">
+                        <div class="visual-card laptop-mock">
+                            <div class="visual-header">
+                                <span class="dot dot-red"></span>
+                                <span class="dot dot-yellow"></span>
+                                <span class="dot dot-green"></span>
+                            </div>
+                            <div class="laptop-screen">
+                                <img src="logo.png" alt="" onerror="this.style.display='none'">
+                                <span>أفكار، مواقع حديثة</span>
+                                <span class="mock-cta">ابدأ الآن</span>
+                            </div>
+                            <div class="laptop-base"></div>
                         </div>
-                        <div class="visual-body">
-                            <div class="mock-box">
-                                <div class="mock-line accent"></div>
-                                <div class="mock-line"></div>
-                                <div class="mock-line short"></div>
-                            </div>
-                            <div class="mock-box">
-                                <div class="mock-line"></div>
-                                <div class="mock-line short"></div>
-                            </div>
-                            <div class="mock-box mock-box-wide">
-                                <div class="mock-line accent"></div>
-                                <div class="mock-line"></div>
-                            </div>
+                        <div class="phone-mock">
+                            <div class="phone-notch"></div>
+                            <div class="mock-line accent"></div>
+                            <div class="mock-line"></div>
+                            <div class="mock-line short"></div>
                         </div>
                     </div>
                 </div>
