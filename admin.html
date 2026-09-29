@@ -123,7 +123,6 @@ button {
     padding: 20px;
 
     background:
-
         radial-gradient(
             circle at top,
             rgba(0,217,255,.12),
@@ -242,6 +241,13 @@ textarea.form-control {
 }
 
 
+select.form-control {
+
+    cursor: pointer;
+
+}
+
+
 /* =========================================================
    BUTTONS
 ========================================================= */
@@ -264,6 +270,17 @@ textarea.form-control {
 .btn:hover {
 
     transform: translateY(-2px);
+
+}
+
+
+.btn:disabled {
+
+    opacity: .6;
+
+    cursor: not-allowed;
+
+    transform: none;
 
 }
 
@@ -293,6 +310,13 @@ textarea.form-control {
 }
 
 
+.btn-secondary:hover {
+
+    background: rgba(255,255,255,.14);
+
+}
+
+
 .btn-danger {
 
     background: rgba(239,68,68,.14);
@@ -302,11 +326,25 @@ textarea.form-control {
 }
 
 
+.btn-danger:hover {
+
+    background: rgba(239,68,68,.22);
+
+}
+
+
 .btn-success {
 
     background: rgba(34,197,94,.14);
 
     color: #63e996;
+
+}
+
+
+.btn-success:hover {
+
+    background: rgba(34,197,94,.22);
 
 }
 
@@ -675,9 +713,41 @@ textarea.form-control {
 
     font-size: 13px;
 
-    line-height: 1.8;
+    line-height: 1.9;
 
     margin-bottom: 15px;
+
+}
+
+
+.image-url-help strong {
+
+    color: var(--primary);
+
+}
+
+
+.image-url-help code {
+
+    display: inline-block;
+
+    margin-top: 8px;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    background: rgba(0,0,0,.25);
+
+    color: #c9f8ff;
+
+    direction: ltr;
+
+    text-align: left;
+
+    max-width: 100%;
+
+    overflow-wrap: anywhere;
 
 }
 
@@ -721,6 +791,8 @@ textarea.form-control {
     font-size: 13px;
 
     min-height: 22px;
+
+    line-height: 1.7;
 
 }
 
@@ -773,6 +845,8 @@ textarea.form-control {
     height: 190px;
 
     overflow: hidden;
+
+    background: #081525;
 
 }
 
@@ -1147,7 +1221,6 @@ td {
     }
 
 }
-
 
 </style>
 
@@ -1614,12 +1687,29 @@ td {
                                 <p class="image-url-help">
 
                                     أولاً ارفع الصورة داخل مجلد
-                                    <strong>img/portfolio</strong>
+                                    <strong>img</strong>
                                     في GitHub.
 
                                     <br>
 
-                                    ثم انسخ رابط الصورة وضعه هنا.
+                                    بعد ذلك انسخ رابط الصورة وضعه هنا.
+
+                                    <br><br>
+
+                                    مثال:
+
+                                    <br>
+
+                                    <code>
+                                        https://mohamaedtowfigmahmoud-maker.github.io/DSC/img/project.jpg
+                                    </code>
+
+                                    <br><br>
+
+                                    يمكنك أيضًا وضع رابط
+                                    GitHub من نوع
+                                    <strong>blob</strong>
+                                    وسيتم تحويله تلقائيًا.
 
                                 </p>
 
@@ -1628,7 +1718,7 @@ td {
                                     type="url"
                                     id="pImageUrl"
                                     class="form-control"
-                                    placeholder="https://mohamaedtowfigmahmoud-maker.github.io/DSC/img/portfolio/project.jpg"
+                                    placeholder="https://mohamaedtowfigmahmoud-maker.github.io/DSC/img/project.jpg"
                                     required
                                 >
 
@@ -2028,7 +2118,6 @@ td {
                 <div
                     id="editImagePreview"
                     class="image-preview"
-                    style="display:block;"
                 >
 
                     <img
@@ -2126,7 +2215,7 @@ const firebaseConfig = {
 
 
 /* =========================================================
-   INITIALIZE
+   INITIALIZE FIREBASE
 ========================================================= */
 
 firebase.initializeApp(
@@ -2321,7 +2410,6 @@ document
             "click",
             () => {
 
-
                 document
                     .querySelectorAll(
                         ".nav-btn"
@@ -2431,7 +2519,256 @@ async function loadDashboard() {
 
 
 /* =========================================================
-   IMAGE URL PREVIEW
+   GITHUB IMAGE URL CONVERTER
+========================================================= */
+
+function convertGitHubImageUrl(url) {
+
+    url =
+        String(url || "")
+            .trim();
+
+
+    if (!url) {
+
+        return "";
+
+    }
+
+
+    /*
+       GitHub Blob URL:
+
+       https://github.com/user/repo/blob/main/img/photo.jpg
+
+       becomes:
+
+       https://raw.githubusercontent.com/user/repo/main/img/photo.jpg
+    */
+
+    if (
+        url.includes("github.com") &&
+        url.includes("/blob/")
+    ) {
+
+        const match =
+            url.match(
+                /^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/
+            );
+
+
+        if (match) {
+
+            const username =
+                match[1];
+
+
+            const repo =
+                match[2];
+
+
+            const branch =
+                match[3];
+
+
+            const filePath =
+                match[4];
+
+
+            return (
+                "https://raw.githubusercontent.com/" +
+                username +
+                "/" +
+                repo +
+                "/" +
+                branch +
+                "/" +
+                filePath
+            );
+
+        }
+
+    }
+
+
+    /*
+       Raw GitHub URL
+    */
+
+    if (
+        url.includes(
+            "raw.githubusercontent.com"
+        )
+    ) {
+
+        return url;
+
+    }
+
+
+    /*
+       GitHub Pages URL
+    */
+
+    if (
+        url.includes(
+            "github.io"
+        )
+    ) {
+
+        return url;
+
+    }
+
+
+    /*
+       Any normal image URL
+    */
+
+    return url;
+
+}
+
+
+/* =========================================================
+   CHECK IMAGE URL
+========================================================= */
+
+function checkImageUrl(
+    input,
+    preview,
+    image,
+    status
+) {
+
+    const originalUrl =
+        input.value.trim();
+
+
+    if (!originalUrl) {
+
+        preview.style.display =
+            "none";
+
+
+        image.removeAttribute(
+            "src"
+        );
+
+
+        status.textContent =
+            "";
+
+
+        return false;
+
+    }
+
+
+    const finalUrl =
+        convertGitHubImageUrl(
+            originalUrl
+        );
+
+
+    console.log(
+        "Original image URL:",
+        originalUrl
+    );
+
+
+    console.log(
+        "Final image URL:",
+        finalUrl
+    );
+
+
+    preview.style.display =
+        "none";
+
+
+    status.textContent =
+        "جاري فحص الصورة...";
+
+
+    status.className =
+        "url-status";
+
+
+    image.onload =
+        function() {
+
+            preview.style.display =
+                "block";
+
+
+            status.textContent =
+                "✓ تم تحميل الصورة بنجاح";
+
+
+            status.className =
+                "url-status url-success";
+
+
+            console.log(
+                "Image loaded successfully:",
+                finalUrl
+            );
+
+        };
+
+
+    image.onerror =
+        function() {
+
+            preview.style.display =
+                "none";
+
+
+            status.innerHTML = `
+                ✕ لم نستطع تحميل الصورة.<br>
+                <small>
+                    تأكد أن الرابط يشير إلى ملف صورة مباشر.
+                </small>
+            `;
+
+
+            status.className =
+                "url-status url-error";
+
+
+            console.error(
+                "Image failed:",
+                finalUrl
+            );
+
+        };
+
+
+    /*
+       منع الكاش أثناء اختبار الصورة
+    */
+
+    const separator =
+        finalUrl.includes("?")
+            ? "&"
+            : "?";
+
+
+    image.src =
+        finalUrl +
+        separator +
+        "preview=" +
+        Date.now();
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   ADD IMAGE PREVIEW
 ========================================================= */
 
 const imageUrlInput =
@@ -2440,79 +2777,49 @@ const imageUrlInput =
     );
 
 
+const imagePreview =
+    document.getElementById(
+        "imagePreview"
+    );
+
+
+const previewImage =
+    document.getElementById(
+        "previewImage"
+    );
+
+
+const imageUrlStatus =
+    document.getElementById(
+        "imageUrlStatus"
+    );
+
+
 imageUrlInput.addEventListener(
     "input",
-    () => {
+    function() {
 
-        const url =
-            imageUrlInput
-                .value
-                .trim();
+        checkImageUrl(
+            imageUrlInput,
+            imagePreview,
+            previewImage,
+            imageUrlStatus
+        );
 
-
-        const preview =
-            document.getElementById(
-                "imagePreview"
-            );
-
-
-        const image =
-            document.getElementById(
-                "previewImage"
-            );
+    }
+);
 
 
-        const status =
-            document.getElementById(
-                "imageUrlStatus"
-            );
+imageUrlInput.addEventListener(
+    "change",
+    function() {
 
-
-        if (!url) {
-
-            preview.style.display =
-                "none";
-
-            status.textContent =
-                "";
-
-            return;
-
-        }
-
-
-        image.onload = () => {
-
-            preview.style.display =
-                "block";
-
-
-            status.textContent =
-                "✓ الصورة متاحة";
-
-            status.className =
-                "url-status url-success";
-
-        };
-
-
-        image.onerror = () => {
-
-            preview.style.display =
-                "none";
-
-
-            status.textContent =
-                "✕ لم نستطع تحميل الصورة. تأكد من الرابط.";
-
-            status.className =
-                "url-status url-error";
-
-        };
-
-
-        image.src =
-            url;
+        checkImageUrl(
+            imageUrlInput,
+            imagePreview,
+            previewImage,
+            imageUrlStatus
+        );
 
     }
 );
@@ -2557,7 +2864,7 @@ portfolioForm.addEventListener(
 
         const categoryLabel =
             selectedOption.dataset.label ||
-            selectedOption.textContent;
+            selectedOption.textContent.trim();
 
 
         const imageUrl =
@@ -2598,6 +2905,16 @@ portfolioForm.addEventListener(
         }
 
 
+        /*
+           فحص الصورة قبل الحفظ
+        */
+
+        const finalImageUrl =
+            convertGitHubImageUrl(
+                imageUrl
+            );
+
+
         const button =
             document
                 .getElementById(
@@ -2610,10 +2927,22 @@ portfolioForm.addEventListener(
 
 
         button.textContent =
-            "جاري الحفظ...";
+            "جاري التحقق من الصورة...";
 
 
         try {
+
+            /*
+               التأكد أن الصورة قابلة للتحميل
+            */
+
+            await verifyImage(
+                finalImageUrl
+            );
+
+
+            button.textContent =
+                "جاري الحفظ...";
 
 
             await db
@@ -2628,7 +2957,20 @@ portfolioForm.addEventListener(
 
                     categoryLabel,
 
+                    /*
+                       نحفظ الرابط الأصلي
+                       الذي أدخله المستخدم
+                    */
+
                     imageUrl,
+
+                    /*
+                       نخزن أيضًا الرابط النهائي
+                       إذا احتجناه لاحقًا
+                    */
+
+                    imageDirectUrl:
+                        finalImageUrl,
 
                     projectUrl,
 
@@ -2655,35 +2997,50 @@ portfolioForm.addEventListener(
             portfolioForm.reset();
 
 
-            document
-                .getElementById(
-                    "imagePreview"
-                )
-                .style.display =
+            imagePreview.style.display =
                 "none";
 
 
-            document
-                .getElementById(
-                    "imageUrlStatus"
-                )
-                .textContent =
+            previewImage.removeAttribute(
+                "src"
+            );
+
+
+            imageUrlStatus.textContent =
                 "";
 
 
             await loadPortfolio();
 
-
         }
 
         catch (error) {
 
-            console.error(error);
-
-
-            alert(
-                "حدث خطأ أثناء حفظ المشروع."
+            console.error(
+                "Portfolio save error:",
+                error
             );
+
+
+            if (
+                error &&
+                error.message ===
+                "IMAGE_LOAD_FAILED"
+            ) {
+
+                alert(
+                    "لم نستطع تحميل الصورة. تأكد من أن الرابط يفتح الصورة مباشرة."
+                );
+
+            }
+
+            else {
+
+                alert(
+                    "حدث خطأ أثناء حفظ المشروع. افتح Console لمعرفة التفاصيل."
+                );
+
+            }
 
         }
 
@@ -2700,6 +3057,55 @@ portfolioForm.addEventListener(
 
     }
 );
+
+
+/* =========================================================
+   VERIFY IMAGE
+========================================================= */
+
+function verifyImage(url) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const testImage =
+                new Image();
+
+
+            testImage.onload =
+                function() {
+
+                    resolve(true);
+
+                };
+
+
+            testImage.onerror =
+                function() {
+
+                    reject(
+                        new Error(
+                            "IMAGE_LOAD_FAILED"
+                        )
+                    );
+
+                };
+
+
+            testImage.src =
+                url +
+                (
+                    url.includes("?")
+                        ? "&"
+                        : "?"
+                ) +
+                "verify=" +
+                Date.now();
+
+        }
+    );
+
+}
 
 
 /* =========================================================
@@ -2820,7 +3226,6 @@ function createPortfolioCard(
     project
 ) {
 
-
     const title =
         escapeHTML(
             project.title ||
@@ -2842,8 +3247,14 @@ function createPortfolioCard(
         );
 
 
+    /*
+       استخدام imageDirectUrl إن وجد
+       وإلا imageUrl للمشاريع القديمة
+    */
+
     const image =
         escapeHTML(
+            project.imageDirectUrl ||
             project.imageUrl ||
             ""
         );
@@ -3007,20 +3418,80 @@ function(id) {
         project.description || "";
 
 
-    document
-        .getElementById(
+    const editPreview =
+        document.getElementById(
+            "editImagePreview"
+        );
+
+
+    const editImage =
+        document.getElementById(
             "editPreviewImage"
-        )
-        .src =
-        project.imageUrl || "";
+        );
 
 
-    document
-        .getElementById(
+    const editStatus =
+        document.getElementById(
             "editImageStatus"
-        )
-        .textContent =
+        );
+
+
+    editPreview.style.display =
+        "none";
+
+
+    editStatus.textContent =
         "";
+
+
+    const imageUrl =
+        project.imageDirectUrl ||
+        project.imageUrl ||
+        "";
+
+
+    if (imageUrl) {
+
+        editImage.onload =
+            function() {
+
+                editPreview.style.display =
+                    "block";
+
+
+                editStatus.textContent =
+                    "✓ الصورة متاحة";
+
+
+                editStatus.className =
+                    "url-status url-success";
+
+            };
+
+
+        editImage.onerror =
+            function() {
+
+                editPreview.style.display =
+                    "none";
+
+
+                editStatus.textContent =
+                    "✕ تعذر تحميل الصورة";
+
+
+                editStatus.className =
+                    "url-status url-error";
+
+            };
+
+
+        editImage.src =
+            convertGitHubImageUrl(
+                imageUrl
+            );
+
+    }
 
 
     document
@@ -3046,7 +3517,6 @@ document
     .addEventListener(
         "input",
         function() {
-
 
             const url =
                 this.value.trim();
@@ -3078,12 +3548,33 @@ document
                 preview.style.display =
                     "none";
 
+
+                image.removeAttribute(
+                    "src"
+                );
+
+
                 status.textContent =
                     "";
+
 
                 return;
 
             }
+
+
+            const finalUrl =
+                convertGitHubImageUrl(
+                    url
+                );
+
+
+            status.textContent =
+                "جاري فحص الصورة...";
+
+
+            status.className =
+                "url-status";
 
 
             image.onload =
@@ -3092,8 +3583,10 @@ document
                     preview.style.display =
                         "block";
 
+
                     status.textContent =
                         "✓ الصورة متاحة";
+
 
                     status.className =
                         "url-status url-success";
@@ -3107,8 +3600,10 @@ document
                     preview.style.display =
                         "none";
 
+
                     status.textContent =
                         "✕ رابط الصورة غير صالح";
+
 
                     status.className =
                         "url-status url-error";
@@ -3117,7 +3612,14 @@ document
 
 
             image.src =
-                url;
+                finalUrl +
+                (
+                    finalUrl.includes("?")
+                        ? "&"
+                        : "?"
+                ) +
+                "preview=" +
+                Date.now();
 
         }
     );
@@ -3185,7 +3687,6 @@ document
         "submit",
         async event => {
 
-
             event.preventDefault();
 
 
@@ -3210,63 +3711,108 @@ document
                 ];
 
 
-            const updateData = {
+            const imageUrl =
+                document
+                    .getElementById(
+                        "editImageUrl"
+                    )
+                    .value
+                    .trim();
 
 
-                title:
-                    document
-                        .getElementById(
-                            "editTitle"
-                        )
-                        .value
-                        .trim(),
+            if (!imageUrl) {
+
+                alert(
+                    "ضع رابط الصورة أولاً."
+                );
+
+                return;
+
+            }
 
 
-                category:
-                    categorySelect.value,
+            const finalImageUrl =
+                convertGitHubImageUrl(
+                    imageUrl
+                );
 
 
-                categoryLabel:
-                    selectedOption.dataset.label ||
-                    selectedOption.textContent,
+            const saveButton =
+                document.querySelector(
+                    "#editPortfolioForm button[type='submit']"
+                );
 
 
-                imageUrl:
-                    document
-                        .getElementById(
-                            "editImageUrl"
-                        )
-                        .value
-                        .trim(),
+            saveButton.disabled =
+                true;
 
 
-                projectUrl:
-                    document
-                        .getElementById(
-                            "editProjectUrl"
-                        )
-                        .value
-                        .trim(),
-
-
-                description:
-                    document
-                        .getElementById(
-                            "editDescription"
-                        )
-                        .value
-                        .trim(),
-
-
-                updatedAt:
-                    firebase.firestore
-                        .FieldValue
-                        .serverTimestamp()
-
-            };
+            saveButton.textContent =
+                "جاري التحقق...";
 
 
             try {
+
+                await verifyImage(
+                    finalImageUrl
+                );
+
+
+                saveButton.textContent =
+                    "جاري الحفظ...";
+
+
+                const updateData = {
+
+                    title:
+                        document
+                            .getElementById(
+                                "editTitle"
+                            )
+                            .value
+                            .trim(),
+
+
+                    category:
+                        categorySelect.value,
+
+
+                    categoryLabel:
+                        selectedOption.dataset.label ||
+                        selectedOption.textContent.trim(),
+
+
+                    imageUrl,
+
+
+                    imageDirectUrl:
+                        finalImageUrl,
+
+
+                    projectUrl:
+                        document
+                            .getElementById(
+                                "editProjectUrl"
+                            )
+                            .value
+                            .trim(),
+
+
+                    description:
+                        document
+                            .getElementById(
+                                "editDescription"
+                            )
+                            .value
+                            .trim(),
+
+
+                    updatedAt:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp()
+
+                };
 
 
                 await db
@@ -3296,17 +3842,46 @@ document
 
                 await loadPortfolio();
 
-
             }
 
             catch (error) {
 
-                console.error(error);
-
-
-                alert(
-                    "حدث خطأ أثناء التعديل."
+                console.error(
+                    "Update error:",
+                    error
                 );
+
+
+                if (
+                    error &&
+                    error.message ===
+                    "IMAGE_LOAD_FAILED"
+                ) {
+
+                    alert(
+                        "رابط الصورة غير صالح أو لا يمكن تحميل الصورة."
+                    );
+
+                }
+
+                else {
+
+                    alert(
+                        "حدث خطأ أثناء التعديل."
+                    );
+
+                }
+
+            }
+
+            finally {
+
+                saveButton.disabled =
+                    false;
+
+
+                saveButton.textContent =
+                    "حفظ التعديلات";
 
             }
 
@@ -3351,7 +3926,6 @@ async function(id) {
 
     try {
 
-
         await db
             .collection(
                 "portfolio"
@@ -3366,7 +3940,6 @@ async function(id) {
 
 
         await loadPortfolio();
-
 
     }
 
@@ -3398,7 +3971,6 @@ async function loadOrders() {
 
 
     try {
-
 
         const snapshot =
             await db
@@ -3446,7 +4018,6 @@ async function loadOrders() {
 
         snapshot.forEach(
             doc => {
-
 
                 const data =
                     doc.data();
@@ -3521,12 +4092,12 @@ async function loadOrders() {
         table.innerHTML =
             html;
 
-
     }
 
     catch (error) {
 
         console.error(error);
+
 
         table.innerHTML = `
 
@@ -3561,7 +4132,6 @@ async function loadReviews() {
 
 
     try {
-
 
         const snapshot =
             await db
@@ -3603,6 +4173,15 @@ async function loadReviews() {
 
             `;
 
+
+            document
+                .getElementById(
+                    "approvedReviewsCount"
+                )
+                .textContent =
+                "0";
+
+
             return;
 
         }
@@ -3613,7 +4192,6 @@ async function loadReviews() {
 
         snapshot.forEach(
             doc => {
-
 
                 const data =
                     doc.data();
@@ -3631,7 +4209,6 @@ async function loadReviews() {
                 html += `
 
                     <tr>
-
 
                         <td>
 
@@ -3662,7 +4239,6 @@ async function loadReviews() {
 
                         <td>
 
-
                             ${
                                 data.approved === true
 
@@ -3687,12 +4263,10 @@ async function loadReviews() {
                                 `
                             }
 
-
                         </td>
 
 
                         <td>
-
 
                             ${
                                 data.approved === true
@@ -3720,9 +4294,7 @@ async function loadReviews() {
                                 `
                             }
 
-
                         </td>
-
 
                     </tr>
 
@@ -3742,7 +4314,6 @@ async function loadReviews() {
 
         table.innerHTML =
             html;
-
 
     }
 
@@ -3777,9 +4348,7 @@ async function loadReviews() {
 window.approveReview =
 async function(id) {
 
-
     try {
-
 
         await db
             .collection(
@@ -3801,12 +4370,12 @@ async function(id) {
 
         await loadReviews();
 
-
     }
 
     catch (error) {
 
         console.error(error);
+
 
         alert(
             "تعذر قبول التقييم."
@@ -3824,9 +4393,7 @@ async function(id) {
 window.rejectReview =
 async function(id) {
 
-
     try {
-
 
         await db
             .collection(
@@ -3848,12 +4415,12 @@ async function(id) {
 
         await loadReviews();
 
-
     }
 
     catch (error) {
 
         console.error(error);
+
 
         alert(
             "تعذر إخفاء التقييم."
