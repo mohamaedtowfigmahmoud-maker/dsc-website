@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>لوحة التحكم | مركز الدعم الرقمي DSC</title>
 <meta name="robots" content="noindex, nofollow">
 
@@ -10,586 +11,3336 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Firebase SDK -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
 <style>
-    :root {
-        --bg-primary: #0a1128;
-        --bg-surface: #131b2e;
-        --bg-card: #1c2541;
-        --text-main: #ffffff;
-        --text-muted: #a0aec0;
-        --accent-gold: #f4a261;
-        --accent-gold-hover: #e76f51;
-        --accent-blue: #3a86ff;
-        --border-color: rgba(255, 255, 255, 0.08);
-        --radius-sm: 8px;
-        --radius-md: 12px;
-        --radius-lg: 20px;
-        --transition: all 0.25s ease;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-        font-family: 'Cairo', system-ui, sans-serif;
-        background-color: var(--bg-primary);
-        color: var(--text-main);
-        direction: rtl;
-        text-align: right;
-        line-height: 1.6;
-        min-height: 100vh;
-    }
-    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
-    a { color: inherit; }
+:root {
+    --bg-primary: #0a1128;
+    --bg-surface: #111a31;
+    --bg-card: #18233d;
+    --bg-card-2: #202c49;
 
-    /* Login screen */
-    #loginScreen {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1.5rem;
+    --text-main: #ffffff;
+    --text-muted: #9eabc0;
+
+    --accent: #f4a261;
+    --accent-hover: #e76f51;
+
+    --blue: #3a86ff;
+    --green: #27c93f;
+    --red: #ff5f56;
+    --yellow: #ffd166;
+
+    --border: rgba(255,255,255,.08);
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+
+    --shadow: 0 15px 40px rgba(0,0,0,.18);
+    --transition: all .25s ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Cairo", system-ui, sans-serif;
+    background:
+        radial-gradient(circle at top right, rgba(58,134,255,.08), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(244,162,97,.05), transparent 30%),
+        var(--bg-primary);
+    color: var(--text-main);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    border: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#loginScreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background: rgba(24,35,61,.94);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 35px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(15px);
+}
+
+.login-logo {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: #10182d;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.login-card h1 {
+    text-align: center;
+    font-size: 1.45rem;
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    color: var(--text-muted);
+    text-align: center;
+    font-size: .88rem;
+    margin-bottom: 28px;
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.container {
+    width: min(1180px, calc(100% - 30px));
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+label {
+    display: block;
+    font-size: .88rem;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    background: var(--bg-primary);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: .9rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(244,162,97,.08);
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="file"] {
+    padding: 10px;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    border: none;
+    background: var(--accent);
+    color: #111827;
+    padding: 8px 13px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: 700;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 9px 17px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: .86rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #10182d;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,.07);
+    color: white;
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,.12);
+}
+
+.btn-danger {
+    background: rgba(255,95,86,.12);
+    color: var(--red);
+    border: 1px solid rgba(255,95,86,.45);
+}
+
+.btn-danger:hover {
+    background: var(--red);
+    color: white;
+}
+
+.btn-success {
+    background: rgba(39,201,63,.12);
+    color: var(--green);
+    border: 1px solid rgba(39,201,63,.45);
+}
+
+.btn-success:hover {
+    background: var(--green);
+    color: #08130b;
+}
+
+.btn-sm {
+    min-height: 34px;
+    padding: 6px 12px;
+    font-size: .78rem;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error-msg {
+    display: none;
+    color: var(--red);
+    font-size: .82rem;
+    text-align: center;
+    margin-top: 12px;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+#dashboard {
+    display: none;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 25px;
+}
+
+.brand-area h1 {
+    font-size: 1.2rem;
+    margin-bottom: 3px;
+}
+
+.brand-area p {
+    color: var(--text-muted);
+    font-size: .78rem;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-email {
+    color: var(--text-muted);
+    font-size: .78rem;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.tabs {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    flex-shrink: 0;
+    padding: 13px 20px;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: .88rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: var(--transition);
+}
+
+.tab-btn:hover {
+    color: white;
+}
+
+.tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 23px;
+    height: 23px;
+    padding: 0 6px;
+    margin-right: 5px;
+    border-radius: 30px;
+    background: rgba(244,162,97,.12);
+    color: var(--accent);
+    font-size: .7rem;
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.panel-header h2 {
+    font-size: 1.05rem;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item-card {
+    background: rgba(24,35,61,.9);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    box-shadow: 0 7px 20px rgba(0,0,0,.08);
+}
+
+.item-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.item-top h3 {
+    font-size: .95rem;
+}
+
+.item-date {
+    color: var(--text-muted);
+    font-size: .72rem;
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 8px 20px;
+    margin-top: 12px;
+    font-size: .82rem;
+}
+
+.item-grid .label {
+    color: var(--text-muted);
+}
+
+.item-details {
+    color: var(--text-muted);
+    font-size: .82rem;
+    border-top: 1px solid var(--border);
+    margin-top: 12px;
+    padding-top: 12px;
+    white-space: pre-wrap;
+}
+
+.item-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.stars {
+    color: var(--accent);
+    margin-top: 7px;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 50px;
+    padding: 4px 10px;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: rgba(244,162,97,.12);
+    color: var(--accent);
+}
+
+.status-approved {
+    background: rgba(39,201,63,.12);
+    color: var(--green);
+}
+
+.status-rejected {
+    background: rgba(255,95,86,.12);
+    color: var(--red);
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 45px 15px;
+    background: rgba(255,255,255,.015);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+}
+
+/* =========================
+   PORTFOLIO FORM
+========================= */
+
+.add-form {
+    background: rgba(24,35,61,.9);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    margin-bottom: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 0 18px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.help-text {
+    display: block;
+    color: var(--text-muted);
+    font-size: .72rem;
+    margin-top: 6px;
+}
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
+.image-preview-box {
+    display: none;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px;
+    background: var(--bg-primary);
+}
+
+.image-preview-box img {
+    display: block;
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.preview-label {
+    color: var(--text-muted);
+    font-size: .72rem;
+    margin-bottom: 8px;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.upload-progress {
+    display: none;
+    margin: 15px 0;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-size: .75rem;
+    margin-bottom: 6px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,.06);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg,var(--blue),var(--accent));
+    border-radius: inherit;
+    transition: width .2s ease;
+}
+
+/* =========================
+   PORTFOLIO LIST
+========================= */
+
+.portfolio-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.portfolio-thumbnail {
+    width: 105px;
+    height: 75px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    object-fit: cover;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+}
+
+.portfolio-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.portfolio-info h3 {
+    font-size: .92rem;
+    margin-bottom: 3px;
+}
+
+.portfolio-info p {
+    color: var(--text-muted);
+    font-size: .75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.portfolio-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 5px;
+}
+
+.meta-badge {
+    display: inline-block;
+    background: rgba(58,134,255,.1);
+    color: #78aaff;
+    padding: 2px 7px;
+    border-radius: 30px;
+    font-size: .65rem;
+}
+
+.portfolio-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 5000;
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    width: min(650px,100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.modal-header h2 {
+    font-size: 1.05rem;
+}
+
+.close-modal {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.06);
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.close-modal:hover {
+    background: var(--red);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    transform: translateX(-50%) translateY(20px);
+    background: #18233d;
+    border: 1px solid var(--accent);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: .82rem;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: .3s ease;
+    box-shadow: var(--shadow);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    border-color: var(--green);
+}
+
+.toast.error {
+    border-color: var(--red);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: min(100% - 20px,1180px);
     }
+
     .login-card {
-        background-color: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
-        padding: 2.5rem;
-        max-width: 400px;
-        width: 100%;
-    }
-    .login-card h1 {
-        font-size: 1.4rem;
-        margin-bottom: 0.5rem;
-        text-align: center;
-    }
-    .login-card p.subtitle {
-        color: var(--text-muted);
-        text-align: center;
-        margin-bottom: 1.75rem;
-        font-size: 0.9rem;
-    }
-    .form-group { margin-bottom: 1rem; }
-    label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
-    input {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        background-color: var(--bg-primary);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-sm);
-        color: var(--text-main);
-        font-family: inherit;
-        font-size: 0.95rem;
-    }
-    input:focus { outline: none; border-color: var(--accent-gold); }
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius-sm);
-        font-weight: 700;
-        font-size: 0.95rem;
-        cursor: pointer;
-        border: none;
-        transition: var(--transition);
-        font-family: inherit;
-    }
-    .btn-primary { background-color: var(--accent-gold); color: #0a1128; width: 100%; margin-top: 0.5rem; }
-    .btn-primary:hover { background-color: var(--accent-gold-hover); color: #fff; }
-    .btn-danger { background-color: rgba(255,95,86,0.15); color: #ff5f56; border: 1px solid #ff5f56; }
-    .btn-danger:hover { background-color: #ff5f56; color: #fff; }
-    .btn-success { background-color: rgba(39,201,63,0.15); color: #27c93f; border: 1px solid #27c93f; }
-    .btn-success:hover { background-color: #27c93f; color: #0a1128; }
-    .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .error-msg {
-        color: #ff5f56;
-        font-size: 0.85rem;
-        margin-top: 0.75rem;
-        text-align: center;
-        display: none;
+        padding: 25px 20px;
     }
 
-    /* Dashboard */
-    #dashboard { display: none; }
     .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: 1.5rem;
-    }
-    .topbar h1 { font-size: 1.2rem; }
-    .topbar .user-email { color: var(--text-muted); font-size: 0.85rem; }
-
-    .tabs {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-        flex-wrap: wrap;
-        border-bottom: 1px solid var(--border-color);
-    }
-    .tab-btn {
-        background: none;
-        border: none;
-        color: var(--text-muted);
-        padding: 0.75rem 1.25rem;
-        font-family: inherit;
-        font-size: 0.95rem;
-        font-weight: 600;
-        cursor: pointer;
-        border-bottom: 2px solid transparent;
-    }
-    .tab-btn.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
-
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    .panel-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-    }
-    .panel-header h2 { font-size: 1.1rem; }
-    .count-badge {
-        background: rgba(244,162,97,0.1);
-        color: var(--accent-gold);
-        padding: 0.2rem 0.7rem;
-        border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 700;
-    }
-
-    .card-list { display: flex; flex-direction: column; gap: 0.9rem; }
-    .item-card {
-        background-color: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 1.25rem;
-    }
-    .item-card .item-top {
-        display: flex;
-        justify-content: space-between;
         align-items: flex-start;
-        gap: 1rem;
-        margin-bottom: 0.6rem;
+        flex-direction: column;
+    }
+
+    .user-area {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .user-email {
+        max-width: 210px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        direction: ltr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .portfolio-item {
+        align-items: flex-start;
         flex-wrap: wrap;
     }
-    .item-card h3 { font-size: 1rem; }
-    .item-card .item-date { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
-    .item-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 0.5rem 1.5rem;
-        font-size: 0.88rem;
-        margin-bottom: 0.5rem;
-    }
-    .item-grid .label { color: var(--text-muted); }
-    .item-details { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border-color); }
-    .stars { color: var(--accent-gold); }
-    .status-pill {
-        font-size: 0.75rem;
-        font-weight: 700;
-        padding: 0.2rem 0.6rem;
-        border-radius: 50px;
-    }
-    .status-pending { background: rgba(244,162,97,0.15); color: var(--accent-gold); }
-    .status-approved { background: rgba(39,201,63,0.15); color: #27c93f; }
-    .status-rejected { background: rgba(255,95,86,0.15); color: #ff5f56; }
-    .item-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
-    .empty-state { color: var(--text-muted); text-align: center; padding: 2.5rem 1rem; }
 
-    /* Portfolio add form */
-    .add-form {
-        background-color: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
+    .portfolio-thumbnail {
+        width: 90px;
+        height: 65px;
     }
-    .add-form .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1rem;
+
+    .portfolio-info {
+        width: calc(100% - 105px);
     }
-    .add-form .full-width { grid-column: 1 / -1; }
-    select, textarea {
+
+    .portfolio-actions {
         width: 100%;
-        padding: 0.75rem 1rem;
-        background-color: var(--bg-primary);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-sm);
-        color: var(--text-main);
-        font-family: inherit;
-        font-size: 0.95rem;
     }
 
-    .portfolio-item-card { display: flex; gap: 1rem; align-items: center; }
-    .portfolio-item-card img {
-        width: 80px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: var(--radius-sm);
-        border: 1px solid var(--border-color);
-        flex-shrink: 0;
+    .portfolio-actions .btn {
+        flex: 1;
     }
-    .portfolio-item-card .info { flex: 1; }
-    .portfolio-item-card .info h3 { font-size: 0.95rem; margin-bottom: 0.2rem; }
-    .portfolio-item-card .info span { color: var(--text-muted); font-size: 0.8rem; }
 
-    .toast {
-        position: fixed;
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: var(--bg-card);
-        border: 1px solid var(--accent-gold);
-        color: var(--text-main);
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius-sm);
-        font-size: 0.9rem;
-        display: none;
-        z-index: 999;
+    .panel-header h2 {
+        font-size: .95rem;
     }
+}
 </style>
 </head>
+
 <body>
 
-<!-- Login Screen -->
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
 <div id="loginScreen">
+
     <div class="login-card">
-        <h1>لوحة تحكم DSC</h1>
-        <p class="subtitle">سجّل الدخول لعرض الطلبات والتقييمات وإدارة معرض الأعمال</p>
+
+        <div class="login-logo">
+            DSC
+        </div>
+
+        <h1>لوحة تحكم مركز الدعم الرقمي</h1>
+
+        <p class="login-subtitle">
+            إدارة الطلبات والتقييمات ومعرض الأعمال
+        </p>
+
         <form id="loginForm">
+
             <div class="form-group">
-                <label for="loginEmail">البريد الإلكتروني</label>
-                <input type="email" id="loginEmail" required autocomplete="email">
+
+                <label for="loginEmail">
+                    البريد الإلكتروني
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    autocomplete="email"
+                    required
+                >
+
             </div>
+
             <div class="form-group">
-                <label for="loginPassword">كلمة المرور</label>
-                <input type="password" id="loginPassword" required autocomplete="current-password">
+
+                <label for="loginPassword">
+                    كلمة المرور
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    autocomplete="current-password"
+                    required
+                >
+
             </div>
-            <button type="submit" class="btn btn-primary" id="loginBtn">تسجيل الدخول</button>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+                id="loginBtn"
+                style="width:100%;"
+            >
+                تسجيل الدخول
+            </button>
+
             <p class="error-msg" id="loginError"></p>
+
         </form>
+
     </div>
+
 </div>
 
-<!-- Dashboard -->
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
 <div id="dashboard">
+
     <div class="container">
-        <div class="topbar">
-            <h1>لوحة تحكم مركز الدعم الرقمي</h1>
-            <div style="display:flex; align-items:center; gap:1rem;">
-                <span class="user-email" id="userEmail"></span>
-                <button class="btn btn-danger btn-sm" id="logoutBtn">تسجيل الخروج</button>
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="brand-area">
+
+                <h1>
+                    لوحة تحكم مركز الدعم الرقمي
+                </h1>
+
+                <p>
+                    DSC Management Dashboard
+                </p>
+
             </div>
-        </div>
+
+            <div class="user-area">
+
+                <span
+                    class="user-email"
+                    id="userEmail"
+                ></span>
+
+                <button
+                    class="btn btn-danger btn-sm"
+                    id="logoutBtn"
+                >
+                    تسجيل الخروج
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- TABS -->
 
         <div class="tabs">
-            <button class="tab-btn active" data-tab="orders">طلبات المواقع <span class="count-badge" id="ordersCount">0</span></button>
-            <button class="tab-btn" data-tab="reviews">التقييمات <span class="count-badge" id="reviewsCount">0</span></button>
-            <button class="tab-btn" data-tab="portfolio">معرض الأعمال</button>
+
+            <button
+                class="tab-btn active"
+                data-tab="orders"
+            >
+                طلبات المواقع
+
+                <span
+                    class="count-badge"
+                    id="ordersCount"
+                >
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="tab-btn"
+                data-tab="reviews"
+            >
+                التقييمات
+
+                <span
+                    class="count-badge"
+                    id="reviewsCount"
+                >
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="tab-btn"
+                data-tab="portfolio"
+            >
+                معرض الأعمال
+
+                <span
+                    class="count-badge"
+                    id="portfolioCount"
+                >
+                    0
+                </span>
+
+            </button>
+
         </div>
 
-        <!-- Orders Tab -->
-        <div class="tab-panel active" id="panel-orders">
-            <div class="panel-header"><h2>طلبات المواقع الواردة</h2></div>
-            <div class="card-list" id="ordersList"><div class="empty-state">جاري التحميل...</div></div>
-        </div>
 
-        <!-- Reviews Tab -->
-        <div class="tab-panel" id="panel-reviews">
-            <div class="panel-header"><h2>التقييمات الواردة</h2></div>
-            <div class="card-list" id="reviewsList"><div class="empty-state">جاري التحميل...</div></div>
-        </div>
+        <!-- =====================================================
+             ORDERS
+        ====================================================== -->
 
-        <!-- Portfolio Tab -->
-        <div class="tab-panel" id="panel-portfolio">
-            <div class="panel-header"><h2>إضافة مشروع سابق للموقع</h2></div>
-            <form class="add-form" id="portfolioForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="pTitle">عنوان المشروع *</label>
-                        <input type="text" id="pTitle" required placeholder="مثال: موقع مطعم الأصالة">
-                    </div>
-                    <div class="form-group">
-                        <label for="pCategory">التصنيف *</label>
-                        <select id="pCategory" required>
-                            <option value="restaurant" data-label="مطاعم ومقاهي">مطاعم ومقاهي</option>
-                            <option value="corporate" data-label="شركات ومؤسسات">شركات ومؤسسات</option>
-                            <option value="medical" data-label="عيادات ومراكز طبية">عيادات ومراكز طبية</option>
-                            <option value="other" data-label="أخرى">أخرى</option>
-                        </select>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="pImageUrl">رابط الصورة *</label>
-                        <input type="url" id="pImageUrl" required placeholder="https://...">
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="pProjectUrl">رابط المشروع (اختياري)</label>
-                        <input type="url" id="pProjectUrl" placeholder="https://project-site.com">
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="pDescription">وصف مختصر *</label>
-                        <textarea id="pDescription" rows="2" required placeholder="وصف قصير للمشروع"></textarea>
-                    </div>
+        <section
+            class="tab-panel active"
+            id="panel-orders"
+        >
+
+            <div class="panel-header">
+
+                <h2>
+                    طلبات المواقع الواردة
+                </h2>
+
+            </div>
+
+            <div
+                class="card-list"
+                id="ordersList"
+            >
+
+                <div class="empty-state">
+                    جاري تحميل الطلبات...
                 </div>
-                <button type="submit" class="btn btn-primary" id="portfolioSubmitBtn" style="width:auto;">إضافة للمعرض</button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             REVIEWS
+        ====================================================== -->
+
+        <section
+            class="tab-panel"
+            id="panel-reviews"
+        >
+
+            <div class="panel-header">
+
+                <h2>
+                    التقييمات الواردة
+                </h2>
+
+            </div>
+
+            <div
+                class="card-list"
+                id="reviewsList"
+            >
+
+                <div class="empty-state">
+                    جاري تحميل التقييمات...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PORTFOLIO
+        ====================================================== -->
+
+        <section
+            class="tab-panel"
+            id="panel-portfolio"
+        >
+
+            <div class="panel-header">
+
+                <h2>
+                    إضافة مشروع جديد
+                </h2>
+
+            </div>
+
+
+            <!-- ADD FORM -->
+
+            <form
+                class="add-form"
+                id="portfolioForm"
+            >
+
+                <div class="form-grid">
+
+
+                    <!-- TITLE -->
+
+                    <div class="form-group">
+
+                        <label for="pTitle">
+                            عنوان المشروع *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pTitle"
+                            required
+                            maxlength="100"
+                            placeholder="مثال: موقع مطعم الأصالة"
+                        >
+
+                    </div>
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="form-group">
+
+                        <label for="pCategory">
+                            التصنيف *
+                        </label>
+
+                        <select
+                            id="pCategory"
+                            required
+                        >
+
+                            <option
+                                value="restaurant"
+                                data-label="مطاعم ومقاهي"
+                            >
+                                مطاعم ومقاهي
+                            </option>
+
+                            <option
+                                value="corporate"
+                                data-label="شركات ومؤسسات"
+                            >
+                                شركات ومؤسسات
+                            </option>
+
+                            <option
+                                value="medical"
+                                data-label="عيادات ومراكز طبية"
+                            >
+                                عيادات ومراكز طبية
+                            </option>
+
+                            <option
+                                value="other"
+                                data-label="أخرى"
+                            >
+                                أخرى
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- IMAGE -->
+
+                    <div class="form-group full-width">
+
+                        <label for="pImage">
+                            صورة المشروع *
+                        </label>
+
+                        <input
+                            type="file"
+                            id="pImage"
+                            accept="image/jpeg,image/png,image/webp,image/gif"
+                            required
+                        >
+
+                        <span class="help-text">
+                            JPG / PNG / WEBP / GIF — الحد الأقصى 5MB
+                        </span>
+
+
+                        <!-- PREVIEW -->
+
+                        <div
+                            class="image-preview-box"
+                            id="imagePreviewBox"
+                        >
+
+                            <div class="preview-label">
+                                معاينة الصورة
+                            </div>
+
+                            <img
+                                id="imagePreview"
+                                src=""
+                                alt="معاينة الصورة"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PROJECT URL -->
+
+                    <div class="form-group full-width">
+
+                        <label for="pProjectUrl">
+                            رابط المشروع
+                        </label>
+
+                        <input
+                            type="url"
+                            id="pProjectUrl"
+                            placeholder="https://example.com"
+                        >
+
+                        <span class="help-text">
+                            اختياري — اتركه فارغًا إذا لم يكن المشروع منشورًا
+                        </span>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group full-width">
+
+                        <label for="pDescription">
+                            وصف المشروع *
+                        </label>
+
+                        <textarea
+                            id="pDescription"
+                            rows="3"
+                            maxlength="500"
+                            required
+                            placeholder="اكتب وصفًا مختصرًا للمشروع..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROGRESS -->
+
+                <div
+                    class="upload-progress"
+                    id="uploadProgress"
+                >
+
+                    <div class="progress-info">
+
+                        <span id="uploadStatus">
+                            جاري رفع الصورة...
+                        </span>
+
+                        <span id="uploadPercent">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            id="progressFill"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    style="
+                    display:flex;
+                    gap:8px;
+                    flex-wrap:wrap;
+                    "
+                >
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="portfolioSubmitBtn"
+                    >
+                        إضافة المشروع
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        id="resetPortfolioBtn"
+                    >
+                        إلغاء
+                    </button>
+
+                </div>
+
             </form>
 
-            <div class="panel-header"><h2>المشاريع المضافة حالياً</h2></div>
-            <div class="card-list" id="portfolioList"><div class="empty-state">جاري التحميل...</div></div>
-        </div>
+
+            <!-- CURRENT PROJECTS -->
+
+            <div class="panel-header">
+
+                <h2>
+                    المشاريع الحالية
+                </h2>
+
+            </div>
+
+            <div
+                class="card-list"
+                id="portfolioList"
+            >
+
+                <div class="empty-state">
+                    جاري تحميل المشاريع...
+                </div>
+
+            </div>
+
+        </section>
+
     </div>
+
 </div>
 
-<div class="toast" id="toast"></div>
+
+<!-- =========================================================
+     EDIT MODAL
+========================================================= -->
+
+<div
+    class="modal"
+    id="editModal"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+                تعديل المشروع
+            </h2>
+
+            <button
+                class="close-modal"
+                id="closeEditModal"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="editPortfolioForm">
+
+            <input
+                type="hidden"
+                id="editProjectId"
+            >
+
+            <input
+                type="hidden"
+                id="editOldImageUrl"
+            >
+
+
+            <div class="form-group">
+
+                <label for="editTitle">
+                    عنوان المشروع *
+                </label>
+
+                <input
+                    type="text"
+                    id="editTitle"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editCategory">
+                    التصنيف *
+                </label>
+
+                <select
+                    id="editCategory"
+                    required
+                >
+
+                    <option
+                        value="restaurant"
+                        data-label="مطاعم ومقاهي"
+                    >
+                        مطاعم ومقاهي
+                    </option>
+
+                    <option
+                        value="corporate"
+                        data-label="شركات ومؤسسات"
+                    >
+                        شركات ومؤسسات
+                    </option>
+
+                    <option
+                        value="medical"
+                        data-label="عيادات ومراكز طبية"
+                    >
+                        عيادات ومراكز طبية
+                    </option>
+
+                    <option
+                        value="other"
+                        data-label="أخرى"
+                    >
+                        أخرى
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    الصورة الحالية
+                </label>
+
+                <div class="image-preview-box" style="display:block;">
+
+                    <img
+                        id="editCurrentImage"
+                        src=""
+                        alt="الصورة الحالية"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editImage">
+                    تغيير الصورة
+                </label>
+
+                <input
+                    type="file"
+                    id="editImage"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                >
+
+                <span class="help-text">
+                    اتركه فارغًا إذا كنت لا تريد تغيير الصورة.
+                </span>
+
+            </div>
+
+
+            <div
+                class="image-preview-box"
+                id="editImagePreviewBox"
+            >
+
+                <div class="preview-label">
+                    معاينة الصورة الجديدة
+                </div>
+
+                <img
+                    id="editImagePreview"
+                    src=""
+                    alt="الصورة الجديدة"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editProjectUrl">
+                    رابط المشروع
+                </label>
+
+                <input
+                    type="url"
+                    id="editProjectUrl"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="editDescription">
+                    الوصف *
+                </label>
+
+                <textarea
+                    id="editDescription"
+                    rows="4"
+                    maxlength="500"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div
+                class="upload-progress"
+                id="editUploadProgress"
+            >
+
+                <div class="progress-info">
+
+                    <span id="editUploadStatus">
+                        جاري رفع الصورة...
+                    </span>
+
+                    <span id="editUploadPercent">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        id="editProgressFill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                style="
+                display:flex;
+                gap:8px;
+                "
+            >
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="editSubmitBtn"
+                >
+                    حفظ التعديلات
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="cancelEditBtn"
+                >
+                    إلغاء
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
 
 <script>
-    // =========================
-    // Firebase Configuration — same project as the main site
-    // =========================
-    const firebaseConfig = {
-        apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
-        authDomain: "dsc-8e421.firebaseapp.com",
-        projectId: "dsc-8e421",
-        storageBucket: "dsc-8e421.firebasestorage.app",
-        messagingSenderId: "157087109660",
-        appId: "1:157087109660:web:6c5419e63714d3b4ca85d9"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
 
-    const loginScreen = document.getElementById('loginScreen');
-    const dashboard = document.getElementById('dashboard');
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn = document.getElementById('loginBtn');
-    const loginError = document.getElementById('loginError');
-    const userEmailEl = document.getElementById('userEmail');
-    const toast = document.getElementById('toast');
+/* =========================================================
+   FIREBASE CONFIGURATION
+========================================================= */
 
-    function showToast(msg) {
-        toast.textContent = msg;
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+const firebaseConfig = {
+
+    apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
+
+    authDomain:
+        "dsc-8e421.firebaseapp.com",
+
+    projectId:
+        "dsc-8e421",
+
+    storageBucket:
+        "dsc-8e421.firebasestorage.app",
+
+    messagingSenderId:
+        "157087109660",
+
+    appId:
+        "1:157087109660:web:6c5419e63714d3b4ca85d9"
+
+};
+
+
+/* =========================================================
+   INITIALIZE FIREBASE
+========================================================= */
+
+firebase.initializeApp(firebaseConfig);
+
+const auth =
+    firebase.auth();
+
+const db =
+    firebase.firestore();
+
+const storage =
+    firebase.storage();
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const loginScreen =
+    document.getElementById("loginScreen");
+
+const dashboard =
+    document.getElementById("dashboard");
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const loginError =
+    document.getElementById("loginError");
+
+const userEmail =
+    document.getElementById("userEmail");
+
+const toast =
+    document.getElementById("toast");
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(message, type = "success") {
+
+    clearTimeout(toastTimer);
+
+    toast.textContent = message;
+
+    toast.className =
+        "toast show " + type;
+
+    toastTimer = setTimeout(() => {
+
+        toast.className =
+            "toast";
+
+    }, 3000);
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+        return "";
     }
 
-    function fmtDate(ts) {
-        if (!ts || !ts.toDate) return '—';
-        return ts.toDate().toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' });
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function fmtDate(timestamp) {
+
+    if (!timestamp || !timestamp.toDate) {
+        return "—";
     }
 
-    // ===== Auth =====
-    loginForm.addEventListener('submit', async (e) => {
+    return timestamp
+        .toDate()
+        .toLocaleString("ar-EG", {
+            dateStyle: "medium",
+            timeStyle: "short"
+        });
+
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+loginForm.addEventListener(
+    "submit",
+    async function(e) {
+
         e.preventDefault();
-        loginError.style.display = 'none';
+
+        loginError.style.display = "none";
+
         loginBtn.disabled = true;
-        loginBtn.textContent = 'جاري الدخول...';
+
+        loginBtn.textContent =
+            "جاري تسجيل الدخول...";
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("loginPassword")
+                .value;
+
         try {
+
             await auth.signInWithEmailAndPassword(
-                document.getElementById('loginEmail').value.trim(),
-                document.getElementById('loginPassword').value
+                email,
+                password
             );
-        } catch (err) {
-            loginError.textContent = 'بيانات الدخول غير صحيحة أو الحساب غير موجود.';
-            loginError.style.display = 'block';
+
+        } catch (error) {
+
+            console.error(error);
+
+            loginError.textContent =
+                "بيانات الدخول غير صحيحة أو الحساب غير موجود.";
+
+            loginError.style.display =
+                "block";
+
         } finally {
+
             loginBtn.disabled = false;
-            loginBtn.textContent = 'تسجيل الدخول';
+
+            loginBtn.textContent =
+                "تسجيل الدخول";
+
         }
-    });
 
-    document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
+    }
+);
 
-    auth.onAuthStateChanged(user => {
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document
+    .getElementById("logoutBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await auth.signOut();
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+auth.onAuthStateChanged(
+    user => {
+
         if (user) {
-            loginScreen.style.display = 'none';
-            dashboard.style.display = 'block';
-            userEmailEl.textContent = user.email;
+
+            loginScreen.style.display =
+                "none";
+
+            dashboard.style.display =
+                "block";
+
+            userEmail.textContent =
+                user.email || "";
+
             loadOrders();
             loadReviews();
             loadPortfolio();
+
         } else {
-            loginScreen.style.display = 'flex';
-            dashboard.style.display = 'none';
+
+            loginScreen.style.display =
+                "flex";
+
+            dashboard.style.display =
+                "none";
+
         }
+
+    }
+);
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+document
+    .querySelectorAll(".tab-btn")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(".tab-btn")
+                    .forEach(btn =>
+                        btn.classList.remove("active")
+                    );
+
+                document
+                    .querySelectorAll(".tab-panel")
+                    .forEach(panel =>
+                        panel.classList.remove("active")
+                    );
+
+                button.classList.add("active");
+
+                document
+                    .getElementById(
+                        "panel-" + button.dataset.tab
+                    )
+                    .classList.add("active");
+
+            }
+        );
+
     });
 
-    // ===== Tabs =====
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
-        });
-    });
 
-    // ===== Orders =====
-    function loadOrders() {
-        db.collection('orders').orderBy('createdAt', 'desc').get().then(snapshot => {
-            const list = document.getElementById('ordersList');
-            document.getElementById('ordersCount').textContent = snapshot.size;
-            if (snapshot.empty) {
-                list.innerHTML = '<div class="empty-state">لا توجد طلبات بعد.</div>';
-                return;
-            }
-            list.innerHTML = '';
-            snapshot.forEach(doc => {
-                const o = doc.data();
-                const div = document.createElement('div');
-                div.className = 'item-card';
-                div.innerHTML = `
-                    <div class="item-top">
-                        <h3>${o.businessName || ''} — ${o.fullName || ''}</h3>
-                        <span class="item-date">${fmtDate(o.createdAt)}</span>
+/* =========================================================
+   ORDERS
+========================================================= */
+
+async function loadOrders() {
+
+    const list =
+        document.getElementById("ordersList");
+
+    try {
+
+        const snapshot =
+            await db
+                .collection("orders")
+                .orderBy("createdAt", "desc")
+                .get();
+
+        document.getElementById("ordersCount")
+            .textContent = snapshot.size;
+
+        if (snapshot.empty) {
+
+            list.innerHTML =
+                '<div class="empty-state">لا توجد طلبات بعد.</div>';
+
+            return;
+        }
+
+        list.innerHTML = "";
+
+        snapshot.forEach(doc => {
+
+            const o =
+                doc.data();
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "item-card";
+
+            div.innerHTML = `
+
+                <div class="item-top">
+
+                    <h3>
+                        ${escapeHTML(o.businessName || "بدون اسم")}
+                        —
+                        ${escapeHTML(o.fullName || "")}
+                    </h3>
+
+                    <span class="item-date">
+                        ${fmtDate(o.createdAt)}
+                    </span>
+
+                </div>
+
+
+                <div class="item-grid">
+
+                    <div>
+                        <span class="label">
+                            نوع النشاط:
+                        </span>
+                        ${escapeHTML(o.businessType || "—")}
                     </div>
-                    <div class="item-grid">
-                        <div><span class="label">نوع النشاط: </span>${o.businessType || '—'}</div>
-                        <div><span class="label">الموقع: </span>${o.location || '—'}</div>
-                        <div><span class="label">واتساب: </span>${o.whatsapp || '—'}</div>
-                        <div><span class="label">إيميل: </span>${o.email || '—'}</div>
-                        <div><span class="label">لديه موقع؟ </span>${o.hasWebsite === 'yes' ? 'نعم' : 'لا'}</div>
-                        <div><span class="label">لغتين؟ </span>${o.needMultiLang === 'yes' ? 'نعم' : 'لا'}</div>
+
+                    <div>
+                        <span class="label">
+                            الموقع:
+                        </span>
+                        ${escapeHTML(o.location || "—")}
                     </div>
-                    ${o.details ? `<div class="item-details">${o.details}</div>` : ''}
-                `;
-                list.appendChild(div);
-            });
-        }).catch(err => {
-            document.getElementById('ordersList').innerHTML = '<div class="empty-state">تعذر تحميل الطلبات.</div>';
-            console.error(err);
+
+                    <div>
+                        <span class="label">
+                            واتساب:
+                        </span>
+                        ${escapeHTML(o.whatsapp || "—")}
+                    </div>
+
+                    <div>
+                        <span class="label">
+                            الإيميل:
+                        </span>
+                        ${escapeHTML(o.email || "—")}
+                    </div>
+
+                    <div>
+                        <span class="label">
+                            لديه موقع؟
+                        </span>
+                        ${
+                            o.hasWebsite === "yes"
+                                ? "نعم"
+                                : "لا"
+                        }
+                    </div>
+
+                    <div>
+                        <span class="label">
+                            لغتين؟
+                        </span>
+                        ${
+                            o.needMultiLang === "yes"
+                                ? "نعم"
+                                : "لا"
+                        }
+                    </div>
+
+                </div>
+
+
+                ${
+                    o.details
+                        ? `
+                            <div class="item-details">
+                                ${escapeHTML(o.details)}
+                            </div>
+                        `
+                        : ""
+                }
+
+            `;
+
+            list.appendChild(div);
+
         });
+
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            '<div class="empty-state">تعذر تحميل الطلبات.</div>';
+
     }
 
-    // ===== Reviews =====
-    function loadReviews() {
-        db.collection('reviews').orderBy('createdAt', 'desc').get().then(snapshot => {
-            const list = document.getElementById('reviewsList');
-            document.getElementById('reviewsCount').textContent = snapshot.size;
-            if (snapshot.empty) {
-                list.innerHTML = '<div class="empty-state">لا توجد تقييمات بعد.</div>';
-                return;
-            }
-            list.innerHTML = '';
-            snapshot.forEach(doc => {
-                const r = doc.data();
-                const stars = '★'.repeat(parseInt(r.rating) || 5);
-                const statusClass = r.status === 'approved' ? 'status-approved' : (r.status === 'rejected' ? 'status-rejected' : 'status-pending');
-                const statusLabel = r.status === 'approved' ? 'معتمد' : (r.status === 'rejected' ? 'مرفوض' : 'قيد المراجعة');
-                const div = document.createElement('div');
-                div.className = 'item-card';
-                div.innerHTML = `
-                    <div class="item-top">
-                        <h3>${r.reviewerName || ''} — <span style="color:var(--text-muted); font-weight:400;">${r.reviewerRole || ''}</span></h3>
-                        <span class="item-date">${fmtDate(r.createdAt)}</span>
-                    </div>
-                    <div class="stars">${stars}</div>
-                    <div class="item-details">${r.reviewMessage || ''}</div>
-                    <div class="item-actions">
-                        <span class="status-pill ${statusClass}">${statusLabel}</span>
-                        <button class="btn btn-success btn-sm" data-action="approve" data-id="${doc.id}">اعتماد</button>
-                        <button class="btn btn-danger btn-sm" data-action="reject" data-id="${doc.id}">رفض</button>
-                    </div>
-                `;
-                list.appendChild(div);
+}
+
+
+/* =========================================================
+   REVIEWS
+========================================================= */
+
+async function loadReviews() {
+
+    const list =
+        document.getElementById("reviewsList");
+
+    try {
+
+        const snapshot =
+            await db
+                .collection("reviews")
+                .orderBy("createdAt", "desc")
+                .get();
+
+        document.getElementById("reviewsCount")
+            .textContent = snapshot.size;
+
+        if (snapshot.empty) {
+
+            list.innerHTML =
+                '<div class="empty-state">لا توجد تقييمات بعد.</div>';
+
+            return;
+
+        }
+
+        list.innerHTML = "";
+
+        snapshot.forEach(doc => {
+
+            const r =
+                doc.data();
+
+            const rating =
+                Math.min(
+                    5,
+                    Math.max(
+                        0,
+                        parseInt(r.rating) || 0
+                    )
+                );
+
+            const stars =
+                "★".repeat(rating) +
+                "☆".repeat(5 - rating);
+
+            const status =
+                r.status || "pending";
+
+            const statusClass =
+                status === "approved"
+                    ? "status-approved"
+                    : status === "rejected"
+                        ? "status-rejected"
+                        : "status-pending";
+
+            const statusLabel =
+                status === "approved"
+                    ? "معتمد"
+                    : status === "rejected"
+                        ? "مرفوض"
+                        : "قيد المراجعة";
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "item-card";
+
+            div.innerHTML = `
+
+                <div class="item-top">
+
+                    <h3>
+
+                        ${escapeHTML(
+                            r.reviewerName || "مستخدم"
+                        )}
+
+                        —
+
+                        <span
+                            style="
+                            color:var(--text-muted);
+                            font-weight:400;
+                            "
+                        >
+                            ${escapeHTML(
+                                r.reviewerRole || ""
+                            )}
+                        </span>
+
+                    </h3>
+
+                    <span class="item-date">
+                        ${fmtDate(r.createdAt)}
+                    </span>
+
+                </div>
+
+
+                <div class="stars">
+                    ${stars}
+                </div>
+
+
+                <div class="item-details">
+                    ${escapeHTML(
+                        r.reviewMessage || ""
+                    )}
+                </div>
+
+
+                <div class="item-actions">
+
+                    <span
+                        class="status-pill ${statusClass}"
+                    >
+                        ${statusLabel}
+                    </span>
+
+                    <button
+                        class="btn btn-success btn-sm"
+                        data-review-action="approve"
+                        data-id="${doc.id}"
+                    >
+                        اعتماد
+                    </button>
+
+                    <button
+                        class="btn btn-danger btn-sm"
+                        data-review-action="reject"
+                        data-id="${doc.id}"
+                    >
+                        رفض
+                    </button>
+
+                </div>
+
+            `;
+
+            list.appendChild(div);
+
+        });
+
+
+        list
+            .querySelectorAll(
+                "[data-review-action]"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    async () => {
+
+                        const newStatus =
+                            button.dataset.reviewAction ===
+                            "approve"
+                                ? "approved"
+                                : "rejected";
+
+                        button.disabled = true;
+
+                        try {
+
+                            await db
+                                .collection("reviews")
+                                .doc(button.dataset.id)
+                                .update({
+                                    status: newStatus
+                                });
+
+                            showToast(
+                                newStatus === "approved"
+                                    ? "تم اعتماد التقييم"
+                                    : "تم رفض التقييم"
+                            );
+
+                            loadReviews();
+
+                        } catch (error) {
+
+                            console.error(error);
+
+                            showToast(
+                                "تعذر تحديث التقييم",
+                                "error"
+                            );
+
+                            button.disabled = false;
+
+                        }
+
+                    }
+                );
+
             });
 
-            list.querySelectorAll('[data-action]').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const newStatus = btn.dataset.action === 'approve' ? 'approved' : 'rejected';
-                    await db.collection('reviews').doc(btn.dataset.id).update({ status: newStatus });
-                    showToast(newStatus === 'approved' ? 'تم اعتماد التقييم' : 'تم رفض التقييم');
-                    loadReviews();
-                });
-            });
-        }).catch(err => {
-            document.getElementById('reviewsList').innerHTML = '<div class="empty-state">تعذر تحميل التقييمات.</div>';
-            console.error(err);
-        });
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            '<div class="empty-state">تعذر تحميل التقييمات.</div>';
+
     }
 
-    // ===== Portfolio =====
-    const portfolioForm = document.getElementById('portfolioForm');
-    const portfolioSubmitBtn = document.getElementById('portfolioSubmitBtn');
+}
 
-    portfolioForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        portfolioSubmitBtn.disabled = true;
-        portfolioSubmitBtn.textContent = 'جاري الإضافة...';
 
-        const categorySelect = document.getElementById('pCategory');
-        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+/* =========================================================
+   IMAGE VALIDATION
+========================================================= */
+
+const MAX_IMAGE_SIZE =
+    5 * 1024 * 1024;
+
+const allowedImageTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+];
+
+
+function validateImage(file) {
+
+    if (!file) {
+
+        throw new Error(
+            "يرجى اختيار صورة."
+        );
+
+    }
+
+    if (!allowedImageTypes.includes(file.type)) {
+
+        throw new Error(
+            "صيغة الصورة غير مدعومة."
+        );
+
+    }
+
+    if (file.size > MAX_IMAGE_SIZE) {
+
+        throw new Error(
+            "حجم الصورة يجب ألا يتجاوز 5MB."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW - ADD
+========================================================= */
+
+const pImage =
+    document.getElementById("pImage");
+
+const imagePreviewBox =
+    document.getElementById(
+        "imagePreviewBox"
+    );
+
+const imagePreview =
+    document.getElementById(
+        "imagePreview"
+    );
+
+
+pImage.addEventListener(
+    "change",
+    () => {
+
+        const file =
+            pImage.files[0];
+
+        if (!file) {
+
+            imagePreviewBox.style.display =
+                "none";
+
+            return;
+        }
 
         try {
-            await db.collection('portfolio').add({
-                title: document.getElementById('pTitle').value.trim(),
-                category: categorySelect.value,
-                categoryLabel: selectedOption.dataset.label,
-                imageUrl: document.getElementById('pImageUrl').value.trim(),
-                projectUrl: document.getElementById('pProjectUrl').value.trim(),
-                description: document.getElementById('pDescription').value.trim(),
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            portfolioForm.reset();
-            showToast('تمت إضافة المشروع للمعرض بنجاح');
-            loadPortfolio();
-        } catch (err) {
-            showToast('حدث خطأ أثناء الإضافة');
-            console.error(err);
-        } finally {
-            portfolioSubmitBtn.disabled = false;
-            portfolioSubmitBtn.textContent = 'إضافة للمعرض';
+
+            validateImage(file);
+
+            const url =
+                URL.createObjectURL(file);
+
+            imagePreview.src = url;
+
+            imagePreviewBox.style.display =
+                "block";
+
+        } catch (error) {
+
+            pImage.value = "";
+
+            imagePreviewBox.style.display =
+                "none";
+
+            showToast(
+                error.message,
+                "error"
+            );
+
         }
-    });
 
-    function loadPortfolio() {
-        db.collection('portfolio').orderBy('createdAt', 'desc').get().then(snapshot => {
-            const list = document.getElementById('portfolioList');
-            if (snapshot.empty) {
-                list.innerHTML = '<div class="empty-state">لا توجد مشاريع مضافة بعد.</div>';
-                return;
-            }
-            list.innerHTML = '';
-            snapshot.forEach(doc => {
-                const p = doc.data();
-                const div = document.createElement('div');
-                div.className = 'item-card portfolio-item-card';
-                div.innerHTML = `
-                    <img src="${p.imageUrl}" alt="${p.title || ''}">
-                    <div class="info">
-                        <h3>${p.title || ''}</h3>
-                        <span>${p.categoryLabel || ''} · ${p.description || ''}</span>
-                        ${p.projectUrl ? `<br><a href="${p.projectUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-gold); font-size:0.8rem;">${p.projectUrl}</a>` : ''}
-                    </div>
-                    <button class="btn btn-danger btn-sm" data-id="${doc.id}">حذف</button>
-                `;
-                list.appendChild(div);
-            });
-
-            list.querySelectorAll('button[data-id]').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    if (!confirm('هل تريد حذف هذا المشروع من المعرض؟')) return;
-                    await db.collection('portfolio').doc(btn.dataset.id).delete();
-                    showToast('تم حذف المشروع');
-                    loadPortfolio();
-                });
-            });
-        }).catch(err => {
-            document.getElementById('portfolioList').innerHTML = '<div class="empty-state">تعذر تحميل المشاريع.</div>';
-            console.error(err);
-        });
     }
+);
+
+
+/* =========================================================
+   UPLOAD IMAGE
+========================================================= */
+
+function uploadImage(
+    file,
+    progressContainer,
+    progressFill,
+    progressPercent,
+    progressStatus
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            try {
+
+                validateImage(file);
+
+            } catch (error) {
+
+                reject(error);
+
+                return;
+
+            }
+
+
+            const extension =
+                file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+
+            const uniqueName =
+                `portfolio_${Date.now()}_${Math.random()
+                    .toString(36)
+                    .substring(2, 8)}.${extension}`;
+
+
+            const storageRef =
+                storage.ref(
+                    `portfolio/${uniqueName}`
+                );
+
+
+            const uploadTask =
+                storageRef.put(file);
+
+
+            progressContainer.style.display =
+                "block";
+
+
+            uploadTask.on(
+
+                "state_changed",
+
+                snapshot => {
+
+                    const percent =
+                        Math.round(
+                            (
+                                snapshot.bytesTransferred /
+                                snapshot.totalBytes
+                            ) * 100
+                        );
+
+                    progressFill.style.width =
+                        percent + "%";
+
+                    progressPercent.textContent =
+                        percent + "%";
+
+                    progressStatus.textContent =
+                        percent < 100
+                            ? "جاري رفع الصورة..."
+                            : "جاري تجهيز الصورة...";
+
+                },
+
+                error => {
+
+                    console.error(error);
+
+                    progressContainer.style.display =
+                        "none";
+
+                    reject(error);
+
+                },
+
+                async () => {
+
+                    try {
+
+                        const url =
+                            await uploadTask
+                                .snapshot
+                                .ref
+                                .getDownloadURL();
+
+                        progressFill.style.width =
+                            "100%";
+
+                        progressPercent.textContent =
+                            "100%";
+
+                        progressStatus.textContent =
+                            "تم رفع الصورة";
+
+                        resolve({
+                            url,
+                            storagePath:
+                                uploadTask
+                                    .snapshot
+                                    .ref
+                                    .fullPath
+                        });
+
+                    } catch (error) {
+
+                        reject(error);
+
+                    }
+
+                }
+
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ADD PORTFOLIO
+========================================================= */
+
+const portfolioForm =
+    document.getElementById(
+        "portfolioForm"
+    );
+
+const portfolioSubmitBtn =
+    document.getElementById(
+        "portfolioSubmitBtn"
+    );
+
+
+portfolioForm.addEventListener(
+    "submit",
+    async function(e) {
+
+        e.preventDefault();
+
+        const title =
+            document
+                .getElementById("pTitle")
+                .value
+                .trim();
+
+        const categorySelect =
+            document.getElementById(
+                "pCategory"
+            );
+
+        const selectedOption =
+            categorySelect.options[
+                categorySelect.selectedIndex
+            ];
+
+        const projectUrl =
+            document
+                .getElementById("pProjectUrl")
+                .value
+                .trim();
+
+        const description =
+            document
+                .getElementById("pDescription")
+                .value
+                .trim();
+
+        const imageFile =
+            pImage.files[0];
+
+
+        if (!title ||
+            !description ||
+            !imageFile
+        ) {
+
+            showToast(
+                "يرجى تعبئة جميع الحقول المطلوبة.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        portfolioSubmitBtn.disabled =
+            true;
+
+        portfolioSubmitBtn.textContent =
+            "جاري الإضافة...";
+
+
+        const progressContainer =
+            document.getElementById(
+                "uploadProgress"
+            );
+
+        const progressFill =
+            document.getElementById(
+                "progressFill"
+            );
+
+        const progressPercent =
+            document.getElementById(
+                "uploadPercent"
+            );
+
+        const progressStatus =
+            document.getElementById(
+                "uploadStatus"
+            );
+
+
+        try {
+
+            const uploaded =
+                await uploadImage(
+                    imageFile,
+                    progressContainer,
+                    progressFill,
+                    progressPercent,
+                    progressStatus
+                );
+
+
+            await db
+                .collection("portfolio")
+                .add({
+
+                    title,
+
+                    category:
+                        categorySelect.value,
+
+                    categoryLabel:
+                        selectedOption.dataset.label,
+
+                    imageUrl:
+                        uploaded.url,
+
+                    storagePath:
+                        uploaded.storagePath,
+
+                    projectUrl,
+
+                    description,
+
+                    createdAt:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp(),
+
+                    updatedAt:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp()
+
+                });
+
+
+            portfolioForm.reset();
+
+            imagePreviewBox.style.display =
+                "none";
+
+            progressContainer.style.display =
+                "none";
+
+            showToast(
+                "تمت إضافة المشروع بنجاح."
+            );
+
+            loadPortfolio();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                error.message ||
+                "حدث خطأ أثناء إضافة المشروع.",
+                "error"
+            );
+
+        } finally {
+
+            portfolioSubmitBtn.disabled =
+                false;
+
+            portfolioSubmitBtn.textContent =
+                "إضافة المشروع";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOAD PORTFOLIO
+========================================================= */
+
+async function loadPortfolio() {
+
+    const list =
+        document.getElementById(
+            "portfolioList"
+        );
+
+    try {
+
+        const snapshot =
+            await db
+                .collection("portfolio")
+                .orderBy("createdAt", "desc")
+                .get();
+
+
+        document.getElementById(
+            "portfolioCount"
+        ).textContent =
+            snapshot.size;
+
+
+        if (snapshot.empty) {
+
+            list.innerHTML =
+                '<div class="empty-state">لا توجد مشاريع مضافة بعد.</div>';
+
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+
+        snapshot.forEach(doc => {
+
+            const p =
+                doc.data();
+
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "item-card portfolio-item";
+
+
+            const safeImage =
+                escapeHTML(
+                    p.imageUrl || ""
+                );
+
+
+            div.innerHTML = `
+
+                <img
+                    class="portfolio-thumbnail"
+                    src="${safeImage}"
+                    alt="${escapeHTML(p.title || "")}"
+                    loading="lazy"
+                    onerror="this.style.opacity='.3';"
+                >
+
+
+                <div class="portfolio-info">
+
+                    <h3>
+                        ${escapeHTML(
+                            p.title || "بدون عنوان"
+                        )}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            p.description || ""
+                        )}
+                    </p>
+
+                    <div class="portfolio-meta">
+
+                        <span class="meta-badge">
+                            ${escapeHTML(
+                                p.categoryLabel || p.category || "أخرى"
+                            )}
+                        </span>
+
+                        ${
+                            p.projectUrl
+                                ? `
+                                    <span class="meta-badge">
+                                        يحتوي على رابط
+                                    </span>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="portfolio-actions">
+
+                    <button
+                        class="btn btn-secondary btn-sm"
+                        data-edit-id="${doc.id}"
+                    >
+                        تعديل
+                    </button>
+
+                    <button
+                        class="btn btn-danger btn-sm"
+                        data-delete-id="${doc.id}"
+                    >
+                        حذف
+                    </button>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(div);
+
+        });
+
+
+        /* EDIT BUTTONS */
+
+        list
+            .querySelectorAll(
+                "[data-edit-id]"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const doc =
+                            snapshot.docs.find(
+                                d =>
+                                    d.id ===
+                                    button.dataset.editId
+                            );
+
+                        if (doc) {
+
+                            openEditModal(
+                                doc.id,
+                                doc.data()
+                            );
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        /* DELETE BUTTONS */
+
+        list
+            .querySelectorAll(
+                "[data-delete-id]"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        deletePortfolio(
+                            button.dataset.deleteId
+                        );
+
+                    }
+                );
+
+            });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            '<div class="empty-state">تعذر تحميل المشاريع.</div>';
+
+    }
+
+}
+
+
+/* =========================================================
+   DELETE PORTFOLIO
+========================================================= */
+
+async function deletePortfolio(id) {
+
+    const confirmed =
+        confirm(
+            "هل أنت متأكد من حذف هذا المشروع؟\n\nسيتم حذف المشروع والصورة المرتبطة به."
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const docRef =
+            db
+                .collection("portfolio")
+                .doc(id);
+
+
+        const docSnapshot =
+            await docRef.get();
+
+
+        if (!docSnapshot.exists) {
+
+            showToast(
+                "المشروع غير موجود.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const project =
+            docSnapshot.data();
+
+
+        /* DELETE FIREBASE STORAGE IMAGE */
+
+        if (project.storagePath) {
+
+            try {
+
+                await storage
+                    .ref(project.storagePath)
+                    .delete();
+
+            } catch (storageError) {
+
+                console.warn(
+                    "تعذر حذف الصورة من Storage:",
+                    storageError
+                );
+
+            }
+
+        } else if (project.imageUrl) {
+
+            /*
+                دعم المشاريع القديمة
+                التي تحتوي imageUrl فقط
+            */
+
+            try {
+
+                const imageRef =
+                    storage.refFromURL(
+                        project.imageUrl
+                    );
+
+                await imageRef.delete();
+
+            } catch (storageError) {
+
+                console.warn(
+                    "تعذر حذف الصورة القديمة:",
+                    storageError
+                );
+
+            }
+
+        }
+
+
+        /* DELETE FIRESTORE DOCUMENT */
+
+        await docRef.delete();
+
+
+        showToast(
+            "تم حذف المشروع والصورة بنجاح."
+        );
+
+
+        loadPortfolio();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "تعذر حذف المشروع.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET ADD FORM
+========================================================= */
+
+document
+    .getElementById("resetPortfolioBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            portfolioForm.reset();
+
+            imagePreviewBox.style.display =
+                "none";
+
+            document.getElementById(
+                "uploadProgress"
+            ).style.display =
+                "none";
+
+        }
+    );
+
+
+/* =========================================================
+   EDIT MODAL
+========================================================= */
+
+const editModal =
+    document.getElementById(
+        "editModal"
+    );
+
+
+function openEditModal(id, project) {
+
+    document.getElementById(
+        "editProjectId"
+    ).value = id;
+
+
+    document.getElementById(
+        "editOldImageUrl"
+    ).value =
+        project.imageUrl || "";
+
+
+    document.getElementById(
+        "editTitle"
+    ).value =
+        project.title || "";
+
+
+    document.getElementById(
+        "editCategory"
+    ).value =
+        project.category || "other";
+
+
+    document.getElementById(
+        "editProjectUrl"
+    ).value =
+        project.projectUrl || "";
+
+
+    document.getElementById(
+        "editDescription"
+    ).value =
+        project.description || "";
+
+
+    document.getElementById(
+        "editCurrentImage"
+    ).src =
+        project.imageUrl || "";
+
+
+    document.getElementById(
+        "editImage"
+    ).value = "";
+
+
+    document.getElementById(
+        "editImagePreviewBox"
+    ).style.display =
+        "none";
+
+
+    editModal.classList.add(
+        "active"
+    );
+
+}
+
+
+function closeEditModal() {
+
+    editModal.classList.remove(
+        "active"
+    );
+
+}
+
+
+document
+    .getElementById("closeEditModal")
+    .addEventListener(
+        "click",
+        closeEditModal
+    );
+
+
+document
+    .getElementById("cancelEditBtn")
+    .addEventListener(
+        "click",
+        closeEditModal
+    );
+
+
+editModal.addEventListener(
+    "click",
+    e => {
+
+        if (e.target === editModal) {
+
+            closeEditModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   EDIT IMAGE PREVIEW
+========================================================= */
+
+const editImage =
+    document.getElementById(
+        "editImage"
+    );
+
+
+editImage.addEventListener(
+    "change",
+    () => {
+
+        const file =
+            editImage.files[0];
+
+        const previewBox =
+            document.getElementById(
+                "editImagePreviewBox"
+            );
+
+        const preview =
+            document.getElementById(
+                "editImagePreview"
+            );
+
+
+        if (!file) {
+
+            previewBox.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        try {
+
+            validateImage(file);
+
+            preview.src =
+                URL.createObjectURL(file);
+
+            previewBox.style.display =
+                "block";
+
+        } catch (error) {
+
+            editImage.value = "";
+
+            previewBox.style.display =
+                "none";
+
+            showToast(
+                error.message,
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   UPDATE PORTFOLIO
+========================================================= */
+
+document
+    .getElementById("editPortfolioForm")
+    .addEventListener(
+        "submit",
+        async function(e) {
+
+            e.preventDefault();
+
+
+            const submitButton =
+                document.getElementById(
+                    "editSubmitBtn"
+                );
+
+
+            const id =
+                document.getElementById(
+                    "editProjectId"
+                ).value;
+
+
+            const oldImageUrl =
+                document.getElementById(
+                    "editOldImageUrl"
+                ).value;
+
+
+            const title =
+                document.getElementById(
+                    "editTitle"
+                ).value
+                .trim();
+
+
+            const categorySelect =
+                document.getElementById(
+                    "editCategory"
+                );
+
+
+            const selectedOption =
+                categorySelect.options[
+                    categorySelect.selectedIndex
+                ];
+
+
+            const projectUrl =
+                document.getElementById(
+                    "editProjectUrl"
+                ).value
+                .trim();
+
+
+            const description =
+                document.getElementById(
+                    "editDescription"
+                ).value
+                .trim();
+
+
+            const newImage =
+                editImage.files[0];
+
+
+            submitButton.disabled =
+                true;
+
+            submitButton.textContent =
+                "جاري الحفظ...";
+
+
+            try {
+
+                let updateData = {
+
+                    title,
+
+                    category:
+                        categorySelect.value,
+
+                    categoryLabel:
+                        selectedOption.dataset.label,
+
+                    projectUrl,
+
+                    description,
+
+                    updatedAt:
+                        firebase.firestore
+                            .FieldValue
+                            .serverTimestamp()
+
+                };
+
+
+                /* =========================================
+                   NEW IMAGE
+                ========================================= */
+
+                if (newImage) {
+
+                    const uploaded =
+                        await uploadImage(
+
+                            newImage,
+
+                            document.getElementById(
+                                "editUploadProgress"
+                            ),
+
+                            document.getElementById(
+                                "editProgressFill"
+                            ),
+
+                            document.getElementById(
+                                "editUploadPercent"
+                            ),
+
+                            document.getElementById(
+                                "editUploadStatus"
+                            )
+
+                        );
+
+
+                    updateData.imageUrl =
+                        uploaded.url;
+
+
+                    updateData.storagePath =
+                        uploaded.storagePath;
+
+
+                    /* DELETE OLD IMAGE */
+
+                    if (oldImageUrl) {
+
+                        try {
+
+                            const oldRef =
+                                storage.refFromURL(
+                                    oldImageUrl
+                                );
+
+                            await oldRef.delete();
+
+                        } catch (error) {
+
+                            console.warn(
+                                "تعذر حذف الصورة القديمة:",
+                                error
+                            );
+
+                        }
+
+                    }
+
+                }
+
+
+                /* UPDATE FIRESTORE */
+
+                await db
+                    .collection("portfolio")
+                    .doc(id)
+                    .update(updateData);
+
+
+                showToast(
+                    "تم تحديث المشروع بنجاح."
+                );
+
+
+                closeEditModal();
+
+                loadPortfolio();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showToast(
+                    error.message ||
+                    "تعذر تحديث المشروع.",
+                    "error"
+                );
+
+            } finally {
+
+                submitButton.disabled =
+                    false;
+
+                submitButton.textContent =
+                    "حفظ التعديلات";
+
+            }
+
+        }
+    );
+
 </script>
+
 </body>
 </html>
