@@ -3,45 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Primary Meta Tags -->
     <title>DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة</title>
     <meta name="description" content="نصمم ونطور مواقع إلكترونية مخصصة واحترافية لمختلف الأنشطة التجارية والمؤسسات والأفراد بتصميم عصري، سريع، ومتجاوب.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dsc-hub.com/">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png">
-    
-    <!-- Open Graph / Facebook / WhatsApp -->
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
     <meta property="og:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
     <meta property="og:url" content="https://dsc-hub.com/">
     <meta property="og:image" content="https://dsc-hub.com/assets/og-image.jpg">
     <meta property="og:locale" content="ar_AR">
-    
-    <!-- Twitter Metadata -->
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
     <meta name="twitter:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
     <meta name="twitter:image" content="https://dsc-hub.com/assets/og-image.jpg">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- hCaptcha (explicit render: needed since this page has two widgets) -->
+    <!-- hCaptcha -->
     <script src="https://js.hcaptcha.com/1/api.js?render=explicit&onload=onHcaptchaLoad" async defer></script>
 
-    <!-- Firebase SDK (v9 compat, works with plain <script> tags, no build step) -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    <!-- CSS Styles -->
     <style>
-        /* CSS Variables & Theme Setup */
         :root {
             --bg-primary: #F7F8FA;
             --bg-surface: #FFFFFF;
@@ -64,8 +62,9 @@
             --container-padding: 1.25rem;
         }
 
-        /* Base & Reset */
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -87,17 +86,18 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Fixed Navbar Anchor Padding Fix */
         section[id] {
             scroll-margin-top: 90px;
         }
 
-        /* Reduced Motion Accessibility */
         @media (prefers-reduced-motion: reduce) {
             html {
                 scroll-behavior: auto;
             }
-            *, *::before, *::after {
+
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
@@ -105,8 +105,12 @@
             }
         }
 
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Cairo', system-ui, sans-serif;
             color: var(--text-main);
             font-weight: 700;
@@ -114,10 +118,23 @@
             margin-bottom: 0.75rem;
         }
 
-        h1 { font-size: clamp(1.8rem, 5vw, 3.25rem); }
-        h2 { font-size: clamp(1.5rem, 3.5vw, 2.3rem); }
-        h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
-        p { color: var(--text-muted); margin-bottom: 1rem; font-size: 1rem; }
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 3.25rem);
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.3rem);
+        }
+
+        h3 {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
 
         a {
             color: inherit;
@@ -125,15 +142,17 @@
             transition: var(--transition);
         }
 
-        ul { list-style: none; }
+        ul {
+            list-style: none;
+        }
 
-        img, svg {
+        img,
+        svg {
             max-width: 100%;
             height: auto;
             display: block;
         }
 
-        /* Helper Layout Components */
         .container {
             width: 100%;
             max-width: 1240px;
@@ -167,7 +186,10 @@
             margin-bottom: 1rem;
         }
 
-        /* Buttons & Focus States */
+        /* =========================
+           Buttons
+        ========================= */
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -184,8 +206,8 @@
             white-space: nowrap;
         }
 
-        .btn:focus-visible, 
-        .filter-btn:focus-visible, 
+        .btn:focus-visible,
+        .filter-btn:focus-visible,
         .faq-question:focus-visible,
         .nav-link:focus-visible,
         .star-rating label:focus-within {
@@ -246,7 +268,10 @@
             gap: 1rem;
         }
 
-        /* Header & Navigation */
+        /* =========================
+           Navbar
+        ========================= */
+
         .navbar {
             position: relative;
             top: 0;
@@ -273,7 +298,6 @@
             display: flex;
             align-items: center;
             gap: 0.7rem;
-            
         }
 
         .logo-img {
@@ -285,7 +309,6 @@
             object-fit: contain;
             flex-shrink: 0;
             right: 5px;
-            
         }
 
         @media (max-width: 480px) {
@@ -297,8 +320,6 @@
             }
         }
 
-        /* Footer sits on a dark background — give the logo a light chip so it
-           stays legible regardless of the logo file's own colors. */
         .logo-img-on-dark {
             background: #ffffff;
             padding: 5px 10px;
@@ -341,7 +362,8 @@
             border-radius: 4px;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             color: var(--text-main);
         }
 
@@ -356,7 +378,8 @@
             transition: var(--transition);
         }
 
-        .nav-link:hover::after, .nav-link.active::after {
+        .nav-link:hover::after,
+        .nav-link.active::after {
             width: 100%;
         }
 
@@ -368,7 +391,6 @@
             padding: 0.5rem;
             border-radius: var(--radius-sm);
             margin-left: -90px;
-            
         }
 
         .hamburger-line {
@@ -380,13 +402,25 @@
             transition: var(--transition);
         }
 
-        /* Hero Section */
+        /* =========================
+           Hero
+        ========================= */
+
         .hero {
             padding-top: 160px;
             padding-bottom: 100px;
             position: relative;
-            background: radial-gradient(circle at 80% 20%, rgba(31, 92, 110, 0.06) 0%, transparent 40%),
-                        radial-gradient(circle at 20% 80%, rgba(184, 134, 58, 0.06) 0%, transparent 40%);
+            background:
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(31, 92, 110, 0.06) 0%,
+                    transparent 40%
+                ),
+                radial-gradient(
+                    circle at 20% 80%,
+                    rgba(184, 134, 58, 0.06) 0%,
+                    transparent 40%
+                );
         }
 
         .hero-grid {
@@ -406,7 +440,6 @@
             max-width: 550px;
         }
 
-        /* Device scene: soft decorative blobs behind the laptop/phone mockup */
         .device-scene {
             position: relative;
             padding: 2rem 1.5rem;
@@ -426,7 +459,11 @@
             height: 260px;
             top: -30px;
             left: -30px;
-            background: radial-gradient(circle, rgba(184, 134, 58, 0.16), transparent 70%);
+            background: radial-gradient(
+                circle,
+                rgba(184, 134, 58, 0.16),
+                transparent 70%
+            );
         }
 
         .device-scene::after {
@@ -434,7 +471,11 @@
             height: 220px;
             bottom: -20px;
             right: -10px;
-            background: radial-gradient(circle, rgba(31, 92, 110, 0.14), transparent 70%);
+            background: radial-gradient(
+                circle,
+                rgba(31, 92, 110, 0.14),
+                transparent 70%
+            );
         }
 
         .laptop-mock {
@@ -458,24 +499,13 @@
             object-fit: contain;
         }
 
-        .laptop-screen span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .laptop-screen .mock-cta {
-            margin-top: 0.4rem;
-            padding: 0.4rem 1.1rem;
-            border-radius: 50px;
-            background: var(--accent-gold);
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
         .laptop-base {
             height: 10px;
-            background: linear-gradient(to bottom, var(--bg-card), var(--border-color));
+            background: linear-gradient(
+                to bottom,
+                var(--bg-card),
+                var(--border-color)
+            );
             border-radius: 0 0 var(--radius-md) var(--radius-md);
             margin-top: -1px;
         }
@@ -499,6 +529,22 @@
             border-radius: 4px;
             background: var(--border-color);
             margin: 0 auto 0.5rem auto;
+        }
+
+        .mock-line {
+            height: 8px;
+            background-color: rgba(16,24,38,0.08);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .mock-line.short {
+            width: 60%;
+        }
+
+        .mock-line.accent {
+            background-color: var(--accent-gold);
+            width: 40%;
         }
 
         @media (max-width: 480px) {
@@ -526,46 +572,38 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot-red { background-color: #ff5f56; }
-        .dot-yellow { background-color: #ffbd2e; }
-        .dot-green { background-color: #27c93f; }
-
-        .visual-body {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
         }
 
-        .mock-box {
-            background-color: var(--bg-card);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            border: 1px solid var(--border-color);
+        .dot-red {
+            background-color: #ff5f56;
         }
 
-        .mock-box-wide {
-            grid-column: span 2;
+        .dot-yellow {
+            background-color: #ffbd2e;
         }
 
-        .mock-line {
-            height: 8px;
-            background-color: rgba(16,24,38,0.08);
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
+        .dot-green {
+            background-color: #27c93f;
         }
 
-        .mock-line.short { width: 60%; }
-        .mock-line.accent { background-color: var(--accent-gold); width: 40%; }
+        /* =========================
+           Why Us
+        ========================= */
 
-        /* Why Us Section */
         .why-us {
             background-color: var(--bg-surface);
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(min(100%, 250px), 1fr)
+            );
             gap: 1.5rem;
         }
 
@@ -595,10 +633,16 @@
             margin-bottom: 1.25rem;
         }
 
-        /* Services Section */
+        /* =========================
+           Services
+        ========================= */
+
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(min(100%, 280px), 1fr)
+            );
             gap: 1.5rem;
         }
 
@@ -619,14 +663,20 @@
             transform: translateY(-4px);
         }
 
-        /* Sectors Section */
+        /* =========================
+           Sectors
+        ========================= */
+
         .sectors-section {
             background-color: var(--bg-surface);
         }
 
         .sectors-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr));
+            grid-template-columns: repeat(
+                auto-fill,
+                minmax(min(100%, 130px), 1fr)
+            );
             gap: 1rem;
             margin-bottom: 2.5rem;
         }
@@ -666,10 +716,16 @@
             text-align: center;
         }
 
-        /* Process Section */
+        /* =========================
+           Process
+        ========================= */
+
         .process-steps {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(min(100%, 220px), 1fr)
+            );
             gap: 1.5rem;
         }
 
@@ -691,7 +747,10 @@
             line-height: 1;
         }
 
-        /* Portfolio Section */
+        /* =========================
+           Portfolio
+        ========================= */
+
         .portfolio-section {
             background-color: var(--bg-surface);
         }
@@ -715,7 +774,8 @@
             transition: var(--transition);
         }
 
-        .filter-btn:hover, .filter-btn.active {
+        .filter-btn:hover,
+        .filter-btn.active {
             background-color: var(--accent-gold);
             color: #ffffff;
             border-color: var(--accent-gold);
@@ -723,7 +783,10 @@
 
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(min(100%, 280px), 1fr)
+            );
             gap: 1.5rem;
         }
 
@@ -738,10 +801,11 @@
         .portfolio-card:hover {
             border-color: var(--border-hover);
             transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
         }
 
         .portfolio-img {
-            height: 200px;
+            height: 220px;
             background-color: #EEF1F4;
             display: flex;
             align-items: center;
@@ -749,6 +813,18 @@
             border-bottom: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
+        }
+
+        .portfolio-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-card:hover .portfolio-img img {
+            transform: scale(1.05);
         }
 
         .portfolio-body {
@@ -776,14 +852,43 @@
             color: var(--accent-gold);
         }
 
-        /* Reviews & Testimonials Section */
+        .portfolio-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-md);
+        }
+
+        .portfolio-image-error {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: #EEF1F4;
+        }
+
+        /* =========================
+           Reviews
+        ========================= */
+
         .reviews-section {
             background-color: var(--bg-primary);
         }
 
         .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(min(100%, 280px), 1fr)
+            );
             gap: 1.5rem;
             margin-bottom: 3.5rem;
         }
@@ -823,7 +928,11 @@
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
+            background: linear-gradient(
+                135deg,
+                var(--accent-gold),
+                var(--accent-blue)
+            );
             display: flex;
             align-items: center;
             justify-content: center;
@@ -842,7 +951,10 @@
             color: var(--text-muted);
         }
 
-        /* Interactive Review Form */
+        /* =========================
+           Review Form
+        ========================= */
+
         .review-form-container {
             max-width: 650px;
             margin: 0 auto;
@@ -879,9 +991,16 @@
             color: var(--accent-gold);
         }
 
-        /* Call To Action Banner */
+        /* =========================
+           CTA
+        ========================= */
+
         .cta-banner {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-surface));
+            background: linear-gradient(
+                135deg,
+                var(--bg-card),
+                var(--bg-surface)
+            );
             border: 1px solid var(--accent-gold);
             border-radius: var(--radius-lg);
             padding: 3.5rem 2rem;
@@ -895,7 +1014,10 @@
             font-size: 1.1rem;
         }
 
-        /* Order Form Section */
+        /* =========================
+           Order Form
+        ========================= */
+
         .form-section {
             background-color: var(--bg-surface);
         }
@@ -931,7 +1053,9 @@
             color: var(--text-main);
         }
 
-        input, select, textarea {
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 0.75rem 1rem;
             background-color: var(--bg-primary);
@@ -943,22 +1067,20 @@
             transition: var(--transition);
         }
 
-        input:focus, select:focus, textarea:focus {
+        input:focus,
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: var(--accent-gold);
             box-shadow: 0 0 0 3px rgba(184, 134, 58, 0.18);
         }
 
-        /* hCaptcha widget wrapper */
         .captcha-wrap {
             display: flex;
             justify-content: center;
             margin: 1.25rem 0;
         }
 
-        /* Honeypot field - hidden from real users, catches bots.
-           Kept out of the visual flow without display:none/visibility:hidden,
-           which some bots specifically detect and skip. */
         .hp-field {
             position: absolute;
             left: -9999px;
@@ -968,7 +1090,6 @@
             overflow: hidden;
         }
 
-        /* Form Status Styles */
         .form-status {
             margin-top: 1rem;
             padding: 0;
@@ -1002,7 +1123,10 @@
             font-size: 0.9rem;
         }
 
-        /* FAQ Accordion */
+        /* =========================
+           FAQ
+        ========================= */
+
         .faq-list {
             max-width: 800px;
             margin: 0 auto;
@@ -1047,7 +1171,9 @@
         .faq-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            transition:
+                max-height 0.3s ease-out,
+                padding 0.3s ease;
             padding: 0 1.5rem;
             background-color: rgba(16,24,38,0.025);
         }
@@ -1056,7 +1182,10 @@
             padding: 1rem 1.5rem 1.5rem 1.5rem;
         }
 
-        /* Footer */
+        /* =========================
+           Footer
+        ========================= */
+
         .footer {
             background-color: var(--text-main);
             border-top: 1px solid var(--border-color);
@@ -1109,26 +1238,34 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Responsive Breakpoints */
+        /* =========================
+           Responsive
+        ========================= */
+
         @media (max-width: 992px) {
             .hero {
                 padding-top: 100px;
                 padding-bottom: 60px;
             }
+
             .hero-content h1 {
                 line-height: 1.2;
             }
+
             .hero-grid {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
+
             .hero-content p {
                 margin: 0 auto 2rem auto;
                 max-width: 460px;
             }
+
             .btn-group {
                 justify-content: center;
             }
+
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
             }
@@ -1138,6 +1275,7 @@
             .hamburger {
                 display: block;
             }
+
             .nav-menu {
                 position: fixed;
                 top: 80px;
@@ -1150,15 +1288,19 @@
                 gap: 2rem;
                 transition: var(--transition);
             }
+
             .nav-menu.active {
                 right: 0;
             }
+
             .form-grid {
                 grid-template-columns: 1fr;
             }
+
             .form-group.full-width {
                 grid-column: span 1;
             }
+
             .footer-grid {
                 grid-template-columns: 1fr;
             }
@@ -1169,33 +1311,60 @@
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
+
             .btn-group {
                 width: 100%;
             }
+
             .btn-group .btn {
                 width: 100%;
                 white-space: normal;
             }
-            .form-container, .review-form-container {
+
+            .form-container,
+            .review-form-container {
                 padding: 1.25rem;
             }
+
             .visual-card {
                 padding: 1rem;
+            }
+
+            .portfolio-img {
+                height: 190px;
             }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Navigation Bar -->
+    <!-- =========================
+         Navigation Bar
+    ========================== -->
     <header class="navbar">
         <div class="container nav-container">
+
             <a href="#" class="logo" aria-label="DSC Nova - مركز الدعم الرقمي - الصفحة الرئيسية">
-                <img src="img/DSC_Nova_Primary_Transparent.png" alt="DSC Nova" class="logo-img" width="170" height="40" onerror="this.style.display='none'">
+                <img
+                    src="img/DSC_Nova_Primary_Transparent.png"
+                    alt="DSC Nova"
+                    class="logo-img"
+                    width="170"
+                    height="40"
+                    onerror="this.style.display='none'"
+                >
                 <span class="logo-tagline">مركز الدعم الرقمي</span>
             </a>
-            
-            <button class="hamburger" id="hamburger" type="button" aria-label="فتح قائمة التصفح" aria-expanded="false" aria-controls="nav-menu">
+
+            <button
+                class="hamburger"
+                id="hamburger"
+                type="button"
+                aria-label="فتح قائمة التصفح"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+            >
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
@@ -1210,872 +1379,2753 @@
                     <li><a href="#portfolio" class="nav-link">أعمالنا</a></li>
                     <li><a href="#reviews" class="nav-link">التقييمات</a></li>
                     <li><a href="#faq" class="nav-link">الأسئلة الشائعة</a></li>
-                    <li><a href="#order" class="btn btn-primary nav-btn">اطلب موقعك</a></li>
+                    <li>
+                        <a href="#order" class="btn btn-primary nav-btn">
+                            اطلب موقعك
+                        </a>
+                    </li>
                 </ul>
             </nav>
+
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- =========================
+         Hero Section
+    ========================== -->
     <section id="hero" class="hero">
         <div class="container">
+
             <div class="hero-grid">
+
                 <div class="hero-content">
-                    <span class="badge">👑 حلول ويب مخصصة بالكامل</span>
-                    <h1>نحوّل نشاطك إلى حضور رقمي احترافي</h1>
-                    <p>في مركز الدعم الرقمي نصمم ونطور مواقع إلكترونية مخصصة لمختلف الأنشطة التجارية والمؤسسات والأفراد، بتصميم عصري وتجربة استخدام سهلة ومتوافقة مع جميع الأجهزة.</p>
+
+                    <span class="badge">
+                        👑 حلول ويب مخصصة بالكامل
+                    </span>
+
+                    <h1>
+                        نحوّل نشاطك إلى حضور رقمي احترافي
+                    </h1>
+
+                    <p>
+                        في مركز الدعم الرقمي نصمم ونطور مواقع إلكترونية
+                        مخصصة لمختلف الأنشطة التجارية والمؤسسات والأفراد،
+                        بتصميم عصري وتجربة استخدام سهلة ومتوافقة مع جميع الأجهزة.
+                    </p>
+
                     <div class="btn-group">
-                        <a href="#order" class="btn btn-primary"><span aria-hidden="true">←</span> اطلب موقعك الآن</a>
-                        <a href="#portfolio" class="btn btn-secondary"><span aria-hidden="true">👁</span> شاهد أعمالنا</a>
-                        <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"><span aria-hidden="true">💬</span> تحدث معنا عبر الواتساب</a>
+
+                        <a href="#order" class="btn btn-primary">
+                            <span aria-hidden="true">←</span>
+                            اطلب موقعك الآن
+                        </a>
+
+                        <a href="#portfolio" class="btn btn-secondary">
+                            <span aria-hidden="true">👁</span>
+                            شاهد أعمالنا
+                        </a>
+
+                        <a
+                            href="https://wa.me/249964629236"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn btn-whatsapp"
+                        >
+                            <span aria-hidden="true">💬</span>
+                            تحدث معنا عبر الواتساب
+                        </a>
+
                     </div>
+
                 </div>
+
                 <div class="hero-visual" aria-hidden="true">
+
                     <div class="device-scene">
+
                         <div class="visual-card laptop-mock">
+
                             <div class="visual-header">
                                 <span class="dot dot-red"></span>
                                 <span class="dot dot-yellow"></span>
                                 <span class="dot dot-green"></span>
                             </div>
+
                             <div class="laptop-screen">
-                                <img src="img/1789717394392.jpg" alt="" onerror="this.style.display='none'">
-                                
+
+                                <img
+                                    src="img/1789717394392.jpg"
+                                    alt=""
+                                    onerror="this.style.display='none'"
+                                >
+
                             </div>
+
                             <div class="laptop-base"></div>
+
                         </div>
+
                         <div class="phone-mock">
+
                             <div class="phone-notch"></div>
+
                             <div class="mock-line accent"></div>
                             <div class="mock-line"></div>
                             <div class="mock-line short"></div>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     </section>
 
-    <!-- Why Section -->
+    <!-- =========================
+         Why Section
+    ========================== -->
     <section id="why-us" class="why-us section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>وجودك على الإنترنت يبدأ من موقعك</h2>
-                <p>الموقع الإلكتروني ليس مجرد رفاهية، بل هو المحرك الأساسي لبناء الثقة وتوسيع نطاق أعمالك.</p>
+
+                <h2>
+                    وجودك على الإنترنت يبدأ من موقعك
+                </h2>
+
+                <p>
+                    الموقع الإلكتروني ليس مجرد رفاهية، بل هو المحرك الأساسي
+                    لبناء الثقة وتوسيع نطاق أعمالك.
+                </p>
+
             </div>
+
             <div class="features-grid">
+
                 <div class="feature-card">
                     <div class="feature-icon">🌐</div>
                     <h3>عرض متاح 24/7</h3>
-                    <p>عرض خدماتك ومنتجاتك للعملاء طوال الوقت وبدون انقطاع.</p>
+                    <p>
+                        عرض خدماتك ومنتجاتك للعملاء طوال الوقت وبدون انقطاع.
+                    </p>
                 </div>
+
                 <div class="feature-card">
                     <div class="feature-icon">🔒</div>
                     <h3>زيادة ثقة العملاء</h3>
-                    <p>الموقع الاحترافي يبني المصداقية ويعزز ثقة العميل بنشاطك.</p>
+                    <p>
+                        الموقع الاحترافي يبني المصداقية ويعزز ثقة العميل بنشاطك.
+                    </p>
                 </div>
+
                 <div class="feature-card">
                     <div class="feature-icon">📍</div>
                     <h3>سهولة الوصول</h3>
-                    <p>عرض موقعك الجغرافي ووسائل التواصل لتسهيل الوصول إليك.</p>
+                    <p>
+                        عرض موقعك الجغرافي ووسائل التواصل لتسهيل الوصول إليك.
+                    </p>
                 </div>
+
                 <div class="feature-card">
                     <div class="feature-icon">📈</div>
                     <h3>هوية رقمية قوية</h3>
-                    <p>تميّز عن منافسيك بواجهة تعكس حجم واحترافية عملك.</p>
+                    <p>
+                        تميّز عن منافسيك بواجهة تعكس حجم واحترافية عملك.
+                    </p>
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- Services Section -->
+    <!-- =========================
+         Services Section
+    ========================== -->
     <section id="services" class="section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>حلول رقمية مصممة لنشاطك</h2>
-                <p>نقدم برمجيات وتصميمات متكاملة تغطي كافة مجالات الويب وفق أعلى المعايير.</p>
+
+                <h2>
+                    حلول رقمية مصممة لنشاطك
+                </h2>
+
+                <p>
+                    نقدم برمجيات وتصميمات متكاملة تغطي كافة مجالات الويب
+                    وفق أعلى المعايير.
+                </p>
+
             </div>
+
             <div class="services-grid">
+
                 <div class="service-card">
                     <div>
                         <h3>تصميم المواقع الإلكترونية</h3>
-                        <p>تصميم مواقع حديثة ومخصصة تعكس هوية نشاطك التجاري وتقدم خدماتك بطريقة واضحة واحترافية.</p>
+                        <p>
+                            تصميم مواقع حديثة ومخصصة تعكس هوية نشاطك التجاري
+                            وتقدم خدماتك بطريقة واضحة واحترافية.
+                        </p>
                     </div>
                 </div>
+
                 <div class="service-card">
                     <div>
                         <h3>تطوير المواقع</h3>
-                        <p>تحويل التصميم إلى موقع إلكتروني سريع ومتجاوب باستخدام تقنيات الويب الحديثة والآمنة.</p>
+                        <p>
+                            تحويل التصميم إلى موقع إلكتروني سريع ومتجاوب
+                            باستخدام تقنيات الويب الحديثة والآمنة.
+                        </p>
                     </div>
                 </div>
+
                 <div class="service-card">
                     <div>
                         <h3>مواقع المطاعم والمقاهي</h3>
-                        <p>قائمة الطعام، الأسعار، الصور، الموقع، أزرار التواصل والطلبات والحجز التفاعلي.</p>
+                        <p>
+                            قائمة الطعام، الأسعار، الصور، الموقع، أزرار
+                            التواصل والطلبات والحجز التفاعلي.
+                        </p>
                     </div>
                 </div>
+
                 <div class="service-card">
                     <div>
                         <h3>مواقع الشركات والمؤسسات</h3>
-                        <p>عرض الخدمات، نبذة عن الشركة، المشاريع، استعراض فريق العمل ومعلومات التواصل.</p>
+                        <p>
+                            عرض الخدمات، نبذة عن الشركة، المشاريع،
+                            استعراض فريق العمل ومعلومات التواصل.
+                        </p>
                     </div>
                 </div>
+
                 <div class="service-card">
                     <div>
                         <h3>المواقع الطبية</h3>
-                        <p>مواقع للعيادات والمراكز الطبية لعرض الخدمات والأطباء وحجز المواعيد للمرضى.</p>
+                        <p>
+                            مواقع للعيادات والمراكز الطبية لعرض الخدمات
+                            والأطباء وحجز المواعيد للمرضى.
+                        </p>
                     </div>
                 </div>
+
                 <div class="service-card">
                     <div>
                         <h3>المتاجر الإلكترونية</h3>
-                        <p>إنشاء واجهات احترافية للمتاجر والمنتجات مع إمكانية ربط أنظمة البيع والدفع.</p>
+                        <p>
+                            إنشاء واجهات احترافية للمتاجر والمنتجات
+                            مع إمكانية ربط أنظمة البيع والدفع.
+                        </p>
                     </div>
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- Sectors Section -->
+    <!-- =========================
+         Sectors Section
+    ========================== -->
     <section id="sectors" class="sectors-section section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>أيًا كان نشاطك، لدينا الحل المناسب</h2>
-                <p>نصمم واجهات مخصصة تلائم طبيعة عملك وجمهورك المستهدف.</p>
+
+                <h2>
+                    أيًا كان نشاطك، لدينا الحل المناسب
+                </h2>
+
+                <p>
+                    نصمم واجهات مخصصة تلائم طبيعة عملك وجمهورك المستهدف.
+                </p>
+
             </div>
+
             <div class="sectors-grid">
-                <div class="sector-item"><span class="sector-icon">🍔</span><span class="sector-title">مطاعم</span></div>
-                <div class="sector-item"><span class="sector-icon">☕</span><span class="sector-title">مقاهي</span></div>
-                <div class="sector-item"><span class="sector-icon">🏢</span><span class="sector-title">شركات</span></div>
-                <div class="sector-item"><span class="sector-icon">🏥</span><span class="sector-title">عيادات</span></div>
-                <div class="sector-item"><span class="sector-icon">🏠</span><span class="sector-title">عقارات</span></div>
-                <div class="sector-item"><span class="sector-icon">🛠</span><span class="sector-title">ورش</span></div>
-                <div class="sector-item"><span class="sector-icon">💇</span><span class="sector-title">صالونات</span></div>
-                <div class="sector-item"><span class="sector-icon">🏨</span><span class="sector-title">فنادق</span></div>
-                <div class="sector-item"><span class="sector-icon">📚</span><span class="sector-title">مراكز تدريب</span></div>
-                <div class="sector-item"><span class="sector-icon">⚖</span><span class="sector-title">مكاتب قانونية</span></div>
-                <div class="sector-item"><span class="sector-icon">🛒</span><span class="sector-title">متاجر</span></div>
-                <div class="sector-item"><span class="sector-icon">🏗</span><span class="sector-title">مقاولات</span></div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🍔</span>
+                    <span class="sector-title">مطاعم</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">☕</span>
+                    <span class="sector-title">مقاهي</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🏢</span>
+                    <span class="sector-title">شركات</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🏥</span>
+                    <span class="sector-title">عيادات</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🏠</span>
+                    <span class="sector-title">عقارات</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🛠</span>
+                    <span class="sector-title">ورش</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">💇</span>
+                    <span class="sector-title">صالونات</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🏨</span>
+                    <span class="sector-title">فنادق</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">📚</span>
+                    <span class="sector-title">مراكز تدريب</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">⚖</span>
+                    <span class="sector-title">مكاتب قانونية</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🛒</span>
+                    <span class="sector-title">متاجر</span>
+                </div>
+
+                <div class="sector-item">
+                    <span class="sector-icon">🏗</span>
+                    <span class="sector-title">مقاولات</span>
+                </div>
+
             </div>
+
             <div class="sectors-footer">
-                <p>لم تجد نشاطك؟ لا مشكلة — يمكننا تصميم موقع مخصص يناسب احتياجاتك بدقة.</p>
+                <p>
+                    لم تجد نشاطك؟ لا مشكلة — يمكننا تصميم موقع مخصص
+                    يناسب احتياجاتك بدقة.
+                </p>
             </div>
+
         </div>
+
     </section>
 
-    <!-- Process Section -->
+    <!-- =========================
+         Process Section
+    ========================== -->
     <section class="section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>من الفكرة إلى موقعك الإلكتروني</h2>
-                <p>خطوات منظمة وواضحة لضمان تسليم مشروعك بأعلى جودة.</p>
+
+                <h2>
+                    من الفكرة إلى موقعك الإلكتروني
+                </h2>
+
+                <p>
+                    خطوات منظمة وواضحة لضمان تسليم مشروعك بأعلى جودة.
+                </p>
+
             </div>
+
             <div class="process-steps">
+
                 <div class="step-card">
                     <span class="step-number">01</span>
                     <h3>فهم نشاطك</h3>
-                    <p>نتعرف على طبيعة نشاطك والجمهور المستهدف والهدف الأساسي من الموقع.</p>
+                    <p>
+                        نتعرف على طبيعة نشاطك والجمهور المستهدف
+                        والهدف الأساسي من الموقع.
+                    </p>
                 </div>
+
                 <div class="step-card">
                     <span class="step-number">02</span>
                     <h3>التخطيط والتصميم</h3>
-                    <p>نضع هيكل الموقع ونصمم واجهة مخصصة تعكس هوية نشاطك الفريدة.</p>
+                    <p>
+                        نضع هيكل الموقع ونصمم واجهة مخصصة
+                        تعكس هوية نشاطك الفريدة.
+                    </p>
                 </div>
+
                 <div class="step-card">
                     <span class="step-number">03</span>
                     <h3>التطوير</h3>
-                    <p>نحوّل التصميم إلى موقع إلكتروني فعلي، سريع، متجاوب، وآمن.</p>
+                    <p>
+                        نحوّل التصميم إلى موقع إلكتروني فعلي،
+                        سريع، متجاوب، وآمن.
+                    </p>
                 </div>
+
                 <div class="step-card">
                     <span class="step-number">04</span>
                     <h3>الإطلاق</h3>
-                    <p>نختبر الموقع بدقة على كافة الأجهزة ونجهزه للنشر والظهور للعملاء.</p>
+                    <p>
+                        نختبر الموقع بدقة على كافة الأجهزة
+                        ونجهزه للنشر والظهور للعملاء.
+                    </p>
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- Portfolio Section -->
+    <!-- =========================
+         Portfolio Section
+         Portfolio is now CODE MANAGED
+         NO FIRESTORE
+    ========================== -->
     <section id="portfolio" class="portfolio-section section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>نماذج من أعمالنا</h2>
-                <p>استعرض بعض المشاريع والواجهات التي تم تنفيذها مسبقاً.</p>
+
+                <h2>
+                    نماذج من أعمالنا
+                </h2>
+
+                <p>
+                    استعرض بعض المشاريع والواجهات التي تم تنفيذها مسبقاً.
+                </p>
+
             </div>
-            <div class="portfolio-filter" role="tablist" aria-label="تصفية معرض الأعمال">
-                <button type="button" class="filter-btn active" data-filter="all" role="tab" aria-selected="true" aria-pressed="true">الكل</button>
-                <button type="button" class="filter-btn" data-filter="restaurant" role="tab" aria-selected="false" aria-pressed="false">مطاعم</button>
-                <button type="button" class="filter-btn" data-filter="corporate" role="tab" aria-selected="false" aria-pressed="false">شركات</button>
-                <button type="button" class="filter-btn" data-filter="medical" role="tab" aria-selected="false" aria-pressed="false">عيادات</button>
+
+            <div
+                class="portfolio-filter"
+                role="tablist"
+                aria-label="تصفية معرض الأعمال"
+            >
+
+                <button
+                    type="button"
+                    class="filter-btn active"
+                    data-filter="all"
+                    role="tab"
+                    aria-selected="true"
+                    aria-pressed="true"
+                >
+                    الكل
+                </button>
+
+                <button
+                    type="button"
+                    class="filter-btn"
+                    data-filter="restaurant"
+                    role="tab"
+                    aria-selected="false"
+                    aria-pressed="false"
+                >
+                    مطاعم
+                </button>
+
+                <button
+                    type="button"
+                    class="filter-btn"
+                    data-filter="corporate"
+                    role="tab"
+                    aria-selected="false"
+                    aria-pressed="false"
+                >
+                    شركات
+                </button>
+
+                <button
+                    type="button"
+                    class="filter-btn"
+                    data-filter="medical"
+                    role="tab"
+                    aria-selected="false"
+                    aria-pressed="false"
+                >
+                    عيادات
+                </button>
+
             </div>
-            <div class="portfolio-grid">
-                <!-- Restaurant Item -->
-                <div class="portfolio-card" data-category="restaurant">
-                    <div class="portfolio-img">
-                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#EEF1F4"/>
-                            <circle cx="200" cy="100" r="50" fill="none" stroke="#B8863A" stroke-width="2" stroke-dasharray="4"/>
-                            <text x="200" y="105" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">قائمة وجبات تفاعلية</text>
-                            <path d="M120,150 L280,150" stroke="rgba(16,24,38,0.15)" stroke-width="8" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <div class="portfolio-body">
-                        <span class="portfolio-category">مطاعم ومقاهي</span>
-                        <h3>منصة مطعم ووجبات</h3>
-                        <p>تصميم مخصص يعرض قائمة الطعام مع حجز الطاولات والطلب المباشر.</p>
-                    </div>
-                </div>
-                <!-- Corporate Item -->
-                <div class="portfolio-card" data-category="corporate">
-                    <div class="portfolio-img">
-                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#EEF1F4"/>
-                            <rect x="80" y="40" width="240" height="120" rx="8" fill="#FFFFFF" stroke="#1F5C6E" stroke-width="1.5"/>
-                            <text x="200" y="105" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">بوابة استشارية متكاملة</text>
-                        </svg>
-                    </div>
-                    <div class="portfolio-body">
-                        <span class="portfolio-category">شركات ومؤسسات</span>
-                        <h3>موقع شركة استشارات</h3>
-                        <p>واجهة تقنية مخصصة لعرض حلول ونشاطات الشركة واستقبال الاستفسارات.</p>
-                    </div>
-                </div>
-                <!-- Medical Item -->
-                <div class="portfolio-card" data-category="medical">
-                    <div class="portfolio-img">
-                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#EEF1F4"/>
-                            <path d="M180,100 L220,100 M200,80 L200,120" stroke="#27c93f" stroke-width="4" stroke-linecap="round"/>
-                            <text x="200" y="150" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">نظام حجز مواعيد العيادة</text>
-                        </svg>
-                    </div>
-                    <div class="portfolio-body">
-                        <span class="portfolio-category">عيادات ومراكز طبية</span>
-                        <h3>موقع مجمع طبي</h3>
-                        <p>منصة لاستعراض خدمات الأطباء وجدولة حجز المواعيد بسهولة.</p>
-                    </div>
-                </div>
-            </div>
+
+            <div
+                class="portfolio-grid"
+                id="portfolioGrid"
+                aria-live="polite"
+            ></div>
+
         </div>
+
     </section>
 
-    <!-- Reviews & Testimonials Section -->
+    <!-- =========================
+         Reviews
+    ========================== -->
     <section id="reviews" class="reviews-section section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>آراء وتقييمات العملاء</h2>
-                <p>ثقة شركائنا هي الدافع الأكبر لتقديم أفضل ما لدينا دائماً.</p>
+
+                <h2>
+                    آراء وتقييمات العملاء
+                </h2>
+
+                <p>
+                    ثقة شركائنا هي الدافع الأكبر لتقديم أفضل ما لدينا دائماً.
+                </p>
+
             </div>
-            
+
             <div class="reviews-grid">
+
                 <div class="review-card">
+
                     <div>
-                        <div class="review-stars">★★★★★</div>
-                        <p>"خدمة ممتازة واحترافية عالية! تم تنفيذ موقع المطعم الخاص بنا بسرعة فائقة والتصميم كان جذاباً ومناسباً جداً لعملائنا."</p>
+
+                        <div class="review-stars">
+                            ★★★★★
+                        </div>
+
+                        <p>
+                            "خدمة ممتازة واحترافية عالية! تم تنفيذ موقع المطعم
+                            الخاص بنا بسرعة فائقة والتصميم كان جذاباً ومناسباً
+                            جداً لعملائنا."
+                        </p>
+
                     </div>
+
                     <div class="review-author">
-                        <div class="avatar">أ</div>
+
+                        <div class="avatar">
+                            أ
+                        </div>
+
                         <div class="author-info">
                             <h4>أحمد م.</h4>
                             <span>مالك سلسلة مطاعم</span>
                         </div>
+
                     </div>
+
                 </div>
 
                 <div class="review-card">
+
                     <div>
-                        <div class="review-stars">★★★★★</div>
-                        <p>"الموقع ساعدنا بشكل كبير في تنظيم حجز المواعيد بالعيادة. السرعة والتجاوب مع الهواتف الذكية كان أسرع مما توقعنا."</p>
+
+                        <div class="review-stars">
+                            ★★★★★
+                        </div>
+
+                        <p>
+                            "الموقع ساعدنا بشكل كبير في تنظيم حجز المواعيد
+                            بالعيادة. السرعة والتجاوب مع الهواتف الذكية كان
+                            أسرع مما توقعنا."
+                        </p>
+
                     </div>
+
                     <div class="review-author">
-                        <div class="avatar">د</div>
+
+                        <div class="avatar">
+                            د
+                        </div>
+
                         <div class="author-info">
                             <h4>د. سارة ع.</h4>
                             <span>مجمع طبي متخصص</span>
                         </div>
+
                     </div>
+
                 </div>
 
                 <div class="review-card">
+
                     <div>
-                        <div class="review-stars">★★★★★</div>
-                        <p>"تعامل راقي ودقة في المواعيد. تم بناء الهوية الرقمية لشركتنا بأعلى معايير الأمان والجودة."</p>
+
+                        <div class="review-stars">
+                            ★★★★★
+                        </div>
+
+                        <p>
+                            "تعامل راقي ودقة في المواعيد. تم بناء الهوية الرقمية
+                            لشركتنا بأعلى معايير الأمان والجودة."
+                        </p>
+
                     </div>
+
                     <div class="review-author">
-                        <div class="avatar">م</div>
+
+                        <div class="avatar">
+                            م
+                        </div>
+
                         <div class="author-info">
                             <h4>محمد الـ.</h4>
                             <span>مدير شركة استشارات</span>
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Review Submission Form -->
+            <!-- Review Submission -->
+
             <div class="review-form-container">
+
                 <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <h3>أضف تقييمك لخدماتنا</h3>
-                    <p>رأيك يهمنا ويسهم في تطوير حلولنا الرقمية</p>
+
+                    <h3>
+                        أضف تقييمك لخدماتنا
+                    </h3>
+
+                    <p>
+                        رأيك يهمنا ويسهم في تطوير حلولنا الرقمية
+                    </p>
+
                 </div>
-                <form id="reviewForm" action="https://formspree.io/f/xqkvqrbp" method="POST" novalidate>
-                    <input type="hidden" name="_subject" value="تقييم جديد للخدمات - DSC Hub">
-                    <!-- Honeypot: hidden from real visitors, bots often auto-fill every field they find -->
+
+                <form
+                    id="reviewForm"
+                    action="https://formspree.io/f/xqkvqrbp"
+                    method="POST"
+                    novalidate
+                >
+
+                    <input
+                        type="hidden"
+                        name="_subject"
+                        value="تقييم جديد للخدمات - DSC Hub"
+                    >
+
                     <div class="hp-field" aria-hidden="true">
-                        <label for="reviewWebsite">اتركه فارغاً</label>
-                        <input type="text" id="reviewWebsite" name="_gotcha" tabindex="-1" autocomplete="off">
+
+                        <label for="reviewWebsite">
+                            اتركه فارغاً
+                        </label>
+
+                        <input
+                            type="text"
+                            id="reviewWebsite"
+                            name="_gotcha"
+                            tabindex="-1"
+                            autocomplete="off"
+                        >
+
                     </div>
+
                     <div class="form-group">
-                        <label>التقييم بالنجوم *</label>
+
+                        <label>
+                            التقييم بالنجوم *
+                        </label>
+
                         <div class="star-rating">
-                            <input type="radio" id="star5" name="rating" value="5 Stars" required><label for="star5" title="5 نجوم">★</label>
-                            <input type="radio" id="star4" name="rating" value="4 Stars"><label for="star4" title="4 نجوم">★</label>
-                            <input type="radio" id="star3" name="rating" value="3 Stars"><label for="star3" title="3 نجوم">★</label>
-                            <input type="radio" id="star2" name="rating" value="2 Stars"><label for="star2" title="2 نجمتان">★</label>
-                            <input type="radio" id="star1" name="rating" value="1 Star"><label for="star1" title="نجمة واحدة">★</label>
+
+                            <input
+                                type="radio"
+                                id="star5"
+                                name="rating"
+                                value="5 Stars"
+                                required
+                            >
+                            <label for="star5" title="5 نجوم">★</label>
+
+                            <input
+                                type="radio"
+                                id="star4"
+                                name="rating"
+                                value="4 Stars"
+                            >
+                            <label for="star4" title="4 نجوم">★</label>
+
+                            <input
+                                type="radio"
+                                id="star3"
+                                name="rating"
+                                value="3 Stars"
+                            >
+                            <label for="star3" title="3 نجوم">★</label>
+
+                            <input
+                                type="radio"
+                                id="star2"
+                                name="rating"
+                                value="2 Stars"
+                            >
+                            <label for="star2" title="نجمتان">★</label>
+
+                            <input
+                                type="radio"
+                                id="star1"
+                                name="rating"
+                                value="1 Star"
+                            >
+                            <label for="star1" title="نجمة واحدة">★</label>
+
                         </div>
+
                     </div>
+
                     <div class="form-grid">
+
                         <div class="form-group">
-                            <label for="reviewerName">الاسم الكريم *</label>
-                            <input type="text" id="reviewerName" name="reviewerName" required placeholder="أدخل اسمك" autocomplete="name">
+
+                            <label for="reviewerName">
+                                الاسم الكريم *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="reviewerName"
+                                name="reviewerName"
+                                required
+                                placeholder="أدخل اسمك"
+                                autocomplete="name"
+                            >
+
                         </div>
+
                         <div class="form-group">
-                            <label for="reviewerRole">طبيعة النشاط / المسمى *</label>
-                            <input type="text" id="reviewerRole" name="reviewerRole" required placeholder="مثال: صاحب متجر / طبيب">
+
+                            <label for="reviewerRole">
+                                طبيعة النشاط / المسمى *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="reviewerRole"
+                                name="reviewerRole"
+                                required
+                                placeholder="مثال: صاحب متجر / طبيب"
+                            >
+
                         </div>
+
                         <div class="form-group full-width">
-                            <label for="reviewMessage">تعليقك وتقييمك *</label>
-                            <textarea id="reviewMessage" name="reviewMessage" rows="3" required placeholder="اكتب رأيك وتجربتك في التعامل معنا..."></textarea>
+
+                            <label for="reviewMessage">
+                                تعليقك وتقييمك *
+                            </label>
+
+                            <textarea
+                                id="reviewMessage"
+                                name="reviewMessage"
+                                rows="3"
+                                required
+                                placeholder="اكتب رأيك وتجربتك في التعامل معنا..."
+                            ></textarea>
+
                         </div>
+
                     </div>
+
                     <div class="captcha-wrap">
                         <div id="review-hcaptcha"></div>
                     </div>
-                    <button type="submit" id="reviewSubmitBtn" class="btn btn-secondary btn-full">إرسال التقييم</button>
-                    <div id="reviewStatus" class="form-status" role="alert"></div>
+
+                    <button
+                        type="submit"
+                        id="reviewSubmitBtn"
+                        class="btn btn-secondary btn-full"
+                    >
+                        إرسال التقييم
+                    </button>
+
+                    <div
+                        id="reviewStatus"
+                        class="form-status"
+                        role="alert"
+                    ></div>
+
                 </form>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- CTA Section -->
+    <!-- =========================
+         CTA
+    ========================== -->
     <section class="section-padding">
+
         <div class="container">
+
             <div class="cta-banner">
-                <h2>هل نشاطك جاهز للظهور بشكل أفضل؟</h2>
-                <p>أخبرنا عن نشاطك، وسنساعدك في بناء موقع إلكتروني يعكس احترافيتك ويقدم خدماتك لعملائك بطريقة واضحة ومميزة.</p>
+
+                <h2>
+                    هل نشاطك جاهز للظهور بشكل أفضل؟
+                </h2>
+
+                <p>
+                    أخبرنا عن نشاطك، وسنساعدك في بناء موقع إلكتروني
+                    يعكس احترافيتك ويقدم خدماتك لعملائك بطريقة واضحة ومميزة.
+                </p>
+
                 <div class="btn-group">
-                    <a href="#order" class="btn btn-primary">ابدأ مشروعك الآن</a>
-                    <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">تواصل عبر WhatsApp</a>
+
+                    <a href="#order" class="btn btn-primary">
+                        ابدأ مشروعك الآن
+                    </a>
+
+                    <a
+                        href="https://wa.me/249964629236"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-whatsapp"
+                    >
+                        تواصل عبر WhatsApp
+                    </a>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- Order Form Section -->
+    <!-- =========================
+         Order Form
+    ========================== -->
     <section id="order" class="form-section section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>اطلب موقعك الآن</h2>
-                <p>قم بملء النموذج وسنتواصل معك لمناقشة التفاصيل وبدء التنفيذ.</p>
+
+                <h2>
+                    اطلب موقعك الآن
+                </h2>
+
+                <p>
+                    قم بملء النموذج وسنتواصل معك لمناقشة التفاصيل وبدء التنفيذ.
+                </p>
+
             </div>
+
             <div class="form-container">
-                <form id="orderForm" action="https://formspree.io/f/xqkvqrbp" method="POST" novalidate>
-                    <!-- Honeypot: hidden from real visitors, bots often auto-fill every field they find -->
+
+                <form
+                    id="orderForm"
+                    action="https://formspree.io/f/xqkvqrbp"
+                    method="POST"
+                    novalidate
+                >
+
                     <div class="hp-field" aria-hidden="true">
-                        <label for="orderWebsite">اتركه فارغاً</label>
-                        <input type="text" id="orderWebsite" name="_gotcha" tabindex="-1" autocomplete="off">
+
+                        <label for="orderWebsite">
+                            اتركه فارغاً
+                        </label>
+
+                        <input
+                            type="text"
+                            id="orderWebsite"
+                            name="_gotcha"
+                            tabindex="-1"
+                            autocomplete="off"
+                        >
+
                     </div>
+
                     <div class="form-grid">
+
                         <div class="form-group">
-                            <label for="fullName">الاسم الكامل *</label>
-                            <input type="text" id="fullName" name="fullName" required placeholder="أدخل اسمك" autocomplete="name">
+
+                            <label for="fullName">
+                                الاسم الكامل *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="fullName"
+                                required
+                                placeholder="أدخل اسمك"
+                                autocomplete="name"
+                            >
+
                         </div>
+
                         <div class="form-group">
-                            <label for="businessName">اسم النشاط التجاري *</label>
-                            <input type="text" id="businessName" name="businessName" required placeholder="اسم شركتك أو مشروعك" autocomplete="organization">
+
+                            <label for="businessName">
+                                اسم النشاط التجاري *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="businessName"
+                                name="businessName"
+                                required
+                                placeholder="اسم شركتك أو مشروعك"
+                                autocomplete="organization"
+                            >
+
                         </div>
+
                         <div class="form-group">
-                            <label for="businessType">نوع النشاط *</label>
-                            <select id="businessType" name="businessType" required>
-                                <option value="">اختر نوع النشاط...</option>
-                                <option value="restaurant">مطعم / مقهى</option>
-                                <option value="company">شركة / مؤسسة</option>
-                                <option value="clinic">عيادة / مركز طبي</option>
-                                <option value="store">متجر إلكتروني</option>
-                                <option value="realestate">عقارات / مقاولات</option>
-                                <option value="personal">موقع شخصي / معرض أعمال</option>
-                                <option value="other">نشاط آخر</option>
+
+                            <label for="businessType">
+                                نوع النشاط *
+                            </label>
+
+                            <select
+                                id="businessType"
+                                name="businessType"
+                                required
+                            >
+                                <option value="">
+                                    اختر نوع النشاط...
+                                </option>
+
+                                <option value="restaurant">
+                                    مطعم / مقهى
+                                </option>
+
+                                <option value="company">
+                                    شركة / مؤسسة
+                                </option>
+
+                                <option value="clinic">
+                                    عيادة / مركز طبي
+                                </option>
+
+                                <option value="store">
+                                    متجر إلكتروني
+                                </option>
+
+                                <option value="realestate">
+                                    عقارات / مقاولات
+                                </option>
+
+                                <option value="personal">
+                                    موقع شخصي / معرض أعمال
+                                </option>
+
+                                <option value="other">
+                                    نشاط آخر
+                                </option>
+
                             </select>
+
                         </div>
+
                         <div class="form-group">
-                            <label for="location">المدينة / الدولة *</label>
-                            <input type="text" id="location" name="location" required placeholder="مثال: كسلا، السودان / الرياض، السعودية">
+
+                            <label for="location">
+                                المدينة / الدولة *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                required
+                                placeholder="مثال: كسلا، السودان / الرياض، السعودية"
+                            >
+
                         </div>
+
                         <div class="form-group">
-                            <label for="whatsapp">رقم الواتساب *</label>
-                            <input type="tel" id="whatsapp" name="whatsapp" required placeholder="مع المفتاح الدولي" inputmode="tel" autocomplete="tel">
+
+                            <label for="whatsapp">
+                                رقم الواتساب *
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="whatsapp"
+                                name="whatsapp"
+                                required
+                                placeholder="مع المفتاح الدولي"
+                                inputmode="tel"
+                                autocomplete="tel"
+                            >
+
                         </div>
+
                         <div class="form-group">
-                            <label for="email">البريد الإلكتروني</label>
-                            <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email">
+
+                            <label for="email">
+                                البريد الإلكتروني
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="name@example.com"
+                                autocomplete="email"
+                            >
+
                         </div>
+
                         <div class="form-group">
-                            <label for="hasWebsite">هل لديك موقع إلكتروني حالياً؟</label>
+
+                            <label for="hasWebsite">
+                                هل لديك موقع إلكتروني حالياً؟
+                            </label>
+
                             <select id="hasWebsite" name="hasWebsite">
-                                <option value="no">لا</option>
-                                <option value="yes">نعم، أريد تحديثه</option>
+
+                                <option value="no">
+                                    لا
+                                </option>
+
+                                <option value="yes">
+                                    نعم، أريد تحديثه
+                                </option>
+
                             </select>
+
                         </div>
+
                         <div class="form-group">
-                            <label for="needMultiLang">هل تحتاج لغتين (عربي/إنجليزي)؟</label>
-                            <select id="needMultiLang" name="needMultiLang">
-                                <option value="no">لغة واحدة فقط</option>
-                                <option value="yes">نعم، متعدد اللغات</option>
+
+                            <label for="needMultiLang">
+                                هل تحتاج لغتين (عربي/إنجليزي)؟
+                            </label>
+
+                            <select
+                                id="needMultiLang"
+                                name="needMultiLang"
+                            >
+
+                                <option value="no">
+                                    لغة واحدة فقط
+                                </option>
+
+                                <option value="yes">
+                                    نعم، متعدد اللغات
+                                </option>
+
                             </select>
+
                         </div>
+
                         <div class="form-group full-width">
-                            <label for="details">تفاصيل إضافية عن خدماتك ومتطلباتك</label>
-                            <textarea id="details" name="details" rows="4" placeholder="اكتب هنا أي تفاصيل تود مشاركتها معنا..."></textarea>
+
+                            <label for="details">
+                                تفاصيل إضافية عن خدماتك ومتطلباتك
+                            </label>
+
+                            <textarea
+                                id="details"
+                                name="details"
+                                rows="4"
+                                placeholder="اكتب هنا أي تفاصيل تود مشاركتها معنا..."
+                            ></textarea>
+
                         </div>
+
                     </div>
+
                     <div class="captcha-wrap">
                         <div id="order-hcaptcha"></div>
                     </div>
-                    <button type="submit" id="submitBtn" class="btn btn-primary btn-full">إرسال طلب الموقع</button>
-                    <div id="formStatus" class="form-status" role="alert"></div>
+
+                    <button
+                        type="submit"
+                        id="submitBtn"
+                        class="btn btn-primary btn-full"
+                    >
+                        إرسال طلب الموقع
+                    </button>
+
+                    <div
+                        id="formStatus"
+                        class="form-status"
+                        role="alert"
+                    ></div>
+
                 </form>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- FAQ Section -->
+    <!-- =========================
+         FAQ
+    ========================== -->
     <section id="faq" class="section-padding">
+
         <div class="container">
+
             <div class="section-header">
-                <h2>الأسئلة الشائعة</h2>
-                <p>إجابات شفافة على أكثر الاستفسارات شيوعاً حول خدماتنا.</p>
+
+                <h2>
+                    الأسئلة الشائعة
+                </h2>
+
+                <p>
+                    إجابات شفافة على أكثر الاستفسارات شيوعاً حول خدماتنا.
+                </p>
+
             </div>
+
             <div class="faq-list">
+
                 <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-1" aria-expanded="false" aria-controls="faq-answer-1">
-                        <span>هل تصممون مواقع لجميع الأنشطة؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
+
+                    <button
+                        type="button"
+                        class="faq-question"
+                        id="faq-btn-1"
+                        aria-expanded="false"
+                        aria-controls="faq-answer-1"
+                    >
+                        <span>
+                            هل تصممون مواقع لجميع الأنشطة؟
+                        </span>
+
+                        <span class="faq-icon" aria-hidden="true">
+                            ▼
+                        </span>
+
                     </button>
-                    <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-btn-1" aria-hidden="true">
-                        <p>نعم، نصمم ونطور مواقع مخصصة لكل الأنشطة التجارية، المتاجر، المؤسسات، الأفراد، والعيادات وفق الهوية المحددة لكل مجال.</p>
+
+                    <div
+                        class="faq-answer"
+                        id="faq-answer-1"
+                        role="region"
+                        aria-labelledby="faq-btn-1"
+                        aria-hidden="true"
+                    >
+                        <p>
+                            نعم، نصمم ونطور مواقع مخصصة لكل الأنشطة التجارية،
+                            المتاجر، المؤسسات، الأفراد، والعيادات وفق الهوية
+                            المحددة لكل مجال.
+                        </p>
                     </div>
+
                 </div>
+
                 <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-2" aria-expanded="false" aria-controls="faq-answer-2">
-                        <span>هل تستخدمون قوالب جاهزة؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
+
+                    <button
+                        type="button"
+                        class="faq-question"
+                        id="faq-btn-2"
+                        aria-expanded="false"
+                        aria-controls="faq-answer-2"
+                    >
+                        <span>
+                            هل تستخدمون قوالب جاهزة؟
+                        </span>
+
+                        <span class="faq-icon" aria-hidden="true">
+                            ▼
+                        </span>
+
                     </button>
-                    <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-btn-2" aria-hidden="true">
-                        <p>لا، يتم التخطيط والتصميم والتطوير بناءً على متطلبات وهوية مشروعك المحددة دون الاعتماد على قوالب جاهزة مكررة.</p>
+
+                    <div
+                        class="faq-answer"
+                        id="faq-answer-2"
+                        role="region"
+                        aria-labelledby="faq-btn-2"
+                        aria-hidden="true"
+                    >
+                        <p>
+                            لا، يتم التخطيط والتصميم والتطوير بناءً على متطلبات
+                            وهوية مشروعك المحددة دون الاعتماد على قوالب جاهزة مكررة.
+                        </p>
                     </div>
+
                 </div>
+
                 <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-3" aria-expanded="false" aria-controls="faq-answer-3">
-                        <span>هل الموقع يعمل على الهواتف والأجهزة الذكية؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
+
+                    <button
+                        type="button"
+                        class="faq-question"
+                        id="faq-btn-3"
+                        aria-expanded="false"
+                        aria-controls="faq-answer-3"
+                    >
+                        <span>
+                            هل الموقع يعمل على الهواتف والأجهزة الذكية؟
+                        </span>
+
+                        <span class="faq-icon" aria-hidden="true">
+                            ▼
+                        </span>
+
                     </button>
-                    <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-btn-3" aria-hidden="true">
-                        <p>بالتأكيد، نعتمد أسلوب تصميم متجاوب (Responsive Design) ليكون موقعك مرناً وسريعاً على مختلف أحجام الشاشات والأجهزة.</p>
+
+                    <div
+                        class="faq-answer"
+                        id="faq-answer-3"
+                        role="region"
+                        aria-labelledby="faq-btn-3"
+                        aria-hidden="true"
+                    >
+                        <p>
+                            بالتأكيد، نعتمد أسلوب تصميم متجاوب (Responsive Design)
+                            ليكون موقعك مرناً وسريعاً على مختلف أحجام الشاشات والأجهزة.
+                        </p>
                     </div>
+
                 </div>
+
                 <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-4" aria-expanded="false" aria-controls="faq-answer-4">
-                        <span>هل يمكن ربط الموقع مباشرة بـ WhatsApp؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
+
+                    <button
+                        type="button"
+                        class="faq-question"
+                        id="faq-btn-4"
+                        aria-expanded="false"
+                        aria-controls="faq-answer-4"
+                    >
+                        <span>
+                            هل يمكن ربط الموقع مباشرة بـ WhatsApp؟
+                        </span>
+
+                        <span class="faq-icon" aria-hidden="true">
+                            ▼
+                        </span>
+
                     </button>
-                    <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-btn-4" aria-hidden="true">
-                        <p>نعم، نقوم بإضافة أزرار الربط والتواصل المباشر مع الواتساب والخرائط وجميع وسائل التواصل الخاصة بنشاطك.</p>
+
+                    <div
+                        class="faq-answer"
+                        id="faq-answer-4"
+                        role="region"
+                        aria-labelledby="faq-btn-4"
+                        aria-hidden="true"
+                    >
+                        <p>
+                            نعم، نقوم بإضافة أزرار الربط والتواصل المباشر
+                            مع الواتساب والخرائط وجميع وسائل التواصل الخاصة بنشاطك.
+                        </p>
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- Footer -->
+    <!-- =========================
+         Footer
+    ========================== -->
     <footer class="footer">
+
         <div class="container">
+
             <div class="footer-grid">
+
                 <div>
+
                     <a href="#" class="logo footer-logo">
-                        <img src="logo.png" alt="DSC Nova" class="logo-img logo-img-on-dark" width="170" height="40" onerror="this.parentElement.style.background='none'; this.style.display='none'">
-                        <span class="logo-tagline">مركز الدعم الرقمي</span>
+
+                        <img
+                            src="logo.png"
+                            alt="DSC Nova"
+                            class="logo-img logo-img-on-dark"
+                            width="170"
+                            height="40"
+                            onerror="
+                                this.parentElement.style.background='none';
+                                this.style.display='none'
+                            "
+                        >
+
+                        <span class="logo-tagline">
+                            مركز الدعم الرقمي
+                        </span>
+
                     </a>
-                    <p>نحوّل نشاطك التجاري إلى حضور رقمي احترافي وعصري يرفع من ثقة عملائك ويبني هويتك الرقمية الخاصة.</p>
+
+                    <p>
+                        نحوّل نشاطك التجاري إلى حضور رقمي احترافي وعصري
+                        يرفع من ثقة عملائك ويبني هويتك الرقمية الخاصة.
+                    </p>
+
                 </div>
+
                 <div>
-                    <h4 class="footer-title">الروابط السريعة</h4>
+
+                    <h4 class="footer-title">
+                        الروابط السريعة
+                    </h4>
+
                     <ul class="footer-links">
-                        <li><a href="#hero">الرئيسية</a></li>
-                        <li><a href="#services">خدماتنا</a></li>
-                        <li><a href="#portfolio">أعمالنا</a></li>
-                        <li><a href="#reviews">التقييمات</a></li>
-                        <li><a href="#faq">الأسئلة الشائعة</a></li>
+
+                        <li>
+                            <a href="#hero">الرئيسية</a>
+                        </li>
+
+                        <li>
+                            <a href="#services">خدماتنا</a>
+                        </li>
+
+                        <li>
+                            <a href="#portfolio">أعمالنا</a>
+                        </li>
+
+                        <li>
+                            <a href="#reviews">التقييمات</a>
+                        </li>
+
+                        <li>
+                            <a href="#faq">الأسئلة الشائعة</a>
+                        </li>
+
                     </ul>
+
                 </div>
+
                 <div>
-                    <h4 class="footer-title">الخدمات</h4>
+
+                    <h4 class="footer-title">
+                        الخدمات
+                    </h4>
+
                     <ul class="footer-links">
-                        <li><a href="#services">تصميم المواقع</a></li>
-                        <li><a href="#services">تطوير البرمجيات</a></li>
-                        <li><a href="#services">المتاجر الإلكترونية</a></li>
-                        <li><a href="#services">المواقع الطبية</a></li>
+
+                        <li>
+                            <a href="#services">
+                                تصميم المواقع
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#services">
+                                تطوير البرمجيات
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#services">
+                                المتاجر الإلكترونية
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#services">
+                                المواقع الطبية
+                            </a>
+                        </li>
+
                     </ul>
+
                 </div>
+
                 <div>
-                    <h4 class="footer-title">تواصل معنا</h4>
-                    <p>البريد: support@dsc-hub.com</p>
-                    <p>الواتساب: 249964629236+</p>
-                    <p>الموقع: كسلا / الخرطوم / الرياض</p>
+
+                    <h4 class="footer-title">
+                        تواصل معنا
+                    </h4>
+
+                    <p>
+                        البريد: support@dsc-hub.com
+                    </p>
+
+                    <p>
+                        الواتساب: 249964629236+
+                    </p>
+
+                    <p>
+                        الموقع: كسلا / الخرطوم / الرياض
+                    </p>
+
                 </div>
+
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2026 مركز الدعم الرقمي DSC — جميع الحقوق محفوظة.</p>
+
+                <p>
+                    &copy; 2026 مركز الدعم الرقمي DSC — جميع الحقوق محفوظة.
+                </p>
+
             </div>
+
         </div>
+
     </footer>
 
-    <!-- Vanilla JavaScript -->
+    <!-- =========================
+         JavaScript
+    ========================== -->
     <script>
-        // =========================
-        // Firebase Configuration
-        // =========================
-        // Replace with your own project's config from:
-        // Firebase Console → Project Settings → General → Your apps → SDK setup and configuration
+
+        /* =====================================================
+           Firebase Configuration
+           ===================================================== */
+
         const firebaseConfig = {
+
             apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
-            authDomain: "dsc-8e421.firebaseapp.com",
-            projectId: "dsc-8e421",
-            storageBucket: "dsc-8e421.firebasestorage.app",
-            messagingSenderId: "157087109660",
-            appId: "1:157087109660:web:6c5419e63714d3b4ca85d9"
+
+            authDomain:
+                "dsc-8e421.firebaseapp.com",
+
+            projectId:
+                "dsc-8e421",
+
+            storageBucket:
+                "dsc-8e421.firebasestorage.app",
+
+            messagingSenderId:
+                "157087109660",
+
+            appId:
+                "1:157087109660:web:6c5419e63714d3b4ca85d9"
+
         };
 
         firebase.initializeApp(firebaseConfig);
+
         const db = firebase.firestore();
 
-        // =========================
-        // hCaptcha Configuration
-        // =========================
-        // Replace with your site key from: https://dashboard.hcaptcha.com/sites
-        const HCAPTCHA_SITE_KEY = '36c0929c-b16e-4e56-83e0-6f5c039cf2b8';
+
+        /* =====================================================
+           hCaptcha
+           ===================================================== */
+
+        const HCAPTCHA_SITE_KEY =
+            '36c0929c-b16e-4e56-83e0-6f5c039cf2b8';
 
         let orderCaptchaWidgetId = null;
         let reviewCaptchaWidgetId = null;
 
-        // Called automatically by the hCaptcha script once it finishes loading
+
         function onHcaptchaLoad() {
-            orderCaptchaWidgetId = hcaptcha.render('order-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
-            reviewCaptchaWidgetId = hcaptcha.render('review-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
+
+            if (
+                document.getElementById('order-hcaptcha') &&
+                document.getElementById('review-hcaptcha')
+            ) {
+
+                orderCaptchaWidgetId =
+                    hcaptcha.render(
+                        'order-hcaptcha',
+                        {
+                            sitekey: HCAPTCHA_SITE_KEY
+                        }
+                    );
+
+                reviewCaptchaWidgetId =
+                    hcaptcha.render(
+                        'review-hcaptcha',
+                        {
+                            sitekey: HCAPTCHA_SITE_KEY
+                        }
+                    );
+
+            }
+
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Accessible Mobile Menu Toggle
-            const hamburger = document.getElementById('hamburger');
-            const navMenu = document.getElementById('nav-menu');
 
-            hamburger.addEventListener('click', () => {
-                const isActive = navMenu.classList.toggle('active');
-                hamburger.setAttribute('aria-expanded', String(isActive));
-                hamburger.setAttribute('aria-label', isActive ? 'إغلاق قائمة التصفح' : 'فتح قائمة التصفح');
-            });
+        /* =====================================================
+           Portfolio Data
+           
+           IMPORTANT:
+           Portfolio does NOT use Firebase.
 
-            // Close Mobile Menu for all links AND CTA Buttons inside the Nav
-            const navItems = document.querySelectorAll('.nav-link, .nav-btn');
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    navMenu.classList.remove('active');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    hamburger.setAttribute('aria-label', 'فتح قائمة التصفح');
-                });
-            });
+           Add / edit projects here.
+           Images must exist inside /img/
+           ===================================================== */
 
-            // Accessible FAQ Accordion Toggle with aria-hidden
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const questionBtn = item.querySelector('.faq-question');
-                const answer = item.querySelector('.faq-answer');
+        const portfolioProjects = [
 
-                questionBtn.addEventListener('click', () => {
-                    const isOpen = item.classList.contains('active');
+            {
+                id: "royal-restaurant",
 
-                    faqItems.forEach(otherItem => {
-                        otherItem.classList.remove('active');
-                        const otherBtn = otherItem.querySelector('.faq-question');
-                        const otherAnswer = otherItem.querySelector('.faq-answer');
-                        otherBtn.setAttribute('aria-expanded', 'false');
-                        otherAnswer.setAttribute('aria-hidden', 'true');
-                        otherAnswer.style.maxHeight = null;
-                    });
+                title: "Royal Taste Restaurant",
 
-                    if (!isOpen) {
-                        item.classList.add('active');
-                        questionBtn.setAttribute('aria-expanded', 'true');
-                        answer.setAttribute('aria-hidden', 'false');
-                        answer.style.maxHeight = answer.scrollHeight + 'px';
-                    }
-                });
-            });
+                category: "restaurant",
 
-            // Portfolio Filter & Accessibility Handling
-            const filterBtns = document.querySelectorAll('.filter-btn');
+                categoryLabel: "مطاعم ومقاهي",
 
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => {
-                        b.classList.remove('active');
-                        b.setAttribute('aria-selected', 'false');
-                        b.setAttribute('aria-pressed', 'false');
-                    });
+                image: "img/royal-restaurant.jpg",
 
-                    btn.classList.add('active');
-                    btn.setAttribute('aria-selected', 'true');
-                    btn.setAttribute('aria-pressed', 'true');
+                description:
+                    "موقع إلكتروني احترافي ومتجاوب لمطعم بتصميم عصري وتجربة استخدام سهلة.",
 
-                    const filterValue = btn.getAttribute('data-filter');
-                    // Re-query every click so projects added dynamically from the
-                    // admin dashboard after page load are included in the filter too.
-                    document.querySelectorAll('.portfolio-card').forEach(card => {
-                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
+                projectUrl:
+                    "https://mohamaedtowfigmahmoud-maker.github.io/Royal-Restaurant/"
+
+            },
+
+            {
+                id: "dsc-website",
+
+                title: "مركز الدعم الرقمي DSC",
+
+                category: "corporate",
+
+                categoryLabel: "شركات ومؤسسات",
+
+                image: "img/dsc-website.jpg",
+
+                description:
+                    "موقع إلكتروني احترافي لمركز الدعم الرقمي يعرض الخدمات والحلول الرقمية بطريقة عصرية.",
+
+                projectUrl:
+                    "https://dsc-hub.com/"
+
+            },
+
+            {
+                id: "medical-project",
+
+                title: "موقع مجمع طبي",
+
+                category: "medical",
+
+                categoryLabel: "عيادات ومراكز طبية",
+
+                image: "img/clinic.jpg",
+
+                description:
+                    "واجهة إلكترونية مخصصة لعرض الخدمات الطبية والأطباء ومعلومات المركز.",
+
+                projectUrl: ""
+
+            }
+
+        ];
+
+
+        /* =====================================================
+           Render Portfolio
+           ===================================================== */
+
+        function renderPortfolio() {
+
+            const portfolioGrid =
+                document.getElementById("portfolioGrid");
+
+            if (!portfolioGrid) {
+                return;
+            }
+
+
+            portfolioGrid.innerHTML = "";
+
+
+            if (!portfolioProjects.length) {
+
+                portfolioGrid.innerHTML = `
+
+                    <div class="portfolio-empty">
+
+                        لا توجد مشاريع مضافة حالياً.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            portfolioProjects.forEach(project => {
+
+                const card =
+                    document.createElement("article");
+
+                card.className =
+                    "portfolio-card";
+
+                card.setAttribute(
+                    "data-category",
+                    project.category || "other"
+                );
+
+
+                card.innerHTML = `
+
+                    <div class="portfolio-img">
+
+                        <img
+                            src="${project.image}"
+                            alt="${project.title}"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="portfolio-body">
+
+                        <span class="portfolio-category">
+                            ${project.categoryLabel || ""}
+                        </span>
+
+                        <h3>
+                            ${project.title || ""}
+                        </h3>
+
+                        <p>
+                            ${project.description || ""}
+                        </p>
+
+                        ${
+                            project.projectUrl
+                                ? `
+                                    <a
+                                        class="portfolio-link"
+                                        href="${project.projectUrl}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="زيارة مشروع ${project.title}"
+                                    >
+                                        زيارة المشروع ←
+                                    </a>
+                                `
+                                : ""
                         }
-                    });
-                });
-            });
 
-            // Load real portfolio projects added via the admin dashboard
-            const portfolioGrid = document.querySelector('.portfolio-grid');
-            db.collection('portfolio').orderBy('createdAt', 'desc').get()
-                .then(snapshot => {
-                    snapshot.forEach(doc => {
-                        const p = doc.data();
-                        const card = document.createElement('div');
-                        card.className = 'portfolio-card';
-                        card.setAttribute('data-category', p.category || 'other');
-                        card.innerHTML = `
-                            <div class="portfolio-img">
-                                <img src="${p.imageUrl}" alt="${p.title || ''}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                            </div>
-                            <div class="portfolio-body">
-                                <span class="portfolio-category">${p.categoryLabel || ''}</span>
-                                <h3>${p.title || ''}</h3>
-                                <p>${p.description || ''}</p>
-                                ${p.projectUrl ? `<a class="portfolio-link" href="${p.projectUrl}" target="_blank" rel="noopener noreferrer">زيارة المشروع ←</a>` : ''}
-                            </div>
-                        `;
-                        portfolioGrid.appendChild(card);
-                    });
-                })
-                .catch(err => console.error('تعذر تحميل مشاريع المعرض:', err));
+                    </div>
 
-            // Load approved customer reviews (moderated from the admin dashboard).
-            // Filtering status client-side (instead of a server-side "where") avoids
-            // needing a Firestore composite index for this query.
-            const reviewsGrid = document.querySelector('.reviews-grid');
-            db.collection('reviews').orderBy('createdAt', 'desc').get()
-                .then(snapshot => {
-                    snapshot.forEach(doc => {
-                        const r = doc.data();
-                        if (r.status !== 'approved') return;
-                        const starCount = parseInt(r.rating) || 5;
-                        const initial = (r.reviewerName || '').trim().charAt(0) || '؟';
-                        const card = document.createElement('div');
-                        card.className = 'review-card';
-                        card.innerHTML = `
-                            <div>
-                                <div class="review-stars" aria-label="${starCount} من 5 نجوم">${'★'.repeat(starCount)}</div>
-                                <p>"${r.reviewMessage || ''}"</p>
-                            </div>
-                            <div class="review-author">
-                                <div class="avatar" aria-hidden="true">${initial}</div>
-                                <div class="author-info">
-                                    <h4>${r.reviewerName || ''}</h4>
-                                    <span>${r.reviewerRole || ''}</span>
+                `;
+
+
+                const image =
+                    card.querySelector("img");
+
+
+                if (image) {
+
+                    image.addEventListener(
+                        "error",
+                        function () {
+
+                            const imageContainer =
+                                this.parentElement;
+
+                            imageContainer.innerHTML = `
+
+                                <div class="portfolio-image-error">
+
+                                    تعذر تحميل صورة المشروع
+
                                 </div>
-                            </div>
-                        `;
-                        reviewsGrid.appendChild(card);
+
+                            `;
+
+                        }
+                    );
+
+                }
+
+
+                portfolioGrid.appendChild(card);
+
+            });
+
+        }
+
+
+        /* =====================================================
+           Portfolio Filters
+           ===================================================== */
+
+        function setupPortfolioFilters() {
+
+            const filterBtns =
+                document.querySelectorAll(".filter-btn");
+
+
+            filterBtns.forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        filterBtns.forEach(btn => {
+
+                            btn.classList.remove("active");
+
+                            btn.setAttribute(
+                                "aria-selected",
+                                "false"
+                            );
+
+                            btn.setAttribute(
+                                "aria-pressed",
+                                "false"
+                            );
+
+                        });
+
+
+                        button.classList.add("active");
+
+                        button.setAttribute(
+                            "aria-selected",
+                            "true"
+                        );
+
+                        button.setAttribute(
+                            "aria-pressed",
+                            "true"
+                        );
+
+
+                        const filter =
+                            button.getAttribute(
+                                "data-filter"
+                            );
+
+
+                        const cards =
+                            document.querySelectorAll(
+                                ".portfolio-card"
+                            );
+
+
+                        cards.forEach(card => {
+
+                            const category =
+                                card.getAttribute(
+                                    "data-category"
+                                );
+
+
+                            if (
+                                filter === "all" ||
+                                category === filter
+                            ) {
+
+                                card.style.display = "";
+
+                            } else {
+
+                                card.style.display = "none";
+
+                            }
+
+                        });
+
+                    }
+                );
+
+            });
+
+        }
+
+
+        /* =====================================================
+           DOM Loaded
+           ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+
+                /* =========================
+                   Mobile Menu
+                ========================== */
+
+                const hamburger =
+                    document.getElementById("hamburger");
+
+                const navMenu =
+                    document.getElementById("nav-menu");
+
+
+                if (hamburger && navMenu) {
+
+                    hamburger.addEventListener(
+                        "click",
+                        () => {
+
+                            const isActive =
+                                navMenu.classList.toggle(
+                                    "active"
+                                );
+
+
+                            hamburger.setAttribute(
+                                "aria-expanded",
+                                String(isActive)
+                            );
+
+
+                            hamburger.setAttribute(
+                                "aria-label",
+                                isActive
+                                    ? "إغلاق قائمة التصفح"
+                                    : "فتح قائمة التصفح"
+                            );
+
+                        }
+                    );
+
+
+                    const navItems =
+                        document.querySelectorAll(
+                            ".nav-link, .nav-btn"
+                        );
+
+
+                    navItems.forEach(item => {
+
+                        item.addEventListener(
+                            "click",
+                            () => {
+
+                                navMenu.classList.remove(
+                                    "active"
+                                );
+
+                                hamburger.setAttribute(
+                                    "aria-expanded",
+                                    "false"
+                                );
+
+                                hamburger.setAttribute(
+                                    "aria-label",
+                                    "فتح قائمة التصفح"
+                                );
+
+                            }
+                        );
+
                     });
-                })
-                .catch(err => {
-                    console.error('تعذر تحميل التقييمات:', err);
-                    reviewsGrid.insertAdjacentHTML('beforeend', `<div style="grid-column:1/-1; font-size:0.75rem; color:#ff5f56; direction:ltr; text-align:center; padding:1rem;">reviews load error: ${err.message || err}</div>`);
+
+                }
+
+
+                /* =========================
+                   FAQ
+                ========================== */
+
+                const faqItems =
+                    document.querySelectorAll(
+                        ".faq-item"
+                    );
+
+
+                faqItems.forEach(item => {
+
+                    const questionBtn =
+                        item.querySelector(
+                            ".faq-question"
+                        );
+
+                    const answer =
+                        item.querySelector(
+                            ".faq-answer"
+                        );
+
+
+                    questionBtn.addEventListener(
+                        "click",
+                        () => {
+
+                            const isOpen =
+                                item.classList.contains(
+                                    "active"
+                                );
+
+
+                            faqItems.forEach(
+                                otherItem => {
+
+                                    otherItem.classList.remove(
+                                        "active"
+                                    );
+
+
+                                    const otherBtn =
+                                        otherItem.querySelector(
+                                            ".faq-question"
+                                        );
+
+
+                                    const otherAnswer =
+                                        otherItem.querySelector(
+                                            ".faq-answer"
+                                        );
+
+
+                                    otherBtn.setAttribute(
+                                        "aria-expanded",
+                                        "false"
+                                    );
+
+
+                                    otherAnswer.setAttribute(
+                                        "aria-hidden",
+                                        "true"
+                                    );
+
+
+                                    otherAnswer.style.maxHeight =
+                                        null;
+
+                                }
+                            );
+
+
+                            if (!isOpen) {
+
+                                item.classList.add(
+                                    "active"
+                                );
+
+
+                                questionBtn.setAttribute(
+                                    "aria-expanded",
+                                    "true"
+                                );
+
+
+                                answer.setAttribute(
+                                    "aria-hidden",
+                                    "false"
+                                );
+
+
+                                answer.style.maxHeight =
+                                    answer.scrollHeight + "px";
+
+                            }
+
+                        }
+                    );
+
                 });
 
-            // Dynamic Form Handling for Orders
-            const orderForm = document.getElementById('orderForm');
-            const formStatus = document.getElementById('formStatus');
-            const submitBtn = document.getElementById('submitBtn');
 
-            orderForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
+                /* =========================
+                   Portfolio
+                ========================== */
 
-                const fullName = document.getElementById('fullName').value.trim();
-                const businessName = document.getElementById('businessName').value.trim();
-                const businessType = document.getElementById('businessType').value;
-                const location = document.getElementById('location').value.trim();
-                const whatsapp = document.getElementById('whatsapp').value.trim();
-                const email = document.getElementById('email').value.trim();
+                renderPortfolio();
 
-                formStatus.className = 'form-status';
-                formStatus.innerHTML = '';
+                setupPortfolioFilters();
 
-                if (!fullName || !businessName || !businessType || !location || !whatsapp) {
-                    formStatus.className = 'form-status error';
-                    formStatus.textContent = 'يرجى ملء كافة الحقول الإلزامية (*) قبل الإرسال.';
-                    return;
+
+                /* =====================================================
+                   Reviews from Firestore
+                   ===================================================== */
+
+                const reviewsGrid =
+                    document.querySelector(
+                        ".reviews-grid"
+                    );
+
+
+                if (reviewsGrid) {
+
+                    db.collection("reviews")
+                        .orderBy("createdAt", "desc")
+                        .get()
+
+                        .then(snapshot => {
+
+                            snapshot.forEach(doc => {
+
+                                const r =
+                                    doc.data();
+
+
+                                if (
+                                    r.status !==
+                                    "approved"
+                                ) {
+                                    return;
+                                }
+
+
+                                const starCount =
+                                    parseInt(
+                                        r.rating
+                                    ) || 5;
+
+
+                                const reviewerName =
+                                    r.reviewerName ||
+                                    "";
+
+
+                                const reviewerRole =
+                                    r.reviewerRole ||
+                                    "";
+
+
+                                const reviewMessage =
+                                    r.reviewMessage ||
+                                    "";
+
+
+                                const initial =
+                                    reviewerName
+                                        .trim()
+                                        .charAt(0) ||
+                                    "؟";
+
+
+                                const card =
+                                    document.createElement(
+                                        "div"
+                                    );
+
+
+                                card.className =
+                                    "review-card";
+
+
+                                const stars =
+                                    "★".repeat(
+                                        Math.min(
+                                            Math.max(
+                                                starCount,
+                                                1
+                                            ),
+                                            5
+                                        )
+                                    );
+
+
+                                card.innerHTML = `
+
+                                    <div>
+
+                                        <div
+                                            class="review-stars"
+                                            aria-label="${starCount} من 5 نجوم"
+                                        >
+                                            ${stars}
+                                        </div>
+
+                                        <p>
+                                            "${reviewMessage}"
+                                        </p>
+
+                                    </div>
+
+                                    <div class="review-author">
+
+                                        <div
+                                            class="avatar"
+                                            aria-hidden="true"
+                                        >
+                                            ${initial}
+                                        </div>
+
+                                        <div class="author-info">
+
+                                            <h4>
+                                                ${reviewerName}
+                                            </h4>
+
+                                            <span>
+                                                ${reviewerRole}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                `;
+
+
+                                reviewsGrid.appendChild(
+                                    card
+                                );
+
+                            });
+
+                        })
+
+                        .catch(err => {
+
+                            console.error(
+                                "تعذر تحميل التقييمات:",
+                                err
+                            );
+
+                        });
+
                 }
 
-                const whatsappPattern = /^[+\d\s()-]{7,20}$/;
-                if (!whatsappPattern.test(whatsapp)) {
-                    formStatus.className = 'form-status error';
-                    formStatus.textContent = 'يرجى إدخال رقم واتساب صحيح يشتمل على الرمز الدولي.';
-                    return;
+
+                /* =====================================================
+                   Order Form
+                   ===================================================== */
+
+                const orderForm =
+                    document.getElementById(
+                        "orderForm"
+                    );
+
+
+                const formStatus =
+                    document.getElementById(
+                        "formStatus"
+                    );
+
+
+                const submitBtn =
+                    document.getElementById(
+                        "submitBtn"
+                    );
+
+
+                if (
+                    orderForm &&
+                    formStatus &&
+                    submitBtn
+                ) {
+
+                    orderForm.addEventListener(
+                        "submit",
+                        async e => {
+
+                            e.preventDefault();
+
+
+                            const fullName =
+                                document
+                                    .getElementById(
+                                        "fullName"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const businessName =
+                                document
+                                    .getElementById(
+                                        "businessName"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const businessType =
+                                document
+                                    .getElementById(
+                                        "businessType"
+                                    )
+                                    .value;
+
+
+                            const location =
+                                document
+                                    .getElementById(
+                                        "location"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const whatsapp =
+                                document
+                                    .getElementById(
+                                        "whatsapp"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const email =
+                                document
+                                    .getElementById(
+                                        "email"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            formStatus.className =
+                                "form-status";
+
+
+                            formStatus.innerHTML =
+                                "";
+
+
+                            if (
+                                !fullName ||
+                                !businessName ||
+                                !businessType ||
+                                !location ||
+                                !whatsapp
+                            ) {
+
+                                formStatus.className =
+                                    "form-status error";
+
+
+                                formStatus.textContent =
+                                    "يرجى ملء كافة الحقول الإلزامية (*) قبل الإرسال.";
+
+
+                                return;
+
+                            }
+
+
+                            const whatsappPattern =
+                                /^[+\d\s()-]{7,20}$/;
+
+
+                            if (
+                                !whatsappPattern.test(
+                                    whatsapp
+                                )
+                            ) {
+
+                                formStatus.className =
+                                    "form-status error";
+
+
+                                formStatus.textContent =
+                                    "يرجى إدخال رقم واتساب صحيح يشتمل على الرمز الدولي.";
+
+
+                                return;
+
+                            }
+
+
+                            if (email) {
+
+                                const emailPattern =
+                                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+                                if (
+                                    !emailPattern.test(
+                                        email
+                                    )
+                                ) {
+
+                                    formStatus.className =
+                                        "form-status error";
+
+
+                                    formStatus.textContent =
+                                        "يرجى إدخال عنوان بريد إلكتروني صحيح.";
+
+
+                                    return;
+
+                                }
+
+                            }
+
+
+                            if (
+                                orderCaptchaWidgetId === null
+                            ) {
+
+                                formStatus.className =
+                                    "form-status error";
+
+
+                                formStatus.textContent =
+                                    "يرجى الانتظار حتى يكتمل تحميل التحقق الأمني.";
+
+
+                                return;
+
+                            }
+
+
+                            const captchaToken =
+                                hcaptcha.getResponse(
+                                    orderCaptchaWidgetId
+                                );
+
+
+                            if (!captchaToken) {
+
+                                formStatus.className =
+                                    "form-status error";
+
+
+                                formStatus.textContent =
+                                    "يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.";
+
+
+                                return;
+
+                            }
+
+
+                            submitBtn.disabled =
+                                true;
+
+
+                            submitBtn.setAttribute(
+                                "aria-busy",
+                                "true"
+                            );
+
+
+                            submitBtn.textContent =
+                                "جاري الإرسال...";
+
+
+                            const hasWebsiteVal =
+                                document
+                                    .getElementById(
+                                        "hasWebsite"
+                                    )
+                                    .value;
+
+
+                            const needMultiLangVal =
+                                document
+                                    .getElementById(
+                                        "needMultiLang"
+                                    )
+                                    .value;
+
+
+                            const detailsVal =
+                                document
+                                    .getElementById(
+                                        "details"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            try {
+
+                                /* =========================
+                                   Save Order to Firebase
+                                ========================== */
+
+                                await db
+                                    .collection(
+                                        "orders"
+                                    )
+                                    .add({
+
+                                        fullName,
+
+                                        businessName,
+
+                                        businessType,
+
+                                        location,
+
+                                        whatsapp,
+
+                                        email,
+
+                                        hasWebsite:
+                                            hasWebsiteVal,
+
+                                        needMultiLang:
+                                            needMultiLangVal,
+
+                                        details:
+                                            detailsVal,
+
+                                        createdAt:
+                                            firebase
+                                                .firestore
+                                                .FieldValue
+                                                .serverTimestamp()
+
+                                    });
+
+
+                                formStatus.className =
+                                    "form-status success";
+
+
+                                formStatus.textContent =
+                                    "تم إرسال طلبك بنجاح! سيتم التواصل معك خلال أقرب وقت.";
+
+
+                                const formData =
+                                    new FormData(
+                                        orderForm
+                                    );
+
+
+                                orderForm.reset();
+
+
+                                hcaptcha.reset(
+                                    orderCaptchaWidgetId
+                                );
+
+
+                                /* =========================
+                                   Formspree notification
+                                ========================== */
+
+                                fetch(
+                                    orderForm.action,
+                                    {
+                                        method: "POST",
+                                        body: formData,
+                                        headers: {
+                                            "Accept":
+                                                "application/json"
+                                        }
+                                    }
+                                ).catch(
+                                    err =>
+                                        console.error(
+                                            "Formspree notification failed:",
+                                            err
+                                        )
+                                );
+
+
+                            } catch (err) {
+
+                                formStatus.className =
+                                    "form-status error";
+
+
+                                console.error(err);
+
+
+                                const waText =
+                                    encodeURIComponent(
+                                        `مرحباً، أود طلب موقع إلكتروني لـ (${businessName || "مشروعي"}). الاسم: ${fullName}، الواتساب: ${whatsapp}`
+                                    );
+
+
+                                const waUrl =
+                                    `https://wa.me/249964629236?text=${waText}`;
+
+
+                                formStatus.innerHTML = `
+
+                                    <div>
+                                        تعذر إرسال الطلب عبر النموذج حالياً.
+                                        يمكنك التواصل المباشر معنا فوراً عبر الواتساب:
+                                    </div>
+
+                                    <a
+                                        href="${waUrl}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="btn btn-whatsapp form-status-btn"
+                                    >
+                                        إرسال الطلب عبر الواتساب مباشرة
+                                    </a>
+
+                                `;
+
+                            } finally {
+
+                                submitBtn.disabled =
+                                    false;
+
+
+                                submitBtn.removeAttribute(
+                                    "aria-busy"
+                                );
+
+
+                                submitBtn.textContent =
+                                    "إرسال طلب الموقع";
+
+                            }
+
+                        }
+                    );
+
                 }
 
-                if (email) {
-                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailPattern.test(email)) {
-                        formStatus.className = 'form-status error';
-                        formStatus.textContent = 'يرجى إدخال عنوان بريد إلكتروني صحيح.';
-                        return;
-                    }
+
+                /* =====================================================
+                   Review Form
+                   ===================================================== */
+
+                const reviewForm =
+                    document.getElementById(
+                        "reviewForm"
+                    );
+
+
+                const reviewStatus =
+                    document.getElementById(
+                        "reviewStatus"
+                    );
+
+
+                const reviewSubmitBtn =
+                    document.getElementById(
+                        "reviewSubmitBtn"
+                    );
+
+
+                if (
+                    reviewForm &&
+                    reviewStatus &&
+                    reviewSubmitBtn
+                ) {
+
+                    reviewForm.addEventListener(
+                        "submit",
+                        async e => {
+
+                            e.preventDefault();
+
+
+                            const ratingSelected =
+                                reviewForm.querySelector(
+                                    'input[name="rating"]:checked'
+                                );
+
+
+                            const reviewerName =
+                                document
+                                    .getElementById(
+                                        "reviewerName"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const reviewerRole =
+                                document
+                                    .getElementById(
+                                        "reviewerRole"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const reviewMessage =
+                                document
+                                    .getElementById(
+                                        "reviewMessage"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            reviewStatus.className =
+                                "form-status";
+
+
+                            reviewStatus.innerHTML =
+                                "";
+
+
+                            if (
+                                !ratingSelected ||
+                                !reviewerName ||
+                                !reviewerRole ||
+                                !reviewMessage
+                            ) {
+
+                                reviewStatus.className =
+                                    "form-status error";
+
+
+                                reviewStatus.textContent =
+                                    "يرجى تحديد التقييم بالنجوم وإكمال كافة الحقول.";
+
+
+                                return;
+
+                            }
+
+
+                            if (
+                                reviewCaptchaWidgetId ===
+                                null
+                            ) {
+
+                                reviewStatus.className =
+                                    "form-status error";
+
+
+                                reviewStatus.textContent =
+                                    "يرجى الانتظار حتى يكتمل تحميل التحقق الأمني.";
+
+
+                                return;
+
+                            }
+
+
+                            const reviewCaptchaToken =
+                                hcaptcha.getResponse(
+                                    reviewCaptchaWidgetId
+                                );
+
+
+                            if (!reviewCaptchaToken) {
+
+                                reviewStatus.className =
+                                    "form-status error";
+
+
+                                reviewStatus.textContent =
+                                    "يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.";
+
+
+                                return;
+
+                            }
+
+
+                            reviewSubmitBtn.disabled =
+                                true;
+
+
+                            reviewSubmitBtn.textContent =
+                                "جاري إرسال التقييم...";
+
+
+                            try {
+
+                                /* =========================
+                                   Save Review
+                                   ========================== */
+
+                                await db
+                                    .collection(
+                                        "reviews"
+                                    )
+                                    .add({
+
+                                        rating:
+                                            ratingSelected.value,
+
+                                        reviewerName,
+
+                                        reviewerRole,
+
+                                        reviewMessage,
+
+                                        status:
+                                            "pending",
+
+                                        createdAt:
+                                            firebase
+                                                .firestore
+                                                .FieldValue
+                                                .serverTimestamp()
+
+                                    });
+
+
+                                reviewStatus.className =
+                                    "form-status success";
+
+
+                                reviewStatus.textContent =
+                                    "شكرًا لك! تم إرسال تقييمك بنجاح وسنعمل على مراجعته وإضافته للموقع.";
+
+
+                                const formData =
+                                    new FormData(
+                                        reviewForm
+                                    );
+
+
+                                reviewForm.reset();
+
+
+                                hcaptcha.reset(
+                                    reviewCaptchaWidgetId
+                                );
+
+
+                                /* =========================
+                                   Formspree
+                                ========================== */
+
+                                fetch(
+                                    reviewForm.action,
+                                    {
+                                        method: "POST",
+                                        body: formData,
+                                        headers: {
+                                            "Accept":
+                                                "application/json"
+                                        }
+                                    }
+                                ).catch(
+                                    err =>
+                                        console.error(
+                                            "Formspree notification failed:",
+                                            err
+                                        )
+                                );
+
+
+                            } catch (err) {
+
+                                reviewStatus.className =
+                                    "form-status error";
+
+
+                                console.error(err);
+
+
+                                reviewStatus.innerHTML = `
+
+                                    <div>
+                                        حدث خطأ أثناء إرسال التقييم،
+                                        يرجى المحاولة لاحقاً أو إرساله لنا عبر الواتساب.
+                                    </div>
+
+                                `;
+
+                            } finally {
+
+                                reviewSubmitBtn.disabled =
+                                    false;
+
+
+                                reviewSubmitBtn.textContent =
+                                    "إرسال التقييم";
+
+                            }
+
+                        }
+                    );
+
                 }
 
-                const captchaToken = hcaptcha.getResponse(orderCaptchaWidgetId);
-                if (!captchaToken) {
-                    formStatus.className = 'form-status error';
-                    formStatus.textContent = 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.';
-                    return;
-                }
+            }
+        );
 
-                submitBtn.disabled = true;
-                submitBtn.setAttribute('aria-busy', 'true');
-                submitBtn.textContent = 'جاري الإرسال...';
-
-                const businessTypeVal = document.getElementById('businessType').value;
-                const hasWebsiteVal = document.getElementById('hasWebsite').value;
-                const needMultiLangVal = document.getElementById('needMultiLang').value;
-                const detailsVal = document.getElementById('details').value.trim();
-
-                try {
-                    // Save to Firestore (this is the record that matters — it feeds the dashboard)
-                    await db.collection('orders').add({
-                        fullName, businessName, businessType: businessTypeVal,
-                        location, whatsapp, email,
-                        hasWebsite: hasWebsiteVal, needMultiLang: needMultiLangVal,
-                        details: detailsVal,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    // The request is saved — tell the customer now, don't make them wait on email
-                    formStatus.className = 'form-status success';
-                    formStatus.textContent = 'تم إرسال طلبك بنجاح! سيتم التواصل معك خلال أقرب وقت.';
-                    orderForm.reset();
-                    hcaptcha.reset(orderCaptchaWidgetId);
-
-                    // Best-effort email notification via Formspree — failure here is silent
-                    // and never affects what the customer sees, since the order is already saved.
-                    const formData = new FormData(orderForm);
-                    fetch(orderForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    }).catch(err => console.error('Formspree notification failed:', err));
-                } catch (err) {
-                    formStatus.className = 'form-status error';
-                    console.error(err);
-                    const waText = encodeURIComponent(`مرحباً، أود طلب موقع إلكتروني لـ (${businessName || 'مشروعي'}). الاسم: ${fullName}، الواتساب: ${whatsapp}`);
-                    const waUrl = `https://wa.me/249964629236?text=${waText}`;
-
-                    formStatus.innerHTML = `
-                        <div>تعذر إرسال الطلب عبر النموذج حالياً. يمكنك التواصل المباشر معنا فوراً عبر الواتساب:</div>
-                        <div style="font-size:0.75rem; opacity:0.7; margin-top:0.5rem; direction:ltr; text-align:center;">${err.message || err}</div>
-                        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp form-status-btn">
-                            إرسال الطلب عبر الواتساب مباشرة
-                        </a>
-                    `;
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.removeAttribute('aria-busy');
-                    submitBtn.textContent = 'إرسال طلب الموقع';
-                }
-            });
-
-            // Dynamic Form Handling for Reviews
-            const reviewForm = document.getElementById('reviewForm');
-            const reviewStatus = document.getElementById('reviewStatus');
-            const reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
-
-            reviewForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const ratingSelected = reviewForm.querySelector('input[name="rating"]:checked');
-                const reviewerName = document.getElementById('reviewerName').value.trim();
-                const reviewerRole = document.getElementById('reviewerRole').value.trim();
-                const reviewMessage = document.getElementById('reviewMessage').value.trim();
-
-                reviewStatus.className = 'form-status';
-                reviewStatus.innerHTML = '';
-
-                if (!ratingSelected || !reviewerName || !reviewerRole || !reviewMessage) {
-                    reviewStatus.className = 'form-status error';
-                    reviewStatus.textContent = 'يرجى تحديد التقييم بالنجوم وإكمال كافة الحقول.';
-                    return;
-                }
-
-                const reviewCaptchaToken = hcaptcha.getResponse(reviewCaptchaWidgetId);
-                if (!reviewCaptchaToken) {
-                    reviewStatus.className = 'form-status error';
-                    reviewStatus.textContent = 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.';
-                    return;
-                }
-
-                reviewSubmitBtn.disabled = true;
-                reviewSubmitBtn.textContent = 'جاري إرسال التقييم...';
-
-                try {
-                    // Save to Firestore. status:'pending' lets you review before it appears live.
-                    await db.collection('reviews').add({
-                        rating: ratingSelected.value,
-                        reviewerName, reviewerRole, reviewMessage,
-                        status: 'pending',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    reviewStatus.className = 'form-status success';
-                    reviewStatus.textContent = 'شكرًا لك! تم إرسال تقييمك بنجاح وسنعمل على مراجعته وإضافته للموقع.';
-                    reviewForm.reset();
-                    hcaptcha.reset(reviewCaptchaWidgetId);
-
-                    // Best-effort email notification — failure here is silent and never
-                    // affects what the reviewer sees, since the review is already saved.
-                    const formData = new FormData(reviewForm);
-                    fetch(reviewForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    }).catch(err => console.error('Formspree notification failed:', err));
-                } catch (err) {
-                    reviewStatus.className = 'form-status error';
-                    console.error(err);
-                    reviewStatus.innerHTML = `
-                        <div>حدث خطأ أثناء إرسال التقييم، يرجى المحاولة لاحقاً أو إرساله لنا عبر الواتساب.</div>
-                        <div style="font-size:0.75rem; opacity:0.7; margin-top:0.5rem; direction:ltr; text-align:center;">${err.message || err}</div>
-                    `;
-                } finally {
-                    reviewSubmitBtn.disabled = false;
-                    reviewSubmitBtn.textContent = 'إرسال التقييم';
-                }
-            });
-        });
     </script>
+
 </body>
 </html>
