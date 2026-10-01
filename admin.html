@@ -1,4474 +1,651 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم | مركز الدعم الرقمي DSC</title>
+<meta name="robots" content="noindex, nofollow">
 
-    <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>DSC Nova | لوحة التحكم</title>
-
-    <!-- Google Font -->
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet">
-
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-:root {
-
-    --bg: #07111f;
-
-    --sidebar: #0b1728;
-
-    --card: #101f33;
-
-    --card-hover: #142840;
-
-    --primary: #00d9ff;
-
-    --primary-dark: #00a8c7;
-
-    --text: #ffffff;
-
-    --muted: #9aaabd;
-
-    --success: #22c55e;
-
-    --danger: #ef4444;
-
-    --warning: #f59e0b;
-
-    --border: rgba(255,255,255,.08);
-
-}
-
-
-/* =========================================================
-   BODY
-========================================================= */
-
-body {
-
-    font-family: "Cairo", sans-serif;
-
-    background: var(--bg);
-
-    color: var(--text);
-
-    min-height: 100vh;
-
-}
-
-
-button,
-input,
-textarea,
-select {
-
-    font-family: inherit;
-
-}
-
-
-button {
-
-    cursor: pointer;
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-.login-page {
-
-    min-height: 100vh;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 20px;
-
-    background:
-        radial-gradient(
-            circle at top,
-            rgba(0,217,255,.12),
-            transparent 45%
-        );
-
-}
-
-
-.login-card {
-
-    width: 100%;
-
-    max-width: 430px;
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 24px;
-
-    padding: 35px;
-
-    box-shadow:
-        0 25px 70px rgba(0,0,0,.45);
-
-}
-
-
-.login-logo {
-
-    text-align: center;
-
-    margin-bottom: 30px;
-
-}
-
-
-.login-logo h1 {
-
-    color: var(--primary);
-
-    margin-bottom: 8px;
-
-}
-
-
-.login-logo p {
-
-    color: var(--muted);
-
-}
-
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.form-group {
-
-    margin-bottom: 18px;
-
-}
-
-
-.form-group label {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    font-weight: 600;
-
-    color: #dce8f5;
-
-}
-
-
-.form-control {
-
-    width: 100%;
-
-    padding: 13px 15px;
-
-    background: #081525;
-
-    border: 1px solid var(--border);
-
-    color: white;
-
-    border-radius: 12px;
-
-    outline: none;
-
-    transition: .25s;
-
-}
-
-
-.form-control:focus {
-
-    border-color: var(--primary);
-
-    box-shadow:
-        0 0 0 3px rgba(0,217,255,.1);
-
-}
-
-
-textarea.form-control {
-
-    min-height: 130px;
-
-    resize: vertical;
-
-}
-
-
-select.form-control {
-
-    cursor: pointer;
-
-}
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn {
-
-    border: none;
-
-    border-radius: 12px;
-
-    padding: 12px 18px;
-
-    font-weight: 700;
-
-    transition: .25s;
-
-}
-
-
-.btn:hover {
-
-    transform: translateY(-2px);
-
-}
-
-
-.btn:disabled {
-
-    opacity: .6;
-
-    cursor: not-allowed;
-
-    transform: none;
-
-}
-
-
-.btn-primary {
-
-    background: var(--primary);
-
-    color: #00131a;
-
-}
-
-
-.btn-primary:hover {
-
-    background: #27e2ff;
-
-}
-
-
-.btn-secondary {
-
-    background: rgba(255,255,255,.08);
-
-    color: white;
-
-}
-
-
-.btn-secondary:hover {
-
-    background: rgba(255,255,255,.14);
-
-}
-
-
-.btn-danger {
-
-    background: rgba(239,68,68,.14);
-
-    color: #ff7777;
-
-}
-
-
-.btn-danger:hover {
-
-    background: rgba(239,68,68,.22);
-
-}
-
-
-.btn-success {
-
-    background: rgba(34,197,94,.14);
-
-    color: #63e996;
-
-}
-
-
-.btn-success:hover {
-
-    background: rgba(34,197,94,.22);
-
-}
-
-
-.full {
-
-    width: 100%;
-
-}
-
-
-/* =========================================================
-   LOGIN ERROR
-========================================================= */
-
-.error-message {
-
-    display: none;
-
-    margin-top: 15px;
-
-    padding: 12px;
-
-    border-radius: 10px;
-
-    color: #ff8b8b;
-
-    background: rgba(239,68,68,.1);
-
-    border: 1px solid rgba(239,68,68,.25);
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-.dashboard {
-
-    display: none;
-
-    min-height: 100vh;
-
-}
-
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.sidebar {
-
-    position: fixed;
-
-    top: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    width: 260px;
-
-    background: var(--sidebar);
-
-    border-left: 1px solid var(--border);
-
-    padding: 25px 15px;
-
-    z-index: 1000;
-
-}
-
-
-.brand {
-
-    text-align: center;
-
-    margin-bottom: 30px;
-
-}
-
-
-.brand h2 {
-
-    color: var(--primary);
-
-}
-
-
-.brand span {
-
-    color: var(--muted);
-
-    font-size: 13px;
-
-}
-
-
-.nav-menu {
-
-    list-style: none;
-
-}
-
-
-.nav-menu li {
-
-    margin-bottom: 7px;
-
-}
-
-
-.nav-btn {
-
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    padding: 13px 15px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #aebed0;
-
-    border-radius: 12px;
-
-    text-align: right;
-
-    font-weight: 600;
-
-}
-
-
-.nav-btn:hover,
-.nav-btn.active {
-
-    background: rgba(0,217,255,.1);
-
-    color: var(--primary);
-
-}
-
-
-.logout-btn {
-
-    position: absolute;
-
-    bottom: 25px;
-
-    right: 15px;
-
-    left: 15px;
-
-    border: none;
-
-    padding: 12px;
-
-    border-radius: 12px;
-
-    background: rgba(239,68,68,.1);
-
-    color: #ff7373;
-
-    font-weight: 700;
-
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main {
-
-    margin-right: 260px;
-
-    padding: 30px;
-
-}
-
-
-.topbar {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 30px;
-
-}
-
-
-.topbar h1 {
-
-    font-size: 28px;
-
-}
-
-
-.admin-email {
-
-    color: var(--muted);
-
-    font-size: 13px;
-
-    margin-top: 4px;
-
-}
-
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-.section {
-
-    display: none;
-
-}
-
-
-.section.active {
-
-    display: block;
-
-}
-
-
-.section-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 20px;
-
-}
-
-
-/* =========================================================
-   STATS
-========================================================= */
-
-.stats-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 18px;
-
-    margin-bottom: 30px;
-
-}
-
-
-.stat-card {
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    padding: 22px;
-
-}
-
-
-.stat-card span {
-
-    color: var(--muted);
-
-    font-size: 14px;
-
-}
-
-
-.stat-card h3 {
-
-    color: var(--primary);
-
-    font-size: 30px;
-
-    margin-top: 10px;
-
-}
-
-
-/* =========================================================
-   PANEL
-========================================================= */
-
-.panel {
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    padding: 22px;
-
-    margin-bottom: 20px;
-
-}
-
-
-/* =========================================================
-   PORTFOLIO FORM
-========================================================= */
-
-.portfolio-form {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 18px;
-
-}
-
-
-.full-width {
-
-    grid-column: 1 / -1;
-
-}
-
-
-/* =========================================================
-   IMAGE URL BOX
-========================================================= */
-
-.image-url-box {
-
-    padding: 20px;
-
-    border-radius: 16px;
-
-    border: 1px dashed
-        rgba(0,217,255,.3);
-
-    background:
-        rgba(0,217,255,.03);
-
-}
-
-
-.image-url-help {
-
-    color: var(--muted);
-
-    font-size: 13px;
-
-    line-height: 1.9;
-
-    margin-bottom: 15px;
-
-}
-
-
-.image-url-help strong {
-
-    color: var(--primary);
-
-}
-
-
-.image-url-help code {
-
-    display: inline-block;
-
-    margin-top: 8px;
-
-    padding: 7px 10px;
-
-    border-radius: 8px;
-
-    background: rgba(0,0,0,.25);
-
-    color: #c9f8ff;
-
-    direction: ltr;
-
-    text-align: left;
-
-    max-width: 100%;
-
-    overflow-wrap: anywhere;
-
-}
-
-
-.image-preview {
-
-    margin-top: 20px;
-
-    display: none;
-
-}
-
-
-.image-preview img {
-
-    display: block;
-
-    width: 100%;
-
-    max-width: 450px;
-
-    height: 240px;
-
-    object-fit: cover;
-
-    border-radius: 15px;
-
-    border: 1px solid var(--border);
-
-}
-
-
-/* =========================================================
-   URL STATUS
-========================================================= */
-
-.url-status {
-
-    margin-top: 10px;
-
-    font-size: 13px;
-
-    min-height: 22px;
-
-    line-height: 1.7;
-
-}
-
-
-.url-success {
-
-    color: var(--success);
-
-}
-
-
-.url-error {
-
-    color: #ff7777;
-
-}
-
-
-/* =========================================================
-   PORTFOLIO GRID
-========================================================= */
-
-.portfolio-admin-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 20px;
-
-}
-
-
-.portfolio-card {
-
-    background: var(--card-hover);
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    overflow: hidden;
-
-}
-
-
-.portfolio-image {
-
-    height: 190px;
-
-    overflow: hidden;
-
-    background: #081525;
-
-}
-
-
-.portfolio-image img {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: cover;
-
-    display: block;
-
-    transition: .3s;
-
-}
-
-
-.portfolio-card:hover
-.portfolio-image img {
-
-    transform: scale(1.05);
-
-}
-
-
-.portfolio-body {
-
-    padding: 17px;
-
-}
-
-
-.portfolio-category {
-
-    display: inline-block;
-
-    color: var(--primary);
-
-    font-size: 12px;
-
-    margin-bottom: 7px;
-
-}
-
-
-.portfolio-body h3 {
-
-    margin-bottom: 7px;
-
-}
-
-
-.portfolio-description {
-
-    color: var(--muted);
-
-    font-size: 13px;
-
-    line-height: 1.7;
-
-    min-height: 45px;
-
-}
-
-
-.card-actions {
-
-    display: flex;
-
-    gap: 8px;
-
-    margin-top: 15px;
-
-}
-
-
-.card-actions button {
-
-    flex: 1;
-
-}
-
-
-/* =========================================================
-   TABLE
-========================================================= */
-
-.table-wrapper {
-
-    overflow-x: auto;
-
-}
-
-
-table {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-}
-
-
-th,
-td {
-
-    padding: 14px;
-
-    text-align: right;
-
-    border-bottom:
-        1px solid var(--border);
-
-}
-
-
-th {
-
-    color: var(--primary);
-
-}
-
-
-td {
-
-    color: #d4dfeb;
-
-}
-
-
-/* =========================================================
-   BADGES
-========================================================= */
-
-.badge {
-
-    display: inline-block;
-
-    padding: 5px 10px;
-
-    border-radius: 20px;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-}
-
-
-.badge-success {
-
-    color: #63e996;
-
-    background:
-        rgba(34,197,94,.12);
-
-}
-
-
-.badge-warning {
-
-    color: #ffc15b;
-
-    background:
-        rgba(245,158,11,.12);
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.modal {
-
-    position: fixed;
-
-    inset: 0;
-
-    display: none;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 20px;
-
-    background: rgba(0,0,0,.75);
-
-    z-index: 5000;
-
-}
-
-
-.modal.active {
-
-    display: flex;
-
-}
-
-
-.modal-content {
-
-    width: 100%;
-
-    max-width: 650px;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 20px;
-
-    padding: 25px;
-
-}
-
-
-.modal-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 20px;
-
-}
-
-
-.modal-close {
-
-    border: none;
-
-    background: transparent;
-
-    color: white;
-
-    font-size: 28px;
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-.mobile-menu {
-
-    display: none;
-
-    border: none;
-
-    background:
-        rgba(0,217,255,.1);
-
-    color: var(--primary);
-
-    padding: 10px 14px;
-
-    border-radius: 10px;
-
-    font-size: 20px;
-
-}
-
-
-@media(max-width:1100px) {
-
-    .stats-grid {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
+    :root {
+        --bg-primary: #0a1128;
+        --bg-surface: #131b2e;
+        --bg-card: #1c2541;
+        --text-main: #ffffff;
+        --text-muted: #a0aec0;
+        --accent-gold: #f4a261;
+        --accent-gold-hover: #e76f51;
+        --accent-blue: #3a86ff;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --transition: all 0.25s ease;
     }
-
-
-    .portfolio-admin-grid {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'Cairo', system-ui, sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-main);
+        direction: rtl;
+        text-align: right;
+        line-height: 1.6;
+        min-height: 100vh;
     }
+    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    a { color: inherit; }
 
-}
-
-
-@media(max-width:800px) {
-
-    .sidebar {
-
-        transform: translateX(100%);
-
-        transition: .3s;
-
+    /* Login screen */
+    #loginScreen {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
     }
-
-
-    .sidebar.open {
-
-        transform: translateX(0);
-
+    .login-card {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 2.5rem;
+        max-width: 400px;
+        width: 100%;
     }
-
-
-    .main {
-
-        margin-right: 0;
-
-        padding: 20px;
-
+    .login-card h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
     }
-
-
-    .mobile-menu {
-
-        display: block;
-
+    .login-card p.subtitle {
+        color: var(--text-muted);
+        text-align: center;
+        margin-bottom: 1.75rem;
+        font-size: 0.9rem;
     }
-
-
-    .portfolio-form {
-
-        grid-template-columns: 1fr;
-
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+    input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: var(--text-main);
+        font-family: inherit;
+        font-size: 0.95rem;
     }
-
-
-    .full-width {
-
-        grid-column: auto;
-
+    input:focus { outline: none; border-color: var(--accent-gold); }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-sm);
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        border: none;
+        transition: var(--transition);
+        font-family: inherit;
     }
+    .btn-primary { background-color: var(--accent-gold); color: #0a1128; width: 100%; margin-top: 0.5rem; }
+    .btn-primary:hover { background-color: var(--accent-gold-hover); color: #fff; }
+    .btn-danger { background-color: rgba(255,95,86,0.15); color: #ff5f56; border: 1px solid #ff5f56; }
+    .btn-danger:hover { background-color: #ff5f56; color: #fff; }
+    .btn-success { background-color: rgba(39,201,63,0.15); color: #27c93f; border: 1px solid #27c93f; }
+    .btn-success:hover { background-color: #27c93f; color: #0a1128; }
+    .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-
-    .portfolio-admin-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-}
-
-
-@media(max-width:550px) {
-
-    .stats-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .topbar h1 {
-
-        font-size: 20px;
-
-    }
-
-
-    .admin-email {
-
+    .error-msg {
+        color: #ff5f56;
+        font-size: 0.85rem;
+        margin-top: 0.75rem;
+        text-align: center;
         display: none;
-
     }
 
-}
+    /* Dashboard */
+    #dashboard { display: none; }
+    .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+    }
+    .topbar h1 { font-size: 1.2rem; }
+    .topbar .user-email { color: var(--text-muted); font-size: 0.85rem; }
 
+    .tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .tab-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        padding: 0.75rem 1.25rem;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
+    .tab-btn.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .panel-header h2 { font-size: 1.1rem; }
+    .count-badge {
+        background: rgba(244,162,97,0.1);
+        color: var(--accent-gold);
+        padding: 0.2rem 0.7rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .card-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .item-card {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 1.25rem;
+    }
+    .item-card .item-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 0.6rem;
+        flex-wrap: wrap;
+    }
+    .item-card h3 { font-size: 1rem; }
+    .item-card .item-date { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
+    .item-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.5rem 1.5rem;
+        font-size: 0.88rem;
+        margin-bottom: 0.5rem;
+    }
+    .item-grid .label { color: var(--text-muted); }
+    .item-details { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border-color); }
+    .stars { color: var(--accent-gold); }
+    .status-pill {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.2rem 0.6rem;
+        border-radius: 50px;
+    }
+    .status-pending { background: rgba(244,162,97,0.15); color: var(--accent-gold); }
+    .status-approved { background: rgba(39,201,63,0.15); color: #27c93f; }
+    .status-rejected { background: rgba(255,95,86,0.15); color: #ff5f56; }
+    .item-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+    .empty-state { color: var(--text-muted); text-align: center; padding: 2.5rem 1rem; }
+
+    /* Portfolio add form */
+    .add-form {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .add-form .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    .add-form .full-width { grid-column: 1 / -1; }
+    select, textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: var(--text-main);
+        font-family: inherit;
+        font-size: 0.95rem;
+    }
+
+    .portfolio-item-card { display: flex; gap: 1rem; align-items: center; }
+    .portfolio-item-card img {
+        width: 80px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+    .portfolio-item-card .info { flex: 1; }
+    .portfolio-item-card .info h3 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .portfolio-item-card .info span { color: var(--text-muted); font-size: 0.8rem; }
+
+    .toast {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--bg-card);
+        border: 1px solid var(--accent-gold);
+        color: var(--text-main);
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.9rem;
+        display: none;
+        z-index: 999;
+    }
 </style>
-
 </head>
-
-
 <body>
 
-
-<!-- =========================================================
-     LOGIN
-========================================================= -->
-
-<div id="loginPage"
-     class="login-page">
-
-
+<!-- Login Screen -->
+<div id="loginScreen">
     <div class="login-card">
-
-
-        <div class="login-logo">
-
-            <h1>
-                DSC Nova
-            </h1>
-
-            <p>
-                لوحة تحكم مركز الدعم الرقمي
-            </p>
-
-        </div>
-
-
+        <h1>لوحة تحكم DSC</h1>
+        <p class="subtitle">سجّل الدخول لعرض الطلبات والتقييمات وإدارة معرض الأعمال</p>
         <form id="loginForm">
-
-
             <div class="form-group">
-
-                <label>
-                    البريد الإلكتروني
-                </label>
-
-                <input
-                    type="email"
-                    id="loginEmail"
-                    class="form-control"
-                    required
-                >
-
+                <label for="loginEmail">البريد الإلكتروني</label>
+                <input type="email" id="loginEmail" required autocomplete="email">
             </div>
-
-
             <div class="form-group">
-
-                <label>
-                    كلمة المرور
-                </label>
-
-                <input
-                    type="password"
-                    id="loginPassword"
-                    class="form-control"
-                    required
-                >
-
+                <label for="loginPassword">كلمة المرور</label>
+                <input type="password" id="loginPassword" required autocomplete="current-password">
             </div>
-
-
-            <button
-                type="submit"
-                class="btn btn-primary full"
-            >
-
-                تسجيل الدخول
-
-            </button>
-
-
+            <button type="submit" class="btn btn-primary" id="loginBtn">تسجيل الدخول</button>
+            <p class="error-msg" id="loginError"></p>
         </form>
-
-
-        <div id="loginError"
-             class="error-message">
-        </div>
-
-
     </div>
-
 </div>
 
-
-<!-- =========================================================
-     DASHBOARD
-========================================================= -->
-
-<div id="dashboard"
-     class="dashboard">
-
-
-    <!-- SIDEBAR -->
-
-    <aside id="sidebar"
-           class="sidebar">
-
-
-        <div class="brand">
-
-            <h2>
-                DSC Nova
-            </h2>
-
-            <span>
-                لوحة الإدارة
-            </span>
-
-        </div>
-
-
-        <ul class="nav-menu">
-
-
-            <li>
-
-                <button
-                    class="nav-btn active"
-                    data-section="overview"
-                >
-
-                    📊
-
-                    الرئيسية
-
-                </button>
-
-            </li>
-
-
-            <li>
-
-                <button
-                    class="nav-btn"
-                    data-section="portfolio"
-                >
-
-                    🖼️
-
-                    معرض الأعمال
-
-                </button>
-
-            </li>
-
-
-            <li>
-
-                <button
-                    class="nav-btn"
-                    data-section="orders"
-                >
-
-                    🛒
-
-                    الطلبات
-
-                </button>
-
-            </li>
-
-
-            <li>
-
-                <button
-                    class="nav-btn"
-                    data-section="reviews"
-                >
-
-                    ⭐
-
-                    التقييمات
-
-                </button>
-
-            </li>
-
-
-        </ul>
-
-
-        <button
-            id="logoutBtn"
-            class="logout-btn"
-        >
-
-            🚪 تسجيل الخروج
-
-        </button>
-
-
-    </aside>
-
-
-    <!-- MAIN -->
-
-    <main class="main">
-
-
+<!-- Dashboard -->
+<div id="dashboard">
+    <div class="container">
         <div class="topbar">
-
-
-            <button
-                id="mobileMenuBtn"
-                class="mobile-menu"
-            >
-
-                ☰
-
-            </button>
-
-
-            <div>
-
-                <h1>
-                    لوحة التحكم
-                </h1>
-
-                <div
-                    id="adminEmail"
-                    class="admin-email">
-                </div>
-
+            <h1>لوحة تحكم مركز الدعم الرقمي</h1>
+            <div style="display:flex; align-items:center; gap:1rem;">
+                <span class="user-email" id="userEmail"></span>
+                <button class="btn btn-danger btn-sm" id="logoutBtn">تسجيل الخروج</button>
             </div>
-
-
         </div>
 
-
-        <!-- =================================================
-             OVERVIEW
-        ================================================== -->
-
-        <section
-            id="section-overview"
-            class="section active"
-        >
-
-
-            <div class="section-header">
-
-                <h2>
-                    نظرة عامة
-                </h2>
-
-            </div>
-
-
-            <div class="stats-grid">
-
-
-                <div class="stat-card">
-
-                    <span>
-                        مشاريع المعرض
-                    </span>
-
-                    <h3 id="portfolioCount">
-                        0
-                    </h3>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <span>
-                        الطلبات
-                    </span>
-
-                    <h3 id="ordersCount">
-                        0
-                    </h3>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <span>
-                        التقييمات
-                    </span>
-
-                    <h3 id="reviewsCount">
-                        0
-                    </h3>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <span>
-                        التقييمات المقبولة
-                    </span>
-
-                    <h3 id="approvedReviewsCount">
-                        0
-                    </h3>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="panel">
-
-                <h3>
-                    مرحباً بك في لوحة تحكم DSC Nova
-                </h3>
-
-                <p style="
-                    color:var(--muted);
-                    margin-top:10px;
-                    line-height:1.8;
-                ">
-
-                    يمكنك من هنا إدارة معرض الأعمال
-                    والطلبات والتقييمات.
-
-                </p>
-
-            </div>
-
-
-        </section>
-
-
-        <!-- =================================================
-             PORTFOLIO
-        ================================================== -->
-
-        <section
-            id="section-portfolio"
-            class="section"
-        >
-
-
-            <div class="section-header">
-
-                <h2>
-                    إدارة معرض الأعمال
-                </h2>
-
-            </div>
-
-
-            <!-- ADD PROJECT -->
-
-            <div class="panel">
-
-
-                <h3 style="margin-bottom:20px;">
-
-                    إضافة مشروع جديد
-
-                </h3>
-
-
-                <form id="portfolioForm">
-
-
-                    <div class="portfolio-form">
-
-
-                        <!-- TITLE -->
-
-                        <div class="form-group">
-
-                            <label>
-                                اسم المشروع
-                            </label>
-
-                            <input
-                                type="text"
-                                id="pTitle"
-                                class="form-control"
-                                placeholder="مثال: موقع مطعم"
-                                required
-                            >
-
-                        </div>
-
-
-                        <!-- CATEGORY -->
-
-                        <div class="form-group">
-
-                            <label>
-                                التصنيف
-                            </label>
-
-                            <select
-                                id="pCategory"
-                                class="form-control"
-                                required
-                            >
-
-                                <option value="">
-                                    اختر التصنيف
-                                </option>
-
-                                <option
-                                    value="web"
-                                    data-label="مواقع إلكترونية"
-                                >
-                                    مواقع إلكترونية
-                                </option>
-
-                                <option
-                                    value="design"
-                                    data-label="تصميم"
-                                >
-                                    تصميم
-                                </option>
-
-                                <option
-                                    value="branding"
-                                    data-label="هوية بصرية"
-                                >
-                                    هوية بصرية
-                                </option>
-
-                                <option
-                                    value="system"
-                                    data-label="أنظمة"
-                                >
-                                    أنظمة
-                                </option>
-
-                                <option
-                                    value="other"
-                                    data-label="أخرى"
-                                >
-                                    أخرى
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- IMAGE URL -->
-
-                        <div class="form-group full-width">
-
-
-                            <label>
-                                صورة المشروع
-                            </label>
-
-
-                            <div class="image-url-box">
-
-
-                                <p class="image-url-help">
-
-                                    أولاً ارفع الصورة داخل مجلد
-                                    <strong>img</strong>
-                                    في GitHub.
-
-                                    <br>
-
-                                    بعد ذلك انسخ رابط الصورة وضعه هنا.
-
-                                    <br><br>
-
-                                    مثال:
-
-                                    <br>
-
-                                    <code>
-                                        https://mohamaedtowfigmahmoud-maker.github.io/DSC/img/project.jpg
-                                    </code>
-
-                                    <br><br>
-
-                                    يمكنك أيضًا وضع رابط
-                                    GitHub من نوع
-                                    <strong>blob</strong>
-                                    وسيتم تحويله تلقائيًا.
-
-                                </p>
-
-
-                                <input
-                                    type="url"
-                                    id="pImageUrl"
-                                    class="form-control"
-                                    placeholder="https://mohamaedtowfigmahmoud-maker.github.io/DSC/img/project.jpg"
-                                    required
-                                >
-
-
-                                <div
-                                    id="imageUrlStatus"
-                                    class="url-status">
-                                </div>
-
-
-                                <div
-                                    id="imagePreview"
-                                    class="image-preview"
-                                >
-
-                                    <img
-                                        id="previewImage"
-                                        src=""
-                                        alt="معاينة صورة المشروع"
-                                    >
-
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- PROJECT URL -->
-
-                        <div class="form-group">
-
-                            <label>
-                                رابط المشروع
-                            </label>
-
-                            <input
-                                type="url"
-                                id="pProjectUrl"
-                                class="form-control"
-                                placeholder="https://example.com"
-                            >
-
-                        </div>
-
-
-                        <!-- DESCRIPTION -->
-
-                        <div class="form-group">
-
-                            <label>
-                                وصف المشروع
-                            </label>
-
-                            <textarea
-                                id="pDescription"
-                                class="form-control"
-                                placeholder="اكتب وصفاً مختصراً للمشروع..."
-                            ></textarea>
-
-                        </div>
-
-
-                        <!-- SAVE -->
-
-                        <div class="full-width">
-
-                            <button
-                                type="submit"
-                                id="savePortfolioBtn"
-                                class="btn btn-primary"
-                            >
-
-                                إضافة المشروع
-
-                            </button>
-
-                        </div>
-
-
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="orders">طلبات المواقع <span class="count-badge" id="ordersCount">0</span></button>
+            <button class="tab-btn" data-tab="reviews">التقييمات <span class="count-badge" id="reviewsCount">0</span></button>
+            <button class="tab-btn" data-tab="portfolio">معرض الأعمال</button>
+        </div>
+
+        <!-- Orders Tab -->
+        <div class="tab-panel active" id="panel-orders">
+            <div class="panel-header"><h2>طلبات المواقع الواردة</h2></div>
+            <div class="card-list" id="ordersList"><div class="empty-state">جاري التحميل...</div></div>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div class="tab-panel" id="panel-reviews">
+            <div class="panel-header"><h2>التقييمات الواردة</h2></div>
+            <div class="card-list" id="reviewsList"><div class="empty-state">جاري التحميل...</div></div>
+        </div>
+
+        <!-- Portfolio Tab -->
+        <div class="tab-panel" id="panel-portfolio">
+            <div class="panel-header"><h2>إضافة مشروع سابق للموقع</h2></div>
+            <form class="add-form" id="portfolioForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="pTitle">عنوان المشروع *</label>
+                        <input type="text" id="pTitle" required placeholder="مثال: موقع مطعم الأصالة">
                     </div>
-
-                </form>
-
-
-            </div>
-
-
-            <!-- PROJECTS -->
-
-            <div class="panel">
-
-
-                <h3 style="margin-bottom:20px;">
-
-                    المشاريع الحالية
-
-                </h3>
-
-
-                <div
-                    id="portfolioGrid"
-                    class="portfolio-admin-grid"
-                >
-
-                    <p style="color:var(--muted);">
-
-                        جاري تحميل المشاريع...
-
-                    </p>
-
+                    <div class="form-group">
+                        <label for="pCategory">التصنيف *</label>
+                        <select id="pCategory" required>
+                            <option value="restaurant" data-label="مطاعم ومقاهي">مطاعم ومقاهي</option>
+                            <option value="corporate" data-label="شركات ومؤسسات">شركات ومؤسسات</option>
+                            <option value="medical" data-label="عيادات ومراكز طبية">عيادات ومراكز طبية</option>
+                            <option value="other" data-label="أخرى">أخرى</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="pImageFile">صورة المشروع *</label>
+                        <input type="file" id="pImageFile" accept="image/*" required>
+                        <img id="pImagePreview" alt="" style="display:none; margin-top:0.75rem; max-width:100%; max-height:160px; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+                        <span id="pImageHint" style="display:block; font-size:0.78rem; color:var(--text-muted); margin-top:0.4rem;">يتم ضغط الصورة تلقائياً قبل الحفظ</span>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="pProjectUrl">رابط المشروع (اختياري)</label>
+                        <input type="url" id="pProjectUrl" placeholder="https://project-site.com">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="pDescription">وصف مختصر *</label>
+                        <textarea id="pDescription" rows="2" required placeholder="وصف قصير للمشروع"></textarea>
+                    </div>
                 </div>
-
-
-            </div>
-
-
-        </section>
-
-
-        <!-- =================================================
-             ORDERS
-        ================================================== -->
-
-        <section
-            id="section-orders"
-            class="section"
-        >
-
-
-            <div class="section-header">
-
-                <h2>
-                    الطلبات
-                </h2>
-
-            </div>
-
-
-            <div class="panel">
-
-
-                <div class="table-wrapper">
-
-
-                    <table>
-
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    الاسم
-                                </th>
-
-                                <th>
-                                    الهاتف
-                                </th>
-
-                                <th>
-                                    الخدمة
-                                </th>
-
-                                <th>
-                                    الحالة
-                                </th>
-
-                                <th>
-                                    التاريخ
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="ordersTable">
-
-                        </tbody>
-
-
-                    </table>
-
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
-        <!-- =================================================
-             REVIEWS
-        ================================================== -->
-
-        <section
-            id="section-reviews"
-            class="section"
-        >
-
-
-            <div class="section-header">
-
-                <h2>
-                    التقييمات
-                </h2>
-
-            </div>
-
-
-            <div class="panel">
-
-
-                <div class="table-wrapper">
-
-
-                    <table>
-
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    العميل
-                                </th>
-
-                                <th>
-                                    التقييم
-                                </th>
-
-                                <th>
-                                    التعليق
-                                </th>
-
-                                <th>
-                                    الحالة
-                                </th>
-
-                                <th>
-                                    الإجراءات
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="reviewsTable">
-
-                        </tbody>
-
-
-                    </table>
-
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
-    </main>
-
-
-</div>
-
-
-<!-- =========================================================
-     EDIT MODAL
-========================================================= -->
-
-<div
-    id="editModal"
-    class="modal"
->
-
-
-    <div class="modal-content">
-
-
-        <div class="modal-header">
-
-            <h2>
-                تعديل المشروع
-            </h2>
-
-            <button
-                id="closeModalBtn"
-                class="modal-close"
-            >
-                ×
-            </button>
-
+                <button type="submit" class="btn btn-primary" id="portfolioSubmitBtn" style="width:auto;">إضافة للمعرض</button>
+            </form>
+
+            <div class="panel-header"><h2>المشاريع المضافة حالياً</h2></div>
+            <div class="card-list" id="portfolioList"><div class="empty-state">جاري التحميل...</div></div>
         </div>
-
-
-        <form id="editPortfolioForm">
-
-
-            <input
-                type="hidden"
-                id="editId"
-            >
-
-
-            <div class="form-group">
-
-                <label>
-                    اسم المشروع
-                </label>
-
-                <input
-                    type="text"
-                    id="editTitle"
-                    class="form-control"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    التصنيف
-                </label>
-
-                <select
-                    id="editCategory"
-                    class="form-control"
-                    required
-                >
-
-                    <option
-                        value="web"
-                        data-label="مواقع إلكترونية"
-                    >
-                        مواقع إلكترونية
-                    </option>
-
-                    <option
-                        value="design"
-                        data-label="تصميم"
-                    >
-                        تصميم
-                    </option>
-
-                    <option
-                        value="branding"
-                        data-label="هوية بصرية"
-                    >
-                        هوية بصرية
-                    </option>
-
-                    <option
-                        value="system"
-                        data-label="أنظمة"
-                    >
-                        أنظمة
-                    </option>
-
-                    <option
-                        value="other"
-                        data-label="أخرى"
-                    >
-                        أخرى
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    رابط الصورة
-                </label>
-
-                <input
-                    type="url"
-                    id="editImageUrl"
-                    class="form-control"
-                    required
-                >
-
-
-                <div
-                    id="editImagePreview"
-                    class="image-preview"
-                >
-
-                    <img
-                        id="editPreviewImage"
-                        src=""
-                        alt="معاينة"
-                    >
-
-                </div>
-
-
-                <div
-                    id="editImageStatus"
-                    class="url-status">
-                </div>
-
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    رابط المشروع
-                </label>
-
-                <input
-                    type="url"
-                    id="editProjectUrl"
-                    class="form-control"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    وصف المشروع
-                </label>
-
-                <textarea
-                    id="editDescription"
-                    class="form-control"
-                ></textarea>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="btn btn-primary full"
-            >
-
-                حفظ التعديلات
-
-            </button>
-
-
-        </form>
-
-
     </div>
-
 </div>
 
+<div class="toast" id="toast"></div>
 
 <script>
+    // =========================
+    // Firebase Configuration — same project as the main site
+    // =========================
+    const firebaseConfig = {
+        apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
+        authDomain: "dsc-8e421.firebaseapp.com",
+        projectId: "dsc-8e421",
+        storageBucket: "dsc-8e421.firebasestorage.app",
+        messagingSenderId: "157087109660",
+        appId: "1:157087109660:web:6c5419e63714d3b4ca85d9"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
+    const loginScreen = document.getElementById('loginScreen');
+    const dashboard = document.getElementById('dashboard');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginError = document.getElementById('loginError');
+    const userEmailEl = document.getElementById('userEmail');
+    const toast = document.getElementById('toast');
 
-const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
-
-    authDomain:
-        "dsc-8e421.firebaseapp.com",
-
-    projectId:
-        "dsc-8e421",
-
-    storageBucket:
-        "dsc-8e421.firebasestorage.app",
-
-    messagingSenderId:
-        "157087109660",
-
-    appId:
-        "1:157087109660:web:6c5419e63714d3b4ca85d9"
-
-};
-
-
-/* =========================================================
-   INITIALIZE FIREBASE
-========================================================= */
-
-firebase.initializeApp(
-    firebaseConfig
-);
-
-
-const auth =
-    firebase.auth();
-
-
-const db =
-    firebase.firestore();
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const loginPage =
-    document.getElementById(
-        "loginPage"
-    );
-
-
-const dashboard =
-    document.getElementById(
-        "dashboard"
-    );
-
-
-const loginForm =
-    document.getElementById(
-        "loginForm"
-    );
-
-
-const loginError =
-    document.getElementById(
-        "loginError"
-    );
-
-
-const portfolioForm =
-    document.getElementById(
-        "portfolioForm"
-    );
-
-
-const portfolioGrid =
-    document.getElementById(
-        "portfolioGrid"
-    );
-
-
-let portfolioCache = [];
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-auth.onAuthStateChanged(
-    async user => {
-
-        if (user) {
-
-            loginPage.style.display =
-                "none";
-
-
-            dashboard.style.display =
-                "block";
-
-
-            document
-                .getElementById(
-                    "adminEmail"
-                )
-                .textContent =
-                user.email || "";
-
-
-            await loadDashboard();
-
-        }
-
-        else {
-
-            loginPage.style.display =
-                "flex";
-
-
-            dashboard.style.display =
-                "none";
-
-        }
-
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2500);
     }
-);
 
+    function fmtDate(ts) {
+        if (!ts || !ts.toDate) return '—';
+        return ts.toDate().toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' });
+    }
 
-/* =========================================================
-   LOGIN
-========================================================= */
-
-loginForm.addEventListener(
-    "submit",
-    async event => {
-
-        event.preventDefault();
-
-
-        loginError.style.display =
-            "none";
-
-
-        const email =
-            document
-                .getElementById(
-                    "loginEmail"
-                )
-                .value
-                .trim();
-
-
-        const password =
-            document
-                .getElementById(
-                    "loginPassword"
-                )
-                .value;
-
-
+    // ===== Auth =====
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.style.display = 'none';
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'جاري الدخول...';
         try {
-
-            await auth
-                .signInWithEmailAndPassword(
-                    email,
-                    password
-                );
-
+            await auth.signInWithEmailAndPassword(
+                document.getElementById('loginEmail').value.trim(),
+                document.getElementById('loginPassword').value
+            );
+        } catch (err) {
+            loginError.textContent = 'بيانات الدخول غير صحيحة أو الحساب غير موجود.';
+            loginError.style.display = 'block';
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'تسجيل الدخول';
         }
-
-        catch (error) {
-
-            console.error(error);
-
-
-            loginError.textContent =
-                "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
-
-
-            loginError.style.display =
-                "block";
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-document
-    .getElementById(
-        "logoutBtn"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            auth.signOut();
-
-        }
-    );
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-document
-    .querySelectorAll(
-        ".nav-btn"
-    )
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .querySelectorAll(
-                        ".nav-btn"
-                    )
-                    .forEach(btn => {
-
-                        btn.classList
-                            .remove(
-                                "active"
-                            );
-
-                    });
-
-
-                button.classList
-                    .add(
-                        "active"
-                    );
-
-
-                const section =
-                    button.dataset.section;
-
-
-                document
-                    .querySelectorAll(
-                        ".section"
-                    )
-                    .forEach(sec => {
-
-                        sec.classList
-                            .remove(
-                                "active"
-                            );
-
-                    });
-
-
-                document
-                    .getElementById(
-                        "section-" +
-                        section
-                    )
-                    .classList
-                    .add(
-                        "active"
-                    );
-
-
-                document
-                    .getElementById(
-                        "sidebar"
-                    )
-                    .classList
-                    .remove(
-                        "open"
-                    );
-
-            }
-        );
-
     });
 
+    document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
 
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-document
-    .getElementById(
-        "mobileMenuBtn"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            document
-                .getElementById(
-                    "sidebar"
-                )
-                .classList
-                .toggle(
-                    "open"
-                );
-
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            loginScreen.style.display = 'none';
+            dashboard.style.display = 'block';
+            userEmailEl.textContent = user.email;
+            loadOrders();
+            loadReviews();
+            loadPortfolio();
+        } else {
+            loginScreen.style.display = 'flex';
+            dashboard.style.display = 'none';
         }
-    );
+    });
 
+    // ===== Tabs =====
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+        });
+    });
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-async function loadDashboard() {
-
-    await Promise.all([
-
-        loadPortfolio(),
-
-        loadOrders(),
-
-        loadReviews()
-
-    ]);
-
-}
-
-
-/* =========================================================
-   GITHUB IMAGE URL CONVERTER
-========================================================= */
-
-function convertGitHubImageUrl(url) {
-
-    url =
-        String(url || "")
-            .trim();
-
-
-    if (!url) {
-
-        return "";
-
+    // ===== Orders =====
+    function loadOrders() {
+        db.collection('orders').orderBy('createdAt', 'desc').get().then(snapshot => {
+            const list = document.getElementById('ordersList');
+            document.getElementById('ordersCount').textContent = snapshot.size;
+            if (snapshot.empty) {
+                list.innerHTML = '<div class="empty-state">لا توجد طلبات بعد.</div>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const o = doc.data();
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <div class="item-top">
+                        <h3>${o.businessName || ''} — ${o.fullName || ''}</h3>
+                        <span class="item-date">${fmtDate(o.createdAt)}</span>
+                    </div>
+                    <div class="item-grid">
+                        <div><span class="label">نوع النشاط: </span>${o.businessType || '—'}</div>
+                        <div><span class="label">الموقع: </span>${o.location || '—'}</div>
+                        <div><span class="label">واتساب: </span>${o.whatsapp || '—'}</div>
+                        <div><span class="label">إيميل: </span>${o.email || '—'}</div>
+                        <div><span class="label">لديه موقع؟ </span>${o.hasWebsite === 'yes' ? 'نعم' : 'لا'}</div>
+                        <div><span class="label">لغتين؟ </span>${o.needMultiLang === 'yes' ? 'نعم' : 'لا'}</div>
+                    </div>
+                    ${o.details ? `<div class="item-details">${o.details}</div>` : ''}
+                `;
+                list.appendChild(div);
+            });
+        }).catch(err => {
+            document.getElementById('ordersList').innerHTML = '<div class="empty-state">تعذر تحميل الطلبات.</div>';
+            console.error(err);
+        });
     }
 
+    // ===== Reviews =====
+    function loadReviews() {
+        db.collection('reviews').orderBy('createdAt', 'desc').get().then(snapshot => {
+            const list = document.getElementById('reviewsList');
+            document.getElementById('reviewsCount').textContent = snapshot.size;
+            if (snapshot.empty) {
+                list.innerHTML = '<div class="empty-state">لا توجد تقييمات بعد.</div>';
+                return;
+            }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const r = doc.data();
+                const stars = '★'.repeat(parseInt(r.rating) || 5);
+                const statusClass = r.status === 'approved' ? 'status-approved' : (r.status === 'rejected' ? 'status-rejected' : 'status-pending');
+                const statusLabel = r.status === 'approved' ? 'معتمد' : (r.status === 'rejected' ? 'مرفوض' : 'قيد المراجعة');
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <div class="item-top">
+                        <h3>${r.reviewerName || ''} — <span style="color:var(--text-muted); font-weight:400;">${r.reviewerRole || ''}</span></h3>
+                        <span class="item-date">${fmtDate(r.createdAt)}</span>
+                    </div>
+                    <div class="stars">${stars}</div>
+                    <div class="item-details">${r.reviewMessage || ''}</div>
+                    <div class="item-actions">
+                        <span class="status-pill ${statusClass}">${statusLabel}</span>
+                        <button class="btn btn-success btn-sm" data-action="approve" data-id="${doc.id}">اعتماد</button>
+                        <button class="btn btn-danger btn-sm" data-action="reject" data-id="${doc.id}">رفض</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
 
-    /*
-       GitHub Blob URL:
+            list.querySelectorAll('[data-action]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const newStatus = btn.dataset.action === 'approve' ? 'approved' : 'rejected';
+                    await db.collection('reviews').doc(btn.dataset.id).update({ status: newStatus });
+                    showToast(newStatus === 'approved' ? 'تم اعتماد التقييم' : 'تم رفض التقييم');
+                    loadReviews();
+                });
+            });
+        }).catch(err => {
+            document.getElementById('reviewsList').innerHTML = '<div class="empty-state">تعذر تحميل التقييمات.</div>';
+            console.error(err);
+        });
+    }
 
-       https://github.com/user/repo/blob/main/img/photo.jpg
+    // ===== Portfolio =====
+    const portfolioForm = document.getElementById('portfolioForm');
+    const portfolioSubmitBtn = document.getElementById('portfolioSubmitBtn');
+    const pImageFile = document.getElementById('pImageFile');
+    const pImagePreview = document.getElementById('pImagePreview');
 
-       becomes:
+    // Resizes/compresses an image file in the browser and returns it as a
+    // JPEG data URL — small enough to store directly in a Firestore field,
+    // no separate file storage/hosting needed.
+    function compressImage(file, maxDimension = 1000, quality = 0.72) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error('تعذرت قراءة الملف'));
+            reader.onload = () => {
+                const img = new Image();
+                img.onerror = () => reject(new Error('الملف المختار ليس صورة صالحة'));
+                img.onload = () => {
+                    let { width, height } = img;
+                    if (width > maxDimension || height > maxDimension) {
+                        const scale = maxDimension / Math.max(width, height);
+                        width = Math.round(width * scale);
+                        height = Math.round(height * scale);
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 
-       https://raw.githubusercontent.com/user/repo/main/img/photo.jpg
-    */
+    let pCompressedImage = null;
 
-    if (
-        url.includes("github.com") &&
-        url.includes("/blob/")
-    ) {
-
-        const match =
-            url.match(
-                /^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/
-            );
-
-
-        if (match) {
-
-            const username =
-                match[1];
-
-
-            const repo =
-                match[2];
-
-
-            const branch =
-                match[3];
-
-
-            const filePath =
-                match[4];
-
-
-            return (
-                "https://raw.githubusercontent.com/" +
-                username +
-                "/" +
-                repo +
-                "/" +
-                branch +
-                "/" +
-                filePath
-            );
-
+    pImageFile.addEventListener('change', async () => {
+        const file = pImageFile.files[0];
+        if (!file) return;
+        try {
+            pCompressedImage = await compressImage(file);
+            pImagePreview.src = pCompressedImage;
+            pImagePreview.style.display = 'block';
+        } catch (err) {
+            showToast('تعذرت معالجة الصورة، جرب صورة أخرى');
+            console.error(err);
         }
+    });
 
-    }
+    portfolioForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-
-    /*
-       Raw GitHub URL
-    */
-
-    if (
-        url.includes(
-            "raw.githubusercontent.com"
-        )
-    ) {
-
-        return url;
-
-    }
-
-
-    /*
-       GitHub Pages URL
-    */
-
-    if (
-        url.includes(
-            "github.io"
-        )
-    ) {
-
-        return url;
-
-    }
-
-
-    /*
-       Any normal image URL
-    */
-
-    return url;
-
-}
-
-
-/* =========================================================
-   CHECK IMAGE URL
-========================================================= */
-
-function checkImageUrl(
-    input,
-    preview,
-    image,
-    status
-) {
-
-    const originalUrl =
-        input.value.trim();
-
-
-    if (!originalUrl) {
-
-        preview.style.display =
-            "none";
-
-
-        image.removeAttribute(
-            "src"
-        );
-
-
-        status.textContent =
-            "";
-
-
-        return false;
-
-    }
-
-
-    const finalUrl =
-        convertGitHubImageUrl(
-            originalUrl
-        );
-
-
-    console.log(
-        "Original image URL:",
-        originalUrl
-    );
-
-
-    console.log(
-        "Final image URL:",
-        finalUrl
-    );
-
-
-    preview.style.display =
-        "none";
-
-
-    status.textContent =
-        "جاري فحص الصورة...";
-
-
-    status.className =
-        "url-status";
-
-
-    image.onload =
-        function() {
-
-            preview.style.display =
-                "block";
-
-
-            status.textContent =
-                "✓ تم تحميل الصورة بنجاح";
-
-
-            status.className =
-                "url-status url-success";
-
-
-            console.log(
-                "Image loaded successfully:",
-                finalUrl
-            );
-
-        };
-
-
-    image.onerror =
-        function() {
-
-            preview.style.display =
-                "none";
-
-
-            status.innerHTML = `
-                ✕ لم نستطع تحميل الصورة.<br>
-                <small>
-                    تأكد أن الرابط يشير إلى ملف صورة مباشر.
-                </small>
-            `;
-
-
-            status.className =
-                "url-status url-error";
-
-
-            console.error(
-                "Image failed:",
-                finalUrl
-            );
-
-        };
-
-
-    /*
-       منع الكاش أثناء اختبار الصورة
-    */
-
-    const separator =
-        finalUrl.includes("?")
-            ? "&"
-            : "?";
-
-
-    image.src =
-        finalUrl +
-        separator +
-        "preview=" +
-        Date.now();
-
-
-    return true;
-
-}
-
-
-/* =========================================================
-   ADD IMAGE PREVIEW
-========================================================= */
-
-const imageUrlInput =
-    document.getElementById(
-        "pImageUrl"
-    );
-
-
-const imagePreview =
-    document.getElementById(
-        "imagePreview"
-    );
-
-
-const previewImage =
-    document.getElementById(
-        "previewImage"
-    );
-
-
-const imageUrlStatus =
-    document.getElementById(
-        "imageUrlStatus"
-    );
-
-
-imageUrlInput.addEventListener(
-    "input",
-    function() {
-
-        checkImageUrl(
-            imageUrlInput,
-            imagePreview,
-            previewImage,
-            imageUrlStatus
-        );
-
-    }
-);
-
-
-imageUrlInput.addEventListener(
-    "change",
-    function() {
-
-        checkImageUrl(
-            imageUrlInput,
-            imagePreview,
-            previewImage,
-            imageUrlStatus
-        );
-
-    }
-);
-
-
-/* =========================================================
-   SAVE PORTFOLIO
-========================================================= */
-
-portfolioForm.addEventListener(
-    "submit",
-    async event => {
-
-        event.preventDefault();
-
-
-        const title =
-            document
-                .getElementById(
-                    "pTitle"
-                )
-                .value
-                .trim();
-
-
-        const categorySelect =
-            document
-                .getElementById(
-                    "pCategory"
-                );
-
-
-        const category =
-            categorySelect.value;
-
-
-        const selectedOption =
-            categorySelect.options[
-                categorySelect.selectedIndex
-            ];
-
-
-        const categoryLabel =
-            selectedOption.dataset.label ||
-            selectedOption.textContent.trim();
-
-
-        const imageUrl =
-            document
-                .getElementById(
-                    "pImageUrl"
-                )
-                .value
-                .trim();
-
-
-        const projectUrl =
-            document
-                .getElementById(
-                    "pProjectUrl"
-                )
-                .value
-                .trim();
-
-
-        const description =
-            document
-                .getElementById(
-                    "pDescription"
-                )
-                .value
-                .trim();
-
-
-        if (!imageUrl) {
-
-            alert(
-                "ضع رابط صورة المشروع أولاً."
-            );
-
+        if (!pCompressedImage) {
+            showToast('يرجى اختيار صورة للمشروع أولاً');
             return;
-
         }
 
+        portfolioSubmitBtn.disabled = true;
+        portfolioSubmitBtn.textContent = 'جاري الإضافة...';
 
-        /*
-           فحص الصورة قبل الحفظ
-        */
-
-        const finalImageUrl =
-            convertGitHubImageUrl(
-                imageUrl
-            );
-
-
-        const button =
-            document
-                .getElementById(
-                    "savePortfolioBtn"
-                );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            "جاري التحقق من الصورة...";
-
+        const categorySelect = document.getElementById('pCategory');
+        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
 
         try {
-
-            /*
-               التأكد أن الصورة قابلة للتحميل
-            */
-
-            await verifyImage(
-                finalImageUrl
-            );
-
-
-            button.textContent =
-                "جاري الحفظ...";
-
-
-            await db
-                .collection(
-                    "portfolio"
-                )
-                .add({
-
-                    title,
-
-                    category,
-
-                    categoryLabel,
-
-                    /*
-                       نحفظ الرابط الأصلي
-                       الذي أدخله المستخدم
-                    */
-
-                    imageUrl,
-
-                    /*
-                       نخزن أيضًا الرابط النهائي
-                       إذا احتجناه لاحقًا
-                    */
-
-                    imageDirectUrl:
-                        finalImageUrl,
-
-                    projectUrl,
-
-                    description,
-
-                    createdAt:
-                        firebase.firestore
-                            .FieldValue
-                            .serverTimestamp(),
-
-                    updatedAt:
-                        firebase.firestore
-                            .FieldValue
-                            .serverTimestamp()
-
-                });
-
-
-            alert(
-                "تمت إضافة المشروع بنجاح ✓"
-            );
-
-
+            await db.collection('portfolio').add({
+                title: document.getElementById('pTitle').value.trim(),
+                category: categorySelect.value,
+                categoryLabel: selectedOption.dataset.label,
+                imageUrl: pCompressedImage,
+                projectUrl: document.getElementById('pProjectUrl').value.trim(),
+                description: document.getElementById('pDescription').value.trim(),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
             portfolioForm.reset();
-
-
-            imagePreview.style.display =
-                "none";
-
-
-            previewImage.removeAttribute(
-                "src"
-            );
-
-
-            imageUrlStatus.textContent =
-                "";
-
-
-            await loadPortfolio();
-
+            pImagePreview.style.display = 'none';
+            pCompressedImage = null;
+            showToast('تمت إضافة المشروع للمعرض بنجاح');
+            loadPortfolio();
+        } catch (err) {
+            showToast('حدث خطأ أثناء الإضافة: ' + (err.message || err));
+            console.error(err);
+        } finally {
+            portfolioSubmitBtn.disabled = false;
+            portfolioSubmitBtn.textContent = 'إضافة للمعرض';
         }
+    });
 
-        catch (error) {
-
-            console.error(
-                "Portfolio save error:",
-                error
-            );
-
-
-            if (
-                error &&
-                error.message ===
-                "IMAGE_LOAD_FAILED"
-            ) {
-
-                alert(
-                    "لم نستطع تحميل الصورة. تأكد من أن الرابط يفتح الصورة مباشرة."
-                );
-
+    function loadPortfolio() {
+        db.collection('portfolio').orderBy('createdAt', 'desc').get().then(snapshot => {
+            const list = document.getElementById('portfolioList');
+            if (snapshot.empty) {
+                list.innerHTML = '<div class="empty-state">لا توجد مشاريع مضافة بعد.</div>';
+                return;
             }
+            list.innerHTML = '';
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                const div = document.createElement('div');
+                div.className = 'item-card portfolio-item-card';
+                div.innerHTML = `
+                    <img src="${p.imageUrl}" alt="${p.title || ''}">
+                    <div class="info">
+                        <h3>${p.title || ''}</h3>
+                        <span>${p.categoryLabel || ''} · ${p.description || ''}</span>
+                        ${p.projectUrl ? `<br><a href="${p.projectUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-gold); font-size:0.8rem;">${p.projectUrl}</a>` : ''}
+                    </div>
+                    <button class="btn btn-danger btn-sm" data-id="${doc.id}">حذف</button>
+                `;
+                list.appendChild(div);
+            });
 
-            else {
-
-                alert(
-                    "حدث خطأ أثناء حفظ المشروع. افتح Console لمعرفة التفاصيل."
-                );
-
-            }
-
-        }
-
-        finally {
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                "إضافة المشروع";
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   VERIFY IMAGE
-========================================================= */
-
-function verifyImage(url) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const testImage =
-                new Image();
-
-
-            testImage.onload =
-                function() {
-
-                    resolve(true);
-
-                };
-
-
-            testImage.onerror =
-                function() {
-
-                    reject(
-                        new Error(
-                            "IMAGE_LOAD_FAILED"
-                        )
-                    );
-
-                };
-
-
-            testImage.src =
-                url +
-                (
-                    url.includes("?")
-                        ? "&"
-                        : "?"
-                ) +
-                "verify=" +
-                Date.now();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   LOAD PORTFOLIO
-========================================================= */
-
-async function loadPortfolio() {
-
-    portfolioGrid.innerHTML = `
-
-        <p style="color:var(--muted);">
-
-            جاري تحميل المشاريع...
-
-        </p>
-
-    `;
-
-
-    try {
-
-        const snapshot =
-            await db
-                .collection(
-                    "portfolio"
-                )
-                .orderBy(
-                    "createdAt",
-                    "desc"
-                )
-                .get();
-
-
-        portfolioCache = [];
-
-
-        snapshot.forEach(
-            doc => {
-
-                portfolioCache.push({
-
-                    id:
-                        doc.id,
-
-                    ...doc.data()
-
+            list.querySelectorAll('button[data-id]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    if (!confirm('هل تريد حذف هذا المشروع من المعرض؟')) return;
+                    await db.collection('portfolio').doc(btn.dataset.id).delete();
+                    showToast('تم حذف المشروع');
+                    loadPortfolio();
                 });
-
-            }
-        );
-
-
-        document
-            .getElementById(
-                "portfolioCount"
-            )
-            .textContent =
-            portfolioCache.length;
-
-
-        if (
-            portfolioCache.length === 0
-        ) {
-
-            portfolioGrid.innerHTML = `
-
-                <p style="color:var(--muted);">
-
-                    لا توجد مشاريع حالياً.
-
-                </p>
-
-            `;
-
-            return;
-
-        }
-
-
-        portfolioGrid.innerHTML =
-            portfolioCache
-                .map(
-                    project =>
-                        createPortfolioCard(
-                            project
-                        )
-                )
-                .join("");
-
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-
-        portfolioGrid.innerHTML = `
-
-            <p style="color:#ff7777;">
-
-                تعذر تحميل المشاريع.
-
-            </p>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   CREATE PORTFOLIO CARD
-========================================================= */
-
-function createPortfolioCard(
-    project
-) {
-
-    const title =
-        escapeHTML(
-            project.title ||
-            "بدون عنوان"
-        );
-
-
-    const category =
-        escapeHTML(
-            project.categoryLabel ||
-            "أخرى"
-        );
-
-
-    const description =
-        escapeHTML(
-            project.description ||
-            ""
-        );
-
-
-    /*
-       استخدام imageDirectUrl إن وجد
-       وإلا imageUrl للمشاريع القديمة
-    */
-
-    const image =
-        escapeHTML(
-            project.imageDirectUrl ||
-            project.imageUrl ||
-            ""
-        );
-
-
-    return `
-
-        <article
-            class="portfolio-card"
-        >
-
-
-            <div
-                class="portfolio-image"
-            >
-
-                <img
-                    src="${image}"
-                    alt="${title}"
-                    loading="lazy"
-                >
-
-            </div>
-
-
-            <div
-                class="portfolio-body"
-            >
-
-
-                <span
-                    class="portfolio-category"
-                >
-
-                    ${category}
-
-                </span>
-
-
-                <h3>
-
-                    ${title}
-
-                </h3>
-
-
-                <p
-                    class="portfolio-description"
-                >
-
-                    ${description}
-
-                </p>
-
-
-                <div
-                    class="card-actions"
-                >
-
-
-                    <button
-                        class="btn btn-secondary"
-                        onclick="openEditModal('${project.id}')"
-                    >
-
-                        تعديل
-
-                    </button>
-
-
-                    <button
-                        class="btn btn-danger"
-                        onclick="deletePortfolio('${project.id}')"
-                    >
-
-                        حذف
-
-                    </button>
-
-
-                </div>
-
-
-            </div>
-
-
-        </article>
-
-    `;
-
-}
-
-
-/* =========================================================
-   EDIT MODAL
-========================================================= */
-
-window.openEditModal =
-function(id) {
-
-
-    const project =
-        portfolioCache.find(
-            item =>
-                item.id === id
-        );
-
-
-    if (!project) {
-
-        return;
-
-    }
-
-
-    document
-        .getElementById(
-            "editId"
-        )
-        .value =
-        project.id;
-
-
-    document
-        .getElementById(
-            "editTitle"
-        )
-        .value =
-        project.title || "";
-
-
-    document
-        .getElementById(
-            "editCategory"
-        )
-        .value =
-        project.category || "other";
-
-
-    document
-        .getElementById(
-            "editImageUrl"
-        )
-        .value =
-        project.imageUrl || "";
-
-
-    document
-        .getElementById(
-            "editProjectUrl"
-        )
-        .value =
-        project.projectUrl || "";
-
-
-    document
-        .getElementById(
-            "editDescription"
-        )
-        .value =
-        project.description || "";
-
-
-    const editPreview =
-        document.getElementById(
-            "editImagePreview"
-        );
-
-
-    const editImage =
-        document.getElementById(
-            "editPreviewImage"
-        );
-
-
-    const editStatus =
-        document.getElementById(
-            "editImageStatus"
-        );
-
-
-    editPreview.style.display =
-        "none";
-
-
-    editStatus.textContent =
-        "";
-
-
-    const imageUrl =
-        project.imageDirectUrl ||
-        project.imageUrl ||
-        "";
-
-
-    if (imageUrl) {
-
-        editImage.onload =
-            function() {
-
-                editPreview.style.display =
-                    "block";
-
-
-                editStatus.textContent =
-                    "✓ الصورة متاحة";
-
-
-                editStatus.className =
-                    "url-status url-success";
-
-            };
-
-
-        editImage.onerror =
-            function() {
-
-                editPreview.style.display =
-                    "none";
-
-
-                editStatus.textContent =
-                    "✕ تعذر تحميل الصورة";
-
-
-                editStatus.className =
-                    "url-status url-error";
-
-            };
-
-
-        editImage.src =
-            convertGitHubImageUrl(
-                imageUrl
-            );
-
-    }
-
-
-    document
-        .getElementById(
-            "editModal"
-        )
-        .classList
-        .add(
-            "active"
-        );
-
-};
-
-
-/* =========================================================
-   EDIT IMAGE PREVIEW
-========================================================= */
-
-document
-    .getElementById(
-        "editImageUrl"
-    )
-    .addEventListener(
-        "input",
-        function() {
-
-            const url =
-                this.value.trim();
-
-
-            const image =
-                document
-                    .getElementById(
-                        "editPreviewImage"
-                    );
-
-
-            const preview =
-                document
-                    .getElementById(
-                        "editImagePreview"
-                    );
-
-
-            const status =
-                document
-                    .getElementById(
-                        "editImageStatus"
-                    );
-
-
-            if (!url) {
-
-                preview.style.display =
-                    "none";
-
-
-                image.removeAttribute(
-                    "src"
-                );
-
-
-                status.textContent =
-                    "";
-
-
-                return;
-
-            }
-
-
-            const finalUrl =
-                convertGitHubImageUrl(
-                    url
-                );
-
-
-            status.textContent =
-                "جاري فحص الصورة...";
-
-
-            status.className =
-                "url-status";
-
-
-            image.onload =
-                function() {
-
-                    preview.style.display =
-                        "block";
-
-
-                    status.textContent =
-                        "✓ الصورة متاحة";
-
-
-                    status.className =
-                        "url-status url-success";
-
-                };
-
-
-            image.onerror =
-                function() {
-
-                    preview.style.display =
-                        "none";
-
-
-                    status.textContent =
-                        "✕ رابط الصورة غير صالح";
-
-
-                    status.className =
-                        "url-status url-error";
-
-                };
-
-
-            image.src =
-                finalUrl +
-                (
-                    finalUrl.includes("?")
-                        ? "&"
-                        : "?"
-                ) +
-                "preview=" +
-                Date.now();
-
-        }
-    );
-
-
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
-
-document
-    .getElementById(
-        "closeModalBtn"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            document
-                .getElementById(
-                    "editModal"
-                )
-                .classList
-                .remove(
-                    "active"
-                );
-
-        }
-    );
-
-
-document
-    .getElementById(
-        "editModal"
-    )
-    .addEventListener(
-        "click",
-        event => {
-
-            if (
-                event.target.id ===
-                "editModal"
-            ) {
-
-                event.target
-                    .classList
-                    .remove(
-                        "active"
-                    );
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   UPDATE PROJECT
-========================================================= */
-
-document
-    .getElementById(
-        "editPortfolioForm"
-    )
-    .addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const id =
-                document
-                    .getElementById(
-                        "editId"
-                    )
-                    .value;
-
-
-            const categorySelect =
-                document
-                    .getElementById(
-                        "editCategory"
-                    );
-
-
-            const selectedOption =
-                categorySelect.options[
-                    categorySelect.selectedIndex
-                ];
-
-
-            const imageUrl =
-                document
-                    .getElementById(
-                        "editImageUrl"
-                    )
-                    .value
-                    .trim();
-
-
-            if (!imageUrl) {
-
-                alert(
-                    "ضع رابط الصورة أولاً."
-                );
-
-                return;
-
-            }
-
-
-            const finalImageUrl =
-                convertGitHubImageUrl(
-                    imageUrl
-                );
-
-
-            const saveButton =
-                document.querySelector(
-                    "#editPortfolioForm button[type='submit']"
-                );
-
-
-            saveButton.disabled =
-                true;
-
-
-            saveButton.textContent =
-                "جاري التحقق...";
-
-
-            try {
-
-                await verifyImage(
-                    finalImageUrl
-                );
-
-
-                saveButton.textContent =
-                    "جاري الحفظ...";
-
-
-                const updateData = {
-
-                    title:
-                        document
-                            .getElementById(
-                                "editTitle"
-                            )
-                            .value
-                            .trim(),
-
-
-                    category:
-                        categorySelect.value,
-
-
-                    categoryLabel:
-                        selectedOption.dataset.label ||
-                        selectedOption.textContent.trim(),
-
-
-                    imageUrl,
-
-
-                    imageDirectUrl:
-                        finalImageUrl,
-
-
-                    projectUrl:
-                        document
-                            .getElementById(
-                                "editProjectUrl"
-                            )
-                            .value
-                            .trim(),
-
-
-                    description:
-                        document
-                            .getElementById(
-                                "editDescription"
-                            )
-                            .value
-                            .trim(),
-
-
-                    updatedAt:
-                        firebase.firestore
-                            .FieldValue
-                            .serverTimestamp()
-
-                };
-
-
-                await db
-                    .collection(
-                        "portfolio"
-                    )
-                    .doc(id)
-                    .update(
-                        updateData
-                    );
-
-
-                alert(
-                    "تم تحديث المشروع بنجاح ✓"
-                );
-
-
-                document
-                    .getElementById(
-                        "editModal"
-                    )
-                    .classList
-                    .remove(
-                        "active"
-                    );
-
-
-                await loadPortfolio();
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Update error:",
-                    error
-                );
-
-
-                if (
-                    error &&
-                    error.message ===
-                    "IMAGE_LOAD_FAILED"
-                ) {
-
-                    alert(
-                        "رابط الصورة غير صالح أو لا يمكن تحميل الصورة."
-                    );
-
-                }
-
-                else {
-
-                    alert(
-                        "حدث خطأ أثناء التعديل."
-                    );
-
-                }
-
-            }
-
-            finally {
-
-                saveButton.disabled =
-                    false;
-
-
-                saveButton.textContent =
-                    "حفظ التعديلات";
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   DELETE PROJECT
-========================================================= */
-
-window.deletePortfolio =
-async function(id) {
-
-
-    const project =
-        portfolioCache.find(
-            item =>
-                item.id === id
-        );
-
-
-    if (!project) {
-
-        return;
-
-    }
-
-
-    const confirmed =
-        confirm(
-            `هل أنت متأكد من حذف "${project.title}"؟`
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    try {
-
-        await db
-            .collection(
-                "portfolio"
-            )
-            .doc(id)
-            .delete();
-
-
-        alert(
-            "تم حذف المشروع بنجاح ✓"
-        );
-
-
-        await loadPortfolio();
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-
-        alert(
-            "حدث خطأ أثناء حذف المشروع."
-        );
-
-    }
-
-};
-
-
-/* =========================================================
-   ORDERS
-========================================================= */
-
-async function loadOrders() {
-
-
-    const table =
-        document.getElementById(
-            "ordersTable"
-        );
-
-
-    try {
-
-        const snapshot =
-            await db
-                .collection(
-                    "orders"
-                )
-                .orderBy(
-                    "createdAt",
-                    "desc"
-                )
-                .get();
-
-
-        document
-            .getElementById(
-                "ordersCount"
-            )
-            .textContent =
-            snapshot.size;
-
-
-        if (snapshot.empty) {
-
-            table.innerHTML = `
-
-                <tr>
-
-                    <td colspan="5">
-
-                        لا توجد طلبات حالياً.
-
-                    </td>
-
-                </tr>
-
-            `;
-
-            return;
-
-        }
-
-
-        let html = "";
-
-
-        snapshot.forEach(
-            doc => {
-
-                const data =
-                    doc.data();
-
-
-                const date =
-                    data.createdAt &&
-                    data.createdAt.toDate
-
-                    ?
-
-                    data.createdAt
-                        .toDate()
-                        .toLocaleDateString(
-                            "ar"
-                        )
-
-                    :
-
-                    "-";
-
-
-                html += `
-
-                    <tr>
-
-                        <td>
-                            ${escapeHTML(
-                                data.name || "-"
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                data.phone || "-"
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                data.service || "-"
-                            )}
-                        </td>
-
-                        <td>
-
-                            <span
-                                class="badge badge-warning"
-                            >
-
-                                ${escapeHTML(
-                                    data.status ||
-                                    "جديد"
-                                )}
-
-                            </span>
-
-                        </td>
-
-                        <td>
-                            ${date}
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        );
-
-
-        table.innerHTML =
-            html;
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td colspan="5">
-
-                    تعذر تحميل الطلبات.
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   REVIEWS
-========================================================= */
-
-async function loadReviews() {
-
-
-    const table =
-        document.getElementById(
-            "reviewsTable"
-        );
-
-
-    try {
-
-        const snapshot =
-            await db
-                .collection(
-                    "reviews"
-                )
-                .orderBy(
-                    "createdAt",
-                    "desc"
-                )
-                .get();
-
-
-        document
-            .getElementById(
-                "reviewsCount"
-            )
-            .textContent =
-            snapshot.size;
-
-
-        let approved =
-            0;
-
-
-        if (snapshot.empty) {
-
-            table.innerHTML = `
-
-                <tr>
-
-                    <td colspan="5">
-
-                        لا توجد تقييمات.
-
-                    </td>
-
-                </tr>
-
-            `;
-
-
-            document
-                .getElementById(
-                    "approvedReviewsCount"
-                )
-                .textContent =
-                "0";
-
-
-            return;
-
-        }
-
-
-        let html = "";
-
-
-        snapshot.forEach(
-            doc => {
-
-                const data =
-                    doc.data();
-
-
-                if (
-                    data.approved === true
-                ) {
-
-                    approved++;
-
-                }
-
-
-                html += `
-
-                    <tr>
-
-                        <td>
-
-                            ${escapeHTML(
-                                data.name || "-"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ⭐ ${Number(
-                                data.rating || 0
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${escapeHTML(
-                                data.comment || "-"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${
-                                data.approved === true
-
-                                ?
-
-                                `
-                                <span
-                                    class="badge badge-success"
-                                >
-                                    مقبول
-                                </span>
-                                `
-
-                                :
-
-                                `
-                                <span
-                                    class="badge badge-warning"
-                                >
-                                    قيد المراجعة
-                                </span>
-                                `
-                            }
-
-                        </td>
-
-
-                        <td>
-
-                            ${
-                                data.approved === true
-
-                                ?
-
-                                `
-                                <button
-                                    class="btn btn-danger"
-                                    onclick="rejectReview('${doc.id}')"
-                                >
-                                    إخفاء
-                                </button>
-                                `
-
-                                :
-
-                                `
-                                <button
-                                    class="btn btn-success"
-                                    onclick="approveReview('${doc.id}')"
-                                >
-                                    قبول
-                                </button>
-                                `
-                            }
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        );
-
-
-        document
-            .getElementById(
-                "approvedReviewsCount"
-            )
-            .textContent =
-            approved;
-
-
-        table.innerHTML =
-            html;
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td colspan="5">
-
-                    تعذر تحميل التقييمات.
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   APPROVE REVIEW
-========================================================= */
-
-window.approveReview =
-async function(id) {
-
-    try {
-
-        await db
-            .collection(
-                "reviews"
-            )
-            .doc(id)
-            .update({
-
-                approved:
-                    true,
-
-                updatedAt:
-                    firebase.firestore
-                        .FieldValue
-                        .serverTimestamp()
-
             });
-
-
-        await loadReviews();
-
+        }).catch(err => {
+            document.getElementById('portfolioList').innerHTML = '<div class="empty-state">تعذر تحميل المشاريع.</div>';
+            console.error(err);
+        });
     }
-
-    catch (error) {
-
-        console.error(error);
-
-
-        alert(
-            "تعذر قبول التقييم."
-        );
-
-    }
-
-};
-
-
-/* =========================================================
-   REJECT REVIEW
-========================================================= */
-
-window.rejectReview =
-async function(id) {
-
-    try {
-
-        await db
-            .collection(
-                "reviews"
-            )
-            .doc(id)
-            .update({
-
-                approved:
-                    false,
-
-                updatedAt:
-                    firebase.firestore
-                        .FieldValue
-                        .serverTimestamp()
-
-            });
-
-
-        await loadReviews();
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-
-        alert(
-            "تعذر إخفاء التقييم."
-        );
-
-    }
-
-};
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHTML(value) {
-
-    return String(value)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
-}
-
 </script>
-
-
 </body>
-
 </html>
