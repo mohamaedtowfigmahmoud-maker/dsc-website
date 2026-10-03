@@ -510,9 +510,16 @@
             list.querySelectorAll('[data-action]').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     const newStatus = btn.dataset.action === 'approve' ? 'approved' : 'rejected';
-                    await db.collection('reviews').doc(btn.dataset.id).update({ status: newStatus });
-                    showToast(newStatus === 'approved' ? 'تم اعتماد التقييم' : 'تم رفض التقييم');
-                    loadReviews();
+                    btn.disabled = true;
+                    try {
+                        await db.collection('reviews').doc(btn.dataset.id).update({ status: newStatus });
+                        showToast(newStatus === 'approved' ? 'تم اعتماد التقييم' : 'تم رفض التقييم');
+                        loadReviews();
+                    } catch (err) {
+                        showToast('تعذر التحديث: ' + (err.message || err));
+                        console.error(err);
+                        btn.disabled = false;
+                    }
                 });
             });
         }).catch(err => {
@@ -636,9 +643,16 @@
             list.querySelectorAll('button[data-id]').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     if (!confirm('هل تريد حذف هذا المشروع من المعرض؟')) return;
-                    await db.collection('portfolio').doc(btn.dataset.id).delete();
-                    showToast('تم حذف المشروع');
-                    loadPortfolio();
+                    btn.disabled = true;
+                    try {
+                        await db.collection('portfolio').doc(btn.dataset.id).delete();
+                        showToast('تم حذف المشروع');
+                        loadPortfolio();
+                    } catch (err) {
+                        showToast('تعذر الحذف: ' + (err.message || err));
+                        console.error(err);
+                        btn.disabled = false;
+                    }
                 });
             });
         }).catch(err => {
