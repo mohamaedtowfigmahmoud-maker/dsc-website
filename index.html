@@ -1183,6 +1183,15 @@
                 padding: 1rem;
             }
         }
+
+
+
+
+
+
+.project-btn { position: relative; display: inline-flex; align-items: center; gap: 14px; padding: 14px 24px; color: #ffffff; text-decoration: none; font-family: inherit; font-size: 16px; font-weight: 600; background: #101722; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; overflow: hidden; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease; } /* النص */ .project-btn span { position: relative; z-index: 2; transition: transform 0.35s ease, letter-spacing 0.35s ease; } /* السهم */ .project-btn i { position: relative; z-index: 2; font-style: normal; font-size: 20px; transition: transform 0.35s ease; } /* الضوء المتحرك */ .project-btn::before { content: ""; position: absolute; top: 0; left: -120%; width: 80%; height: 100%; background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.18), transparent ); transform: skewX(-20deg); transition: left 0.7s ease; } /* الخط السفلي */ .project-btn::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #ffffff; transform: translateX(-50%); transition: width 0.35s ease; } /* ========================= HOVER ========================= */ .project-btn:hover { transform: translateY(-4px); background: #151e2b; border-color: rgba(255, 255, 255, 0.28); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25), 0 0 25px rgba(255, 255, 255, 0.05); } /* الضوء يتحرك */ .project-btn:hover::before { left: 130%; } /* الخط يظهر */ .project-btn:hover::after { width: 70%; } /* النص يتحرك */ .project-btn:hover span { transform: translateX(-4px); letter-spacing: 0.5px; } /* السهم */ .project-btn:hover i { animation: arrowAnimation 0.7s ease-in-out infinite alternate; } /* حركة السهم */ @keyframes arrowAnimation { from { transform: translateX(0); } to { transform: translateX(-8px); } } /* ========================= CLICK ========================= */ .project-btn:active { transform: translateY(-1px) scale(0.96); } /* ========================= FOCUS ========================= */ .project-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.5); outline-offset: 4px; } /* ========================= MOBILE ========================= */ @media (max-width: 600px) { .project-btn { padding: 12px 20px; font-size: 15px; } }
+
+        
     </style>
 </head>
 <body>
@@ -1409,25 +1418,30 @@
                 <button type="button" class="filter-btn" data-filter="medical" role="tab" aria-selected="false" aria-pressed="false">عيادات</button>
             </div>
             <div class="portfolio-grid">
+                
                 <!-- Restaurant Item -->
                 <div class="portfolio-card" data-category="restaurant">
                     <div class="portfolio-img">
+                        <img src="img/royal.png">
                         <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                             <rect width="400" height="200" fill="#EEF1F4"/>
                             <circle cx="200" cy="100" r="50" fill="none" stroke="#B8863A" stroke-width="2" stroke-dasharray="4"/>
                             <text x="200" y="105" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">قائمة وجبات تفاعلية</text>
                             <path d="M120,150 L280,150" stroke="rgba(16,24,38,0.15)" stroke-width="8" stroke-linecap="round"/>
                         </svg>
+                        
                     </div>
                     <div class="portfolio-body">
                         <span class="portfolio-category">مطاعم ومقاهي</span>
-                        <h3>منصة مطعم ووجبات</h3>
-                        <p>تصميم مخصص يعرض قائمة الطعام مع حجز الطاولات والطلب المباشر.</p>
+                        <h4> مطعم Royal Taste </h4>
+                        <p> مطعم فاخر يجمع بين تقديم الاطباق العالمية والمحلية في اجواء راقية وخدمة احترافية</p>
+                         <a href="https://mohamaedtowfigmahmoud-maker.github.io/Royal-Restaurant/" class="project-btn"> <span>تصفح المشروع</span> <i>←</i> </a>
                     </div>
                 </div>
                 <!-- Corporate Item -->
                 <div class="portfolio-card" data-category="corporate">
                     <div class="portfolio-img">
+                        <img src="img/afaq.png">
                         <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                             <rect width="400" height="200" fill="#EEF1F4"/>
                             <rect x="80" y="40" width="240" height="120" rx="8" fill="#FFFFFF" stroke="#1F5C6E" stroke-width="1.5"/>
@@ -1436,13 +1450,15 @@
                     </div>
                     <div class="portfolio-body">
                         <span class="portfolio-category">شركات ومؤسسات</span>
-                        <h3>موقع شركة استشارات</h3>
-                        <p>واجهة تقنية مخصصة لعرض حلول ونشاطات الشركة واستقبال الاستفسارات.</p>
+                        <h4>  شركة افاق لاستيراد والتصدير</h4>
+                        <p> شركة متخصصه في مجال التجارة الدولية والخدمات اللوجستية والوسائط التجارية</p>
+                        <a href="https://mohamaedtowfigmahmoud-maker.github.io/nnn/" class="project-btn"> <span>تصفح المشروع</span> <i>←</i> </a>
                     </div>
                 </div>
                 <!-- Medical Item -->
                 <div class="portfolio-card" data-category="medical">
                     <div class="portfolio-img">
+                        <img src="img/alrahama.png">
                         <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                             <rect width="400" height="200" fill="#EEF1F4"/>
                             <path d="M180,100 L220,100 M200,80 L200,120" stroke="#27c93f" stroke-width="4" stroke-linecap="round"/>
@@ -1451,8 +1467,9 @@
                     </div>
                     <div class="portfolio-body">
                         <span class="portfolio-category">عيادات ومراكز طبية</span>
-                        <h3>موقع مجمع طبي</h3>
-                        <p>منصة لاستعراض خدمات الأطباء وجدولة حجز المواعيد بسهولة.</p>
+                        <h4> مجمع الرحمة الطبي </h4>
+                        <p>  مؤسسة صحية متكاملة تقدم خدمات الأطباء وجدولة حجز المواعيد بسهولة.</p>
+                        <a href="https://mohamaedtowfigmahmoud-maker.github.io/mmn/" class="project-btn"> <span>تصفح المشروع</span> <i>←</i> </a>
                     </div>
                 </div>
             </div>
