@@ -1,2098 +1,1310 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Primary Meta Tags -->
-    <title>DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة</title>
-    <meta name="description" content="نصمم ونطور مواقع إلكترونية مخصصة واحترافية لمختلف الأنشطة التجارية والمؤسسات والأفراد بتصميم عصري، سريع، ومتجاوب.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://dsc-hub.com/">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png">
-    
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
-    <meta property="og:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
-    <meta property="og:url" content="https://dsc-hub.com/">
-    <meta property="og:image" content="https://dsc-hub.com/assets/og-image.jpg">
-    <meta property="og:locale" content="ar_AR">
-    
-    <!-- Twitter Metadata -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
-    <meta name="twitter:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
-    <meta name="twitter:image" content="https://dsc-hub.com/assets/og-image.jpg">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <!-- hCaptcha (explicit render: needed since this page has two widgets) -->
-    <script src="https://js.hcaptcha.com/1/api.js?render=explicit&onload=onHcaptchaLoad" async defer></script>
-
-    <!-- Firebase SDK (v9 compat, works with plain <script> tags, no build step) -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-    <!-- CSS Styles -->
-    <style>
-        /* CSS Variables & Theme Setup */
-        :root {
-            --bg-primary: #F7F8FA;
-            --bg-surface: #FFFFFF;
-            --bg-card: #F4F5F8;
-            --bg-card-hover: #EAEDF2;
-            --text-main: #101826;
-            --text-muted: #5B6472;
-            --accent-gold: #B8863A;
-            --accent-gold-hover: #9C6F2E;
-            --accent-blue: #1F5C6E;
-            --border-color: rgba(16, 24, 38, 0.10);
-            --border-hover: rgba(184, 134, 58, 0.45);
-            --shadow-sm: 0 2px 8px rgba(16,24,38,0.05);
-            --shadow-md: 0 10px 28px rgba(16,24,38,0.08);
-            --shadow-glow: 0 0 0 4px rgba(184, 134, 58, 0.12);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --container-padding: 1.25rem;
-        }
-
-        /* Base & Reset */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            font-family: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            line-height: 1.6;
-            direction: rtl;
-            text-align: right;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Fixed Navbar Anchor Padding Fix */
-        section[id] {
-            scroll-margin-top: 90px;
-        }
-
-        /* Reduced Motion Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            html {
-                scroll-behavior: auto;
-            }
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Cairo', system-ui, sans-serif;
-            color: var(--text-main);
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 0.75rem;
-        }
-
-        h1 { font-size: clamp(1.8rem, 5vw, 3.25rem); }
-        h2 { font-size: clamp(1.5rem, 3.5vw, 2.3rem); }
-        h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
-        p { color: var(--text-muted); margin-bottom: 1rem; font-size: 1rem; }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        ul { list-style: none; }
-
-        img, svg {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Helper Layout Components */
-        .container {
-            width: 100%;
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 0 var(--container-padding);
-        }
-
-        .section-padding {
-            padding: 4.5rem 0;
-        }
-
-        .section-header {
-            max-width: 750px;
-            margin: 0 auto 3.5rem auto;
-            text-align: center;
-        }
-
-        .section-header p {
-            font-size: 1.1rem;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.35rem 1rem;
-            background: rgba(184, 134, 58, 0.1);
-            color: var(--accent-gold);
-            border: 1px solid rgba(184, 134, 58, 0.25);
-            border-radius: 50px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        /* Buttons & Focus States */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.85rem 1.75rem;
-            border-radius: var(--radius-sm);
-            font-family: 'Cairo', system-ui, sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        .btn:focus-visible, 
-        .filter-btn:focus-visible, 
-        .faq-question:focus-visible,
-        .nav-link:focus-visible,
-        .star-rating label:focus-within {
-            outline: 3px solid var(--accent-gold);
-            outline-offset: 3px;
-        }
-
-        .btn:disabled {
-            opacity: 0.65;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-gold);
-            color: #ffffff;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-gold-hover);
-            color: #ffffff;
-            box-shadow: var(--shadow-glow);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            border-color: var(--border-color);
-            color: var(--text-main);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-            transform: translateY(-2px);
-        }
-
-        .btn-whatsapp {
-            background-color: #25d366;
-            color: #ffffff;
-        }
-
-        .btn-whatsapp:hover {
-            background-color: #1eb956;
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn-full {
-            width: 100%;
-            margin-top: 1.5rem;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        /* Header & Navigation */
-        .navbar {
-            position: relative;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        .logo {
-            position: relative;
-            right: -40px;
-            top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            
-        }
-
-        .logo-img {
-            height: 40px !important;
-            max-height: 40px !important;
-            width: auto !important;
-            max-width: 170px !important;
-            display: block;
-            object-fit: contain;
-            flex-shrink: 0;
-            right: 5px;
-            
-        }
-
-        @media (max-width: 480px) {
-            .logo-img {
-                height: 50px !important;
-                max-height: 360px !important;
-                max-width: 170px !important;
-                margin-right: 0;
-            }
-        }
-
-        /* Footer sits on a dark background — give the logo a light chip so it
-           stays legible regardless of the logo file's own colors. */
-        .logo-img-on-dark {
-            background: #ffffff;
-            padding: 5px 10px;
-            border-radius: var(--radius-sm);
-        }
-
-        .logo-tagline {
-            font-family: 'Cairo', system-ui, sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .footer .logo-tagline {
-            color: rgba(255, 255, 255, 0.62);
-        }
-
-        @media (max-width: 480px) {
-            .logo-tagline {
-                display: none;
-            }
-        }
-
-        .footer .logo {
-            color: #ffffff;
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            font-weight: 500;
-            color: var(--text-muted);
-            padding: 0.5rem 0;
-            position: relative;
-            border-radius: 4px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--text-main);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent-gold);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-
-        .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: var(--radius-sm);
-            margin-left: -90px;
-            
-        }
-
-        .hamburger-line {
-            display: block;
-            width: 25px;
-            height: 2px;
-            background-color: var(--text-main);
-            margin: 5px 0;
-            transition: var(--transition);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding-top: 160px;
-            padding-bottom: 100px;
-            position: relative;
-            background: radial-gradient(circle at 80% 20%, rgba(31, 92, 110, 0.06) 0%, transparent 40%),
-                        radial-gradient(circle at 20% 80%, rgba(184, 134, 58, 0.06) 0%, transparent 40%);
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            margin-bottom: 1.25rem;
-        }
-
-        .hero-content p {
-            font-size: 1.15rem;
-            margin-bottom: 2rem;
-            max-width: 550px;
-        }
-
-        /* Device scene: soft decorative blobs behind the laptop/phone mockup */
-        .device-scene {
-            position: relative;
-            padding: 2rem 1.5rem;
-        }
-
-        .device-scene::before,
-        .device-scene::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .device-scene::before {
-            width: 260px;
-            height: 260px;
-            top: -30px;
-            left: -30px;
-            background: radial-gradient(circle, rgba(184, 134, 58, 0.16), transparent 70%);
-        }
-
-        .device-scene::after {
-            width: 220px;
-            height: 220px;
-            bottom: -20px;
-            right: -10px;
-            background: radial-gradient(circle, rgba(31, 92, 110, 0.14), transparent 70%);
-        }
-
-        .laptop-mock {
-            position: relative;
-            z-index: 1;
-        }
-
-        .laptop-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            padding: 2.25rem 1rem;
-            text-align: center;
-        }
-
-        .laptop-screen img {
-            height: 250px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .laptop-screen span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .laptop-screen .mock-cta {
-            margin-top: 0.4rem;
-            padding: 0.4rem 1.1rem;
-            border-radius: 50px;
-            background: var(--accent-gold);
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .laptop-base {
-            height: 10px;
-            background: linear-gradient(to bottom, var(--bg-card), var(--border-color));
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            margin-top: -1px;
-        }
-
-        .phone-mock {
-            position: absolute;
-            z-index: 2;
-            bottom: -22px;
-            left: -18px;
-            width: 92px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 0.6rem 0.5rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .phone-mock .phone-notch {
-            width: 24px;
-            height: 4px;
-            border-radius: 4px;
-            background: var(--border-color);
-            margin: 0 auto 0.5rem auto;
-        }
-
-        @media (max-width: 480px) {
-            .phone-mock {
-                width: 76px;
-                left: -10px;
-                bottom: -16px;
-            }
-        }
-
-        .visual-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .visual-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot-red { background-color: #ff5f56; }
-        .dot-yellow { background-color: #ffbd2e; }
-        .dot-green { background-color: #27c93f; }
-
-        .visual-body {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .mock-box {
-            background-color: var(--bg-card);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .mock-box-wide {
-            grid-column: span 2;
-        }
-
-        .mock-line {
-            height: 8px;
-            background-color: rgba(16,24,38,0.08);
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-        }
-
-        .mock-line.short { width: 60%; }
-        .mock-line.accent { background-color: var(--accent-gold); width: 40%; }
-
-        /* Why Us Section */
-        .why-us {
-            background-color: var(--bg-surface);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background-color: var(--bg-card);
-            padding: 1.75rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .feature-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-        }
-
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(184, 134, 58, 0.1);
-            color: var(--accent-gold);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.25rem;
-        }
-
-        /* Services Section */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-            gap: 1.5rem;
-        }
-
-        .service-card {
-            background-color: var(--bg-card);
-            padding: 2rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: var(--transition);
-        }
-
-        .service-card:hover {
-            border-color: var(--accent-gold);
-            box-shadow: var(--shadow-sm);
-            transform: translateY(-4px);
-        }
-
-        /* Sectors Section */
-        .sectors-section {
-            background-color: var(--bg-surface);
-        }
-
-        .sectors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr));
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .sector-item {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 1.25rem 0.5rem;
-            text-align: center;
-            transition: var(--transition);
-        }
-
-        .sector-item:hover {
-            border-color: var(--accent-gold);
-            background-color: var(--bg-card-hover);
-            transform: scale(1.03);
-        }
-
-        .sector-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .sector-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .sectors-footer {
-            background: rgba(184, 134, 58, 0.05);
-            border: 1px dashed var(--accent-gold);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        /* Process Section */
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-            gap: 1.5rem;
-        }
-
-        .step-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 2rem 1.5rem;
-            position: relative;
-        }
-
-        .step-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: rgba(184, 134, 58, 0.22);
-            position: absolute;
-            top: 1rem;
-            left: 1.5rem;
-            line-height: 1;
-        }
-
-        /* Portfolio Section */
-        .portfolio-section {
-            background-color: var(--bg-surface);
-        }
-
-        .portfolio-filter {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .filter-btn {
-            background-color: var(--bg-card);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem 1.25rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background-color: var(--accent-gold);
-            color: #ffffff;
-            border-color: var(--accent-gold);
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-            gap: 1.5rem;
-        }
-
-        .portfolio-card {
-            background-color: var(--bg-card);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .portfolio-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-        }
-
-        .portfolio-img {
-            height: 200px;
-            background-color: #EEF1F4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .portfolio-body {
-            padding: 1.5rem;
-        }
-
-        .portfolio-category {
-            font-size: 0.8rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .portfolio-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            margin-top: 0.85rem;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-        }
-
-        .portfolio-link:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Reviews & Testimonials Section */
-        .reviews-section {
-            background-color: var(--bg-primary);
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3.5rem;
-        }
-
-        .review-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 1.75rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: var(--transition);
-        }
-
-        .review-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-        }
-
-        .review-stars {
-            color: var(--accent-gold);
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .review-author {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-top: 1.25rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 1rem;
-        }
-
-        .author-info h4 {
-            margin-bottom: 0;
-            font-size: 0.95rem;
-        }
-
-        .author-info span {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* Interactive Review Form */
-        .review-form-container {
-            max-width: 650px;
-            margin: 0 auto;
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-        }
-
-        .star-rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 2rem;
-            margin: 0.5rem 0 1rem 0;
-        }
-
-        .star-rating input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .star-rating label {
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .star-rating label:hover,
-        .star-rating label:hover ~ label,
-        .star-rating input:checked ~ label {
-            color: var(--accent-gold);
-        }
-
-        /* Call To Action Banner */
-        .cta-banner {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-surface));
-            border: 1px solid var(--accent-gold);
-            border-radius: var(--radius-lg);
-            padding: 3.5rem 2rem;
-            text-align: center;
-            box-shadow: var(--shadow-glow);
-        }
-
-        .cta-banner p {
-            max-width: 650px;
-            margin: 0 auto 2rem auto;
-            font-size: 1.1rem;
-        }
-
-        /* Order Form Section */
-        .form-section {
-            background-color: var(--bg-surface);
-        }
-
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 2.5rem;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group.full-width {
-            grid-column: span 2;
-        }
-
-        label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            color: var(--text-main);
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 0 3px rgba(184, 134, 58, 0.18);
-        }
-
-        /* hCaptcha widget wrapper */
-        .captcha-wrap {
-            display: flex;
-            justify-content: center;
-            margin: 1.25rem 0;
-        }
-
-        /* Honeypot field - hidden from real users, catches bots.
-           Kept out of the visual flow without display:none/visibility:hidden,
-           which some bots specifically detect and skip. */
-        .hp-field {
-            position: absolute;
-            left: -9999px;
-            top: -9999px;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-        }
-
-        /* Form Status Styles */
-        .form-status {
-            margin-top: 1rem;
-            padding: 0;
-            border-radius: var(--radius-sm);
-            display: none;
-            text-align: center;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .form-status.success {
-            display: block;
-            padding: 1rem;
-            background-color: rgba(39, 201, 63, 0.1);
-            color: #27c93f;
-            border: 1px solid #27c93f;
-        }
-
-        .form-status.error {
-            display: block;
-            padding: 1.25rem;
-            background-color: rgba(255, 95, 86, 0.1);
-            color: #ff5f56;
-            border: 1px solid #ff5f56;
-        }
-
-        .form-status-btn {
-            display: inline-flex;
-            margin-top: 0.75rem;
-            padding: 0.5rem 1.25rem;
-            font-size: 0.9rem;
-        }
-
-        /* FAQ Accordion */
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .faq-item {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            width: 100%;
-            padding: 1.25rem 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 1.05rem;
-            font-weight: 700;
-            text-align: right;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: inherit;
-        }
-
-        .faq-icon {
-            transition: var(--transition);
-            font-size: 1.25rem;
-            color: var(--accent-gold);
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease;
-            padding: 0 1.5rem;
-            background-color: rgba(16,24,38,0.025);
-        }
-
-        .faq-item.active .faq-answer {
-            padding: 1rem 1.5rem 1.5rem 1.5rem;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: var(--text-main);
-            border-top: 1px solid var(--border-color);
-            padding-top: 4rem;
-            padding-bottom: 2rem;
-        }
-
-        .footer p {
-            color: rgba(255, 255, 255, 0.62);
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-logo {
-            margin-bottom: 1rem;
-        }
-
-        .footer-title {
-            color: #ffffff;
-            font-size: 1.1rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.62);
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-gold);
-        }
-
-        .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            text-align: center;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Responsive Breakpoints */
-        @media (max-width: 992px) {
-            .hero {
-                padding-top: 100px;
-                padding-bottom: 60px;
-            }
-            .hero-content h1 {
-                line-height: 1.2;
-            }
-            .hero-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .hero-content p {
-                margin: 0 auto 2rem auto;
-                max-width: 460px;
-            }
-            .btn-group {
-                justify-content: center;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                right: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background-color: var(--bg-primary);
-                flex-direction: column;
-                justify-content: center;
-                gap: 2rem;
-                transition: var(--transition);
-            }
-            .nav-menu.active {
-                right: 0;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full-width {
-                grid-column: span 1;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            .btn-group {
-                width: 100%;
-            }
-            .btn-group .btn {
-                width: 100%;
-                white-space: normal;
-            }
-            .form-container, .review-form-container {
-                padding: 1.25rem;
-            }
-            .visual-card {
-                padding: 1rem;
-            }
-        }
-
-
-
-
-
-
-.project-btn { position: relative; display: inline-flex; align-items: center; gap: 14px; padding: 14px 24px; color: #ffffff; text-decoration: none; font-family: inherit; font-size: 16px; font-weight: 600; background: #101722; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; overflow: hidden; transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease; } /* النص */ .project-btn span { position: relative; z-index: 2; transition: transform 0.35s ease, letter-spacing 0.35s ease; } /* السهم */ .project-btn i { position: relative; z-index: 2; font-style: normal; font-size: 20px; transition: transform 0.35s ease; } /* الضوء المتحرك */ .project-btn::before { content: ""; position: absolute; top: 0; left: -120%; width: 80%; height: 100%; background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.18), transparent ); transform: skewX(-20deg); transition: left 0.7s ease; } /* الخط السفلي */ .project-btn::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #ffffff; transform: translateX(-50%); transition: width 0.35s ease; } /* ========================= HOVER ========================= */ .project-btn:hover { transform: translateY(-4px); background: #151e2b; border-color: rgba(255, 255, 255, 0.28); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25), 0 0 25px rgba(255, 255, 255, 0.05); } /* الضوء يتحرك */ .project-btn:hover::before { left: 130%; } /* الخط يظهر */ .project-btn:hover::after { width: 70%; } /* النص يتحرك */ .project-btn:hover span { transform: translateX(-4px); letter-spacing: 0.5px; } /* السهم */ .project-btn:hover i { animation: arrowAnimation 0.7s ease-in-out infinite alternate; } /* حركة السهم */ @keyframes arrowAnimation { from { transform: translateX(0); } to { transform: translateX(-8px); } } /* ========================= CLICK ========================= */ .project-btn:active { transform: translateY(-1px) scale(0.96); } /* ========================= FOCUS ========================= */ .project-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.5); outline-offset: 4px; } /* ========================= MOBILE ========================= */ @media (max-width: 600px) { .project-btn { padding: 12px 20px; font-size: 15px; } }
-
-        
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F7F8FA">
+
+<!-- SEO Primary Meta Tags -->
+<title>DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة</title>
+<meta name="description" content="نصمم ونطور مواقع إلكترونية مخصصة واحترافية لمختلف الأنشطة التجارية والمؤسسات والأفراد بتصميم عصري، سريع، ومتجاوب.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dsc-hub.com/">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/favicon.png">
+
+<!-- Open Graph / Facebook / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
+<meta property="og:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
+<meta property="og:url" content="https://dsc-hub.com/">
+<meta property="og:image" content="https://dsc-hub.com/assets/og-image.jpg">
+<meta property="og:locale" content="ar_AR">
+
+<!-- Twitter Metadata -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DSC Nova | مركز الدعم الرقمي — حلول وتصميم مواقع إلكترونية مخصصة">
+<meta name="twitter:description" content="نحوّل نشاطك التجاري إلى حضور رقمي احترافي بموقع إلكتروني مخصص.">
+<meta name="twitter:image" content="https://dsc-hub.com/assets/og-image.jpg">
+
+<!-- Fonts: non-render-blocking, fewer weights -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap"></noscript>
+
+<style>
+:root {
+    --bg-primary: #F7F8FA;
+    --bg-surface: #FFFFFF;
+    --bg-card: #F4F5F8;
+    --bg-card-hover: #EAEDF2;
+    --text-main: #101826;
+    --text-muted: #4F5866;
+    --accent-gold: #8A5F1F;
+    --accent-gold-hover: #6E4A14;
+    --accent-blue: #1F5C6E;
+    --border-color: rgba(16, 24, 38, 0.10);
+    --border-hover: rgba(138, 95, 31, 0.45);
+    --shadow-sm: 0 2px 8px rgba(16,24,38,0.05);
+    --shadow-md: 0 10px 28px rgba(16,24,38,0.08);
+    --shadow-glow: 0 0 0 4px rgba(138, 95, 31, 0.14);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --container-padding: 1.25rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+    font-family: 'IBM Plex Sans Arabic', Tahoma, system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    line-height: 1.6;
+    direction: rtl;
+    text-align: right;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+section[id] { scroll-margin-top: 90px; }
+
+/* Skip rendering of off-screen sections until needed (big mobile win) */
+.section-padding {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 700px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', Tahoma, system-ui, sans-serif;
+    color: var(--text-main);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+}
+h1 { font-size: clamp(1.8rem, 5vw, 3.25rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.3rem); }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
+p { color: var(--text-muted); margin-bottom: 1rem; font-size: 1rem; }
+
+a { color: inherit; text-decoration: none; transition: var(--transition); }
+ul { list-style: none; }
+img, svg { max-width: 100%; height: auto; display: block; }
+
+.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 var(--container-padding); }
+.section-padding { padding: 4.5rem 0; }
+.section-header { max-width: 750px; margin: 0 auto 3.5rem auto; text-align: center; }
+.section-header p { font-size: 1.1rem; }
+
+.badge {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    background: rgba(138, 95, 31, 0.1);
+    color: var(--accent-gold);
+    border: 1px solid rgba(138, 95, 31, 0.25);
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+/* Buttons & Focus */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: var(--radius-sm);
+    font-family: 'Cairo', Tahoma, system-ui, sans-serif;
+    font-weight: 700; font-size: 1rem; cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    white-space: nowrap;
+    min-height: 44px;
+}
+.btn:focus-visible, .filter-btn:focus-visible, .faq-question:focus-visible,
+.nav-link:focus-visible, .hamburger:focus-visible, .footer-links a:focus-visible,
+.star-rating input:focus-visible + label {
+    outline: 3px solid var(--accent-gold);
+    outline-offset: 3px;
+}
+.btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none !important; }
+
+.btn-primary { background-color: var(--accent-gold); color: #ffffff; }
+.btn-primary:hover { background-color: var(--accent-gold-hover); color: #ffffff; box-shadow: var(--shadow-glow); transform: translateY(-2px); }
+
+.btn-secondary { background-color: transparent; border-color: var(--text-muted); color: var(--text-main); }
+.btn-secondary:hover { border-color: var(--accent-gold); color: var(--accent-gold); transform: translateY(-2px); }
+
+.btn-whatsapp { background-color: #0B7A3B; color: #ffffff; }
+.btn-whatsapp:hover { background-color: #08652F; color: #ffffff; box-shadow: 0 0 15px rgba(11, 122, 59, 0.3); transform: translateY(-2px); }
+
+.btn-full { width: 100%; margin-top: 1.5rem; }
+.btn-group { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+/* Header & Navigation */
+.navbar {
+    position: sticky; top: 0; z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid var(--border-color);
+}
+.nav-container { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+
+.logo { position: relative; right: -40px; top: 5px; display: flex; align-items: center; gap: 0.7rem; }
+.logo-img {
+    height: 40px !important; max-height: 40px !important;
+    width: auto !important; max-width: 170px !important;
+    display: block; object-fit: contain; flex-shrink: 0;
+}
+@media (max-width: 480px) {
+    .logo-img { height: 50px !important; max-height: 360px !important; max-width: 170px !important; }
+}
+
+.logo-img-on-dark { background: #ffffff; padding: 5px 10px; border-radius: var(--radius-sm); }
+
+.logo-tagline {
+    font-family: 'Cairo', Tahoma, system-ui, sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    color: var(--text-muted); white-space: nowrap;
+}
+.footer .logo-tagline { color: rgba(255, 255, 255, 0.75); }
+@media (max-width: 480px) { .logo-tagline { display: none; } }
+.footer .logo { color: #ffffff; right: 0; top: 0; }
+
+.nav-menu { display: flex; align-items: center; gap: 2rem; }
+.nav-link { font-weight: 500; color: var(--text-muted); padding: 0.5rem 0; position: relative; border-radius: 4px; }
+.nav-link:hover, .nav-link.active { color: var(--text-main); }
+.nav-link::after {
+    content: ''; position: absolute; bottom: 0; right: 0;
+    width: 0; height: 2px; background-color: var(--accent-gold);
+    transition: var(--transition);
+}
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+.hamburger {
+    display: none; background: none; border: none; cursor: pointer;
+    padding: 0.75rem; border-radius: var(--radius-sm); margin-left: -90px;
+}
+.hamburger-line { display: block; width: 25px; height: 2px; background-color: var(--text-main); margin: 5px 0; transition: var(--transition); }
+
+/* Hero */
+.hero {
+    padding-top: 3rem; padding-bottom: 100px; position: relative;
+    background: radial-gradient(circle at 80% 20%, rgba(31, 92, 110, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(138, 95, 31, 0.06) 0%, transparent 40%);
+}
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.hero-content h1 { margin-bottom: 1.25rem; }
+.hero-content p { font-size: 1.15rem; margin-bottom: 2rem; max-width: 550px; }
+
+.device-scene { position: relative; padding: 2rem 1.5rem; }
+.device-scene::before, .device-scene::after { content: ''; position: absolute; border-radius: 50%; z-index: 0; pointer-events: none; }
+.device-scene::before { width: 260px; height: 260px; top: -30px; left: -30px; background: radial-gradient(circle, rgba(138, 95, 31, 0.16), transparent 70%); }
+.device-scene::after { width: 220px; height: 220px; bottom: -20px; right: -10px; background: radial-gradient(circle, rgba(31, 92, 110, 0.14), transparent 70%); }
+
+.laptop-mock { position: relative; z-index: 1; }
+.laptop-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; padding: 2.25rem 1rem; text-align: center; min-height: 300px; }
+.laptop-screen img { height: 250px; width: auto; object-fit: contain; }
+
+.laptop-base { height: 10px; background: linear-gradient(to bottom, var(--bg-card), var(--border-color)); border-radius: 0 0 var(--radius-md) var(--radius-md); margin-top: -1px; }
+
+.phone-mock {
+    position: absolute; z-index: 2; bottom: -22px; left: -18px; width: 92px;
+    background: var(--bg-surface); border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 0.6rem 0.5rem; box-shadow: var(--shadow-md);
+}
+.phone-mock .phone-notch { width: 24px; height: 4px; border-radius: 4px; background: var(--border-color); margin: 0 auto 0.5rem auto; }
+@media (max-width: 480px) { .phone-mock { width: 76px; left: -10px; bottom: -16px; } }
+
+.visual-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-md); }
+.visual-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+
+.mock-line { height: 8px; background-color: rgba(16,24,38,0.08); border-radius: 4px; margin-bottom: 0.5rem; }
+.mock-line.short { width: 60%; }
+.mock-line.accent { background-color: var(--accent-gold); width: 40%; }
+
+/* Why Us */
+.why-us { background-color: var(--bg-surface); }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 1.5rem; }
+.feature-card { background-color: var(--bg-card); padding: 1.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); transition: var(--transition); }
+.feature-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+.feature-icon {
+    width: 50px; height: 50px; background: rgba(138, 95, 31, 0.1); color: var(--accent-gold);
+    border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.25rem;
+}
+
+/* Services */
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.5rem; }
+.service-card {
+    background-color: var(--bg-card); padding: 2rem; border-radius: var(--radius-md);
+    border: 1px solid var(--border-color); display: flex; flex-direction: column;
+    justify-content: space-between; transition: var(--transition);
+}
+.service-card:hover { border-color: var(--accent-gold); box-shadow: var(--shadow-sm); transform: translateY(-4px); }
+
+/* Sectors */
+.sectors-section { background-color: var(--bg-surface); }
+.sectors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+.sector-item { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1.25rem 0.5rem; text-align: center; transition: var(--transition); }
+.sector-item:hover { border-color: var(--accent-gold); background-color: var(--bg-card-hover); transform: scale(1.03); }
+.sector-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+.sector-title { font-size: 0.95rem; font-weight: 500; color: var(--text-main); }
+.sectors-footer { background: rgba(138, 95, 31, 0.05); border: 1px dashed var(--accent-gold); border-radius: var(--radius-md); padding: 1.5rem; text-align: center; }
+.sectors-footer p { margin-bottom: 0; }
+
+/* Process */
+.process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 1.5rem; }
+.step-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 2rem 1.5rem; position: relative; }
+.step-number { position: absolute; top: 1rem; left: 1.5rem; line-height: 1; }
+.step-number::before {
+    content: attr(data-num);
+    font-family: 'Cairo', Tahoma, sans-serif;
+    font-size: 2.5rem; font-weight: 700;
+    color: rgba(138, 95, 31, 0.22);
+}
+
+/* Portfolio */
+.portfolio-section { background-color: var(--bg-surface); }
+.portfolio-filter { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem; }
+.filter-btn {
+    background-color: var(--bg-card); color: var(--text-muted);
+    border: 1px solid var(--border-color); padding: 0.6rem 1.25rem; min-height: 44px;
+    border-radius: 50px; font-family: inherit; font-weight: 500; cursor: pointer; transition: var(--transition);
+}
+.filter-btn:hover, .filter-btn.active { background-color: var(--accent-gold); color: #ffffff; border-color: var(--accent-gold); }
+
+.portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.5rem; }
+.portfolio-card { background-color: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-color); overflow: hidden; transition: var(--transition); }
+.portfolio-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+.portfolio-img { aspect-ratio: 2 / 1; background-color: #EEF1F4; border-bottom: 1px solid var(--border-color); position: relative; overflow: hidden; }
+.portfolio-img img { width: 100%; height: 100%; object-fit: cover; }
+.portfolio-body { padding: 1.5rem; }
+.portfolio-body h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+.portfolio-category { display: block; font-size: 0.8rem; color: var(--accent-gold); font-weight: 500; margin-bottom: 0.4rem; }
+.portfolio-link { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.85rem; padding: 0.5rem 0; font-size: 0.9rem; font-weight: 700; color: var(--accent-blue); }
+.portfolio-link:hover { color: var(--accent-gold); }
+
+/* Reviews */
+.reviews-section { background-color: var(--bg-primary); }
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.5rem; margin-bottom: 3.5rem; }
+.review-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition); }
+.review-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+.review-stars { color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 0.75rem; }
+.review-author { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-color); }
+.avatar {
+    width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
+    display: flex; align-items: center; justify-content: center;
+    color: #ffffff; font-weight: 700; font-size: 1rem;
+}
+.author-name { font-family: 'Cairo', Tahoma, sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--text-main); margin: 0; }
+.author-role { display: block; font-size: 0.85rem; color: var(--text-muted); }
+
+.review-form-container { max-width: 650px; margin: 0 auto; background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem; }
+
+.rating-label { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+.star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 0.5rem; font-size: 2rem; margin: 0.5rem 0 1rem 0; }
+.star-rating input { position: absolute; opacity: 0; pointer-events: none; }
+.star-rating label { color: var(--text-muted); cursor: pointer; transition: var(--transition); font-size: 2rem; line-height: 1; padding: 0 0.1rem; }
+.star-rating label:hover, .star-rating label:hover ~ label, .star-rating input:checked ~ label { color: var(--accent-gold); }
+
+/* CTA */
+.cta-banner { background: linear-gradient(135deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--accent-gold); border-radius: var(--radius-lg); padding: 3.5rem 2rem; text-align: center; box-shadow: var(--shadow-glow); }
+.cta-banner p { max-width: 650px; margin: 0 auto 2rem auto; font-size: 1.1rem; }
+.cta-banner .btn-group { justify-content: center; }
+
+/* Order form */
+.form-section { background-color: var(--bg-surface); }
+.form-container { max-width: 800px; margin: 0 auto; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2.5rem; }
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group.full-width { grid-column: span 2; }
+
+label { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+
+input, select, textarea {
+    width: 100%; padding: 0.75rem 1rem; min-height: 44px;
+    background-color: var(--bg-primary); border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm); color: var(--text-main);
+    font-family: inherit; font-size: 0.95rem; transition: var(--transition);
+}
+::placeholder { color: #667085; opacity: 1; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(138, 95, 31, 0.2); }
+
+.captcha-wrap { display: flex; justify-content: center; margin: 1.25rem 0; min-height: 78px; }
+
+.hp-field { position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.form-status { margin-top: 1rem; padding: 0; border-radius: var(--radius-sm); display: none; text-align: center; font-weight: 500; }
+.form-status.success { display: block; padding: 1rem; background-color: rgba(39, 201, 63, 0.1); color: #0F6B1E; border: 1px solid #0F6B1E; }
+.form-status.error { display: block; padding: 1.25rem; background-color: rgba(255, 95, 86, 0.1); color: #B3261E; border: 1px solid #B3261E; }
+.form-status-btn { display: inline-flex; margin-top: 0.75rem; padding: 0.5rem 1.25rem; font-size: 0.9rem; }
+
+/* FAQ */
+.faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+.faq-item { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; }
+.faq-question {
+    width: 100%; padding: 1.25rem 1.5rem; background: none; border: none;
+    color: var(--text-main); font-size: 1.05rem; font-weight: 700; text-align: right;
+    cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: inherit;
+}
+.faq-icon { transition: var(--transition); font-size: 1.25rem; color: var(--accent-gold); }
+.faq-item.active .faq-icon { transform: rotate(180deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease; padding: 0 1.5rem; background-color: rgba(16,24,38,0.025); }
+.faq-item.active .faq-answer { padding: 1rem 1.5rem 1.5rem 1.5rem; }
+
+/* Footer */
+.footer { background-color: var(--text-main); padding-top: 4rem; padding-bottom: 2rem; }
+.footer p { color: rgba(255, 255, 255, 0.75); }
+.footer a:not(.logo) { color: rgba(255, 255, 255, 0.75); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 2.5rem; margin-bottom: 3rem; }
+.footer-logo { margin-bottom: 1rem; }
+.footer-title { font-family: 'Cairo', Tahoma, sans-serif; font-weight: 700; color: #ffffff; font-size: 1.1rem; margin-bottom: 1.25rem; }
+.footer-links { display: flex; flex-direction: column; gap: 0.25rem; list-style: none; padding: 0; }
+.footer-links a { display: inline-block; padding: 0.5rem 0; min-height: 44px; }
+.footer-links a:hover, .footer a:not(.logo):hover { color: #E0B46A; }
+.footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; font-size: 0.9rem; }
+.footer-bottom p { color: rgba(255, 255, 255, 0.7); margin-bottom: 0; }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero { padding-top: 2rem; padding-bottom: 60px; }
+    .hero-content h1 { line-height: 1.2; }
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero-content p { margin: 0 auto 2rem auto; max-width: 460px; }
+    .hero-content .btn-group { justify-content: center; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+    .hamburger { display: block; }
+    .nav-menu {
+        position: fixed; top: 80px; right: -100%; width: 100%; height: calc(100vh - 80px);
+        background-color: var(--bg-primary); flex-direction: column; justify-content: center; gap: 2rem;
+        transition: var(--transition); visibility: hidden;
+    }
+    .nav-menu.active { right: 0; visibility: visible; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full-width { grid-column: span 1; }
+    .footer-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .container { padding-left: 1rem; padding-right: 1rem; }
+    .btn-group { width: 100%; }
+    .btn-group .btn { width: 100%; white-space: normal; }
+    .form-container, .review-form-container { padding: 1.25rem; }
+    .visual-card { padding: 1rem; }
+}
+
+/* Project button */
+.project-btn {
+    position: relative; display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 24px; color: #ffffff; font-family: inherit; font-size: 16px; font-weight: 500;
+    background: #101722; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; overflow: hidden;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+.project-btn span { position: relative; z-index: 2; transition: transform 0.35s ease, letter-spacing 0.35s ease; }
+.project-btn i { position: relative; z-index: 2; font-style: normal; font-size: 20px; transition: transform 0.35s ease; }
+.project-btn::before {
+    content: ""; position: absolute; top: 0; left: -120%; width: 80%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+    transform: skewX(-20deg); transition: left 0.7s ease;
+}
+.project-btn::after {
+    content: ""; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px;
+    background: #ffffff; transform: translateX(-50%); transition: width 0.35s ease;
+}
+.project-btn:hover {
+    transform: translateY(-4px); background: #151e2b; border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25), 0 0 25px rgba(255, 255, 255, 0.05);
+}
+.project-btn:hover::before { left: 130%; }
+.project-btn:hover::after { width: 70%; }
+.project-btn:hover span { transform: translateX(-4px); letter-spacing: 0.5px; }
+.project-btn:hover i { animation: arrowAnimation 0.7s ease-in-out infinite alternate; }
+@keyframes arrowAnimation { from { transform: translateX(0); } to { transform: translateX(-8px); } }
+.project-btn:active { transform: translateY(-1px) scale(0.96); }
+.project-btn:focus-visible { outline: 3px solid var(--accent-gold); outline-offset: 4px; }
+@media (max-width: 600px) { .project-btn { padding: 12px 20px; font-size: 15px; } }
+</style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo" aria-label="DSC Nova - مركز الدعم الرقمي - الصفحة الرئيسية">
-                <img src="img/DSC_Nova_Primary_Transparent.png" alt="DSC Nova" class="logo-img" width="170" height="40" onerror="this.style.display='none'">
-                <span class="logo-tagline">مركز الدعم الرقمي</span>
-            </a>
-            
-            <button class="hamburger" id="hamburger" type="button" aria-label="فتح قائمة التصفح" aria-expanded="false" aria-controls="nav-menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
+<!-- Navigation Bar -->
+<header class="navbar">
+    <div class="container nav-container">
+        <a href="#hero" class="logo" aria-label="DSC Nova - مركز الدعم الرقمي - الصفحة الرئيسية">
+            <img src="img/DSC_Nova_Primary_Transparent.png" alt="" class="logo-img" width="170" height="40" onerror="this.style.display='none'">
+            <span class="logo-tagline">مركز الدعم الرقمي</span>
+        </a>
 
-            <nav>
-                <ul class="nav-menu" id="nav-menu">
-                    <li><a href="#hero" class="nav-link active">الرئيسية</a></li>
-                    <li><a href="#why-us" class="nav-link">لماذا الموقع؟</a></li>
-                    <li><a href="#services" class="nav-link">خدماتنا</a></li>
-                    <li><a href="#sectors" class="nav-link">الأنشطة</a></li>
-                    <li><a href="#portfolio" class="nav-link">أعمالنا</a></li>
-                    <li><a href="#reviews" class="nav-link">التقييمات</a></li>
-                    <li><a href="#faq" class="nav-link">الأسئلة الشائعة</a></li>
-                    <li><a href="#order" class="btn btn-primary nav-btn">اطلب موقعك</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        <button class="hamburger" id="hamburger" type="button" aria-label="فتح قائمة التصفح" aria-expanded="false" aria-controls="nav-menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <span class="badge">👑 حلول ويب مخصصة بالكامل</span>
-                    <h1>نحوّل نشاطك إلى حضور رقمي احترافي</h1>
-                    <p>في مركز الدعم الرقمي نصمم ونطور مواقع إلكترونية مخصصة لمختلف الأنشطة التجارية والمؤسسات والأفراد، بتصميم عصري وتجربة استخدام سهلة ومتوافقة مع جميع الأجهزة.</p>
-                    <div class="btn-group">
-                        <a href="#order" class="btn btn-primary"><span aria-hidden="true">←</span> اطلب موقعك الآن</a>
-                        <a href="#portfolio" class="btn btn-secondary"><span aria-hidden="true">👁</span> شاهد أعمالنا</a>
-                        <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"><span aria-hidden="true">💬</span> تحدث معنا عبر الواتساب</a>
-                    </div>
+        <nav aria-label="القائمة الرئيسية">
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#hero" class="nav-link active">الرئيسية</a></li>
+                <li><a href="#why-us" class="nav-link">لماذا الموقع؟</a></li>
+                <li><a href="#services" class="nav-link">خدماتنا</a></li>
+                <li><a href="#sectors" class="nav-link">الأنشطة</a></li>
+                <li><a href="#portfolio" class="nav-link">أعمالنا</a></li>
+                <li><a href="#reviews" class="nav-link">التقييمات</a></li>
+                <li><a href="#faq" class="nav-link">الأسئلة الشائعة</a></li>
+                <li><a href="#order" class="btn btn-primary nav-btn">اطلب موقعك</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+<!-- Hero -->
+<section id="hero" class="hero">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <span class="badge">👑 حلول ويب مخصصة بالكامل</span>
+                <h1>نحوّل نشاطك إلى حضور رقمي احترافي</h1>
+                <p>في مركز الدعم الرقمي نصمم ونطور مواقع إلكترونية مخصصة لمختلف الأنشطة التجارية والمؤسسات والأفراد، بتصميم عصري وتجربة استخدام سهلة ومتوافقة مع جميع الأجهزة.</p>
+                <div class="btn-group">
+                    <a href="#order" class="btn btn-primary"><span aria-hidden="true">←</span> اطلب موقعك الآن</a>
+                    <a href="#portfolio" class="btn btn-secondary"><span aria-hidden="true">👁</span> شاهد أعمالنا</a>
+                    <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"><span aria-hidden="true">💬</span> تحدث معنا عبر الواتساب</a>
                 </div>
-                <div class="hero-visual" aria-hidden="true">
-                    <div class="device-scene">
-                        <div class="visual-card laptop-mock">
-                            <div class="visual-header">
-                                <span class="dot dot-red"></span>
-                                <span class="dot dot-yellow"></span>
-                                <span class="dot dot-green"></span>
-                            </div>
-                            <div class="laptop-screen">
-                                <img src="img/1789717394392.jpg" alt="" onerror="this.style.display='none'">
-                                
-                            </div>
-                            <div class="laptop-base"></div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="device-scene">
+                    <div class="visual-card laptop-mock">
+                        <div class="visual-header">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
                         </div>
-                        <div class="phone-mock">
-                            <div class="phone-notch"></div>
-                            <div class="mock-line accent"></div>
-                            <div class="mock-line"></div>
-                            <div class="mock-line short"></div>
+                        <div class="laptop-screen">
+                            <img src="img/1789717394392.jpg" alt="" width="400" height="250" fetchpriority="high" decoding="async" onerror="this.style.display='none'">
                         </div>
+                        <div class="laptop-base"></div>
+                    </div>
+                    <div class="phone-mock">
+                        <div class="phone-notch"></div>
+                        <div class="mock-line accent"></div>
+                        <div class="mock-line"></div>
+                        <div class="mock-line short"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Why Section -->
-    <section id="why-us" class="why-us section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>وجودك على الإنترنت يبدأ من موقعك</h2>
-                <p>الموقع الإلكتروني ليس مجرد رفاهية، بل هو المحرك الأساسي لبناء الثقة وتوسيع نطاق أعمالك.</p>
+<!-- Why -->
+<section id="why-us" class="why-us section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>وجودك على الإنترنت يبدأ من موقعك</h2>
+            <p>الموقع الإلكتروني ليس مجرد رفاهية، بل هو المحرك الأساسي لبناء الثقة وتوسيع نطاق أعمالك.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">🌐</div>
+                <h3>عرض متاح 24/7</h3>
+                <p>عرض خدماتك ومنتجاتك للعملاء طوال الوقت وبدون انقطاع.</p>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3>عرض متاح 24/7</h3>
-                    <p>عرض خدماتك ومنتجاتك للعملاء طوال الوقت وبدون انقطاع.</p>
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">🔒</div>
+                <h3>زيادة ثقة العملاء</h3>
+                <p>الموقع الاحترافي يبني المصداقية ويعزز ثقة العميل بنشاطك.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">📍</div>
+                <h3>سهولة الوصول</h3>
+                <p>عرض موقعك الجغرافي ووسائل التواصل لتسهيل الوصول إليك.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">📈</div>
+                <h3>هوية رقمية قوية</h3>
+                <p>تميّز عن منافسيك بواجهة تعكس حجم واحترافية عملك.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>حلول رقمية مصممة لنشاطك</h2>
+            <p>نقدم برمجيات وتصميمات متكاملة تغطي كافة مجالات الويب وفق أعلى المعايير.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card"><div><h3>تصميم المواقع الإلكترونية</h3><p>تصميم مواقع حديثة ومخصصة تعكس هوية نشاطك التجاري وتقدم خدماتك بطريقة واضحة واحترافية.</p></div></div>
+            <div class="service-card"><div><h3>تطوير المواقع</h3><p>تحويل التصميم إلى موقع إلكتروني سريع ومتجاوب باستخدام تقنيات الويب الحديثة والآمنة.</p></div></div>
+            <div class="service-card"><div><h3>مواقع المطاعم والمقاهي</h3><p>قائمة الطعام، الأسعار، الصور، الموقع، أزرار التواصل والطلبات والحجز التفاعلي.</p></div></div>
+            <div class="service-card"><div><h3>مواقع الشركات والمؤسسات</h3><p>عرض الخدمات، نبذة عن الشركة، المشاريع، استعراض فريق العمل ومعلومات التواصل.</p></div></div>
+            <div class="service-card"><div><h3>المواقع الطبية</h3><p>مواقع للعيادات والمراكز الطبية لعرض الخدمات والأطباء وحجز المواعيد للمرضى.</p></div></div>
+            <div class="service-card"><div><h3>المتاجر الإلكترونية</h3><p>إنشاء واجهات احترافية للمتاجر والمنتجات مع إمكانية ربط أنظمة البيع والدفع.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Sectors -->
+<section id="sectors" class="sectors-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>أيًا كان نشاطك، لدينا الحل المناسب</h2>
+            <p>نصمم واجهات مخصصة تلائم طبيعة عملك وجمهورك المستهدف.</p>
+        </div>
+        <div class="sectors-grid">
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🍔</span><span class="sector-title">مطاعم</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">☕</span><span class="sector-title">مقاهي</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🏢</span><span class="sector-title">شركات</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🏥</span><span class="sector-title">عيادات</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🏠</span><span class="sector-title">عقارات</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🛠</span><span class="sector-title">ورش</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">💇</span><span class="sector-title">صالونات</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🏨</span><span class="sector-title">فنادق</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">📚</span><span class="sector-title">مراكز تدريب</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">⚖</span><span class="sector-title">مكاتب قانونية</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🛒</span><span class="sector-title">متاجر</span></div>
+            <div class="sector-item"><span class="sector-icon" aria-hidden="true">🏗</span><span class="sector-title">مقاولات</span></div>
+        </div>
+        <div class="sectors-footer">
+            <p>لم تجد نشاطك؟ لا مشكلة — يمكننا تصميم موقع مخصص يناسب احتياجاتك بدقة.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Process -->
+<section class="section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>من الفكرة إلى موقعك الإلكتروني</h2>
+            <p>خطوات منظمة وواضحة لضمان تسليم مشروعك بأعلى جودة.</p>
+        </div>
+        <div class="process-steps">
+            <div class="step-card"><span class="step-number" data-num="01" aria-hidden="true"></span><h3>فهم نشاطك</h3><p>نتعرف على طبيعة نشاطك والجمهور المستهدف والهدف الأساسي من الموقع.</p></div>
+            <div class="step-card"><span class="step-number" data-num="02" aria-hidden="true"></span><h3>التخطيط والتصميم</h3><p>نضع هيكل الموقع ونصمم واجهة مخصصة تعكس هوية نشاطك الفريدة.</p></div>
+            <div class="step-card"><span class="step-number" data-num="03" aria-hidden="true"></span><h3>التطوير</h3><p>نحوّل التصميم إلى موقع إلكتروني فعلي، سريع، متجاوب، وآمن.</p></div>
+            <div class="step-card"><span class="step-number" data-num="04" aria-hidden="true"></span><h3>الإطلاق</h3><p>نختبر الموقع بدقة على كافة الأجهزة ونجهزه للنشر والظهور للعملاء.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio -->
+<section id="portfolio" class="portfolio-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>نماذج من أعمالنا</h2>
+            <p>استعرض بعض المشاريع والواجهات التي تم تنفيذها مسبقاً.</p>
+        </div>
+        <div class="portfolio-filter" role="group" aria-label="تصفية معرض الأعمال">
+            <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">الكل</button>
+            <button type="button" class="filter-btn" data-filter="restaurant" aria-pressed="false">مطاعم</button>
+            <button type="button" class="filter-btn" data-filter="corporate" aria-pressed="false">شركات</button>
+            <button type="button" class="filter-btn" data-filter="medical" aria-pressed="false">عيادات</button>
+        </div>
+        <div class="portfolio-grid">
+
+            <div class="portfolio-card" data-category="restaurant">
+                <div class="portfolio-img">
+                    <img src="img/royal.png" alt="واجهة موقع مطعم Royal Taste" width="400" height="200" loading="lazy" decoding="async">
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>زيادة ثقة العملاء</h3>
-                    <p>الموقع الاحترافي يبني المصداقية ويعزز ثقة العميل بنشاطك.</p>
+                <div class="portfolio-body">
+                    <span class="portfolio-category">مطاعم ومقاهي</span>
+                    <h3>مطعم Royal Taste</h3>
+                    <p>مطعم فاخر يجمع بين تقديم الأطباق العالمية والمحلية في أجواء راقية وخدمة احترافية</p>
+                    <a href="https://mohamaedtowfigmahmoud-maker.github.io/Royal-Restaurant/" class="project-btn" target="_blank" rel="noopener noreferrer" aria-label="تصفح مشروع مطعم Royal Taste"><span>تصفح المشروع</span> <i aria-hidden="true">←</i></a>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📍</div>
-                    <h3>سهولة الوصول</h3>
-                    <p>عرض موقعك الجغرافي ووسائل التواصل لتسهيل الوصول إليك.</p>
+            </div>
+
+            <div class="portfolio-card" data-category="corporate">
+                <div class="portfolio-img">
+                    <img src="img/afaq.png" alt="واجهة موقع شركة آفاق للاستيراد والتصدير" width="400" height="200" loading="lazy" decoding="async">
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>هوية رقمية قوية</h3>
-                    <p>تميّز عن منافسيك بواجهة تعكس حجم واحترافية عملك.</p>
+                <div class="portfolio-body">
+                    <span class="portfolio-category">شركات ومؤسسات</span>
+                    <h3>شركة آفاق للاستيراد والتصدير</h3>
+                    <p>شركة متخصصة في مجال التجارة الدولية والخدمات اللوجستية والوسائط التجارية</p>
+                    <a href="https://mohamaedtowfigmahmoud-maker.github.io/nnn/" class="project-btn" target="_blank" rel="noopener noreferrer" aria-label="تصفح مشروع شركة آفاق للاستيراد والتصدير"><span>تصفح المشروع</span> <i aria-hidden="true">←</i></a>
+                </div>
+            </div>
+
+            <div class="portfolio-card" data-category="medical">
+                <div class="portfolio-img">
+                    <img src="img/alrahama.png" alt="واجهة موقع مجمع الرحمة الطبي" width="400" height="200" loading="lazy" decoding="async">
+                </div>
+                <div class="portfolio-body">
+                    <span class="portfolio-category">عيادات ومراكز طبية</span>
+                    <h3>مجمع الرحمة الطبي</h3>
+                    <p>مؤسسة صحية متكاملة تقدم خدمات الأطباء وجدولة حجز المواعيد بسهولة.</p>
+                    <a href="https://mohamaedtowfigmahmoud-maker.github.io/mmn/" class="project-btn" target="_blank" rel="noopener noreferrer" aria-label="تصفح مشروع مجمع الرحمة الطبي"><span>تصفح المشروع</span> <i aria-hidden="true">←</i></a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Services Section -->
-    <section id="services" class="section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>حلول رقمية مصممة لنشاطك</h2>
-                <p>نقدم برمجيات وتصميمات متكاملة تغطي كافة مجالات الويب وفق أعلى المعايير.</p>
+<!-- Reviews -->
+<section id="reviews" class="reviews-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>آراء وتقييمات العملاء</h2>
+            <p>ثقة شركائنا هي الدافع الأكبر لتقديم أفضل ما لدينا دائماً.</p>
+        </div>
+
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div>
+                    <div class="review-stars" role="img" aria-label="5 من 5 نجوم">★★★★★</div>
+                    <p>"خدمة ممتازة واحترافية عالية! تم تنفيذ موقع المطعم الخاص بنا بسرعة فائقة والتصميم كان جذاباً ومناسباً جداً لعملائنا."</p>
+                </div>
+                <div class="review-author">
+                    <div class="avatar" aria-hidden="true">أ</div>
+                    <div class="author-info"><p class="author-name">أحمد م.</p><span class="author-role">مالك سلسلة مطاعم</span></div>
+                </div>
             </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div>
-                        <h3>تصميم المواقع الإلكترونية</h3>
-                        <p>تصميم مواقع حديثة ومخصصة تعكس هوية نشاطك التجاري وتقدم خدماتك بطريقة واضحة واحترافية.</p>
-                    </div>
+            <div class="review-card">
+                <div>
+                    <div class="review-stars" role="img" aria-label="5 من 5 نجوم">★★★★★</div>
+                    <p>"الموقع ساعدنا بشكل كبير في تنظيم حجز المواعيد بالعيادة. السرعة والتجاوب مع الهواتف الذكية كان أسرع مما توقعنا."</p>
                 </div>
-                <div class="service-card">
-                    <div>
-                        <h3>تطوير المواقع</h3>
-                        <p>تحويل التصميم إلى موقع إلكتروني سريع ومتجاوب باستخدام تقنيات الويب الحديثة والآمنة.</p>
-                    </div>
+                <div class="review-author">
+                    <div class="avatar" aria-hidden="true">د</div>
+                    <div class="author-info"><p class="author-name">د. سارة ع.</p><span class="author-role">مجمع طبي متخصص</span></div>
                 </div>
-                <div class="service-card">
-                    <div>
-                        <h3>مواقع المطاعم والمقاهي</h3>
-                        <p>قائمة الطعام، الأسعار، الصور، الموقع، أزرار التواصل والطلبات والحجز التفاعلي.</p>
-                    </div>
+            </div>
+            <div class="review-card">
+                <div>
+                    <div class="review-stars" role="img" aria-label="5 من 5 نجوم">★★★★★</div>
+                    <p>"تعامل راقي ودقة في المواعيد. تم بناء الهوية الرقمية لشركتنا بأعلى معايير الأمان والجودة."</p>
                 </div>
-                <div class="service-card">
-                    <div>
-                        <h3>مواقع الشركات والمؤسسات</h3>
-                        <p>عرض الخدمات، نبذة عن الشركة، المشاريع، استعراض فريق العمل ومعلومات التواصل.</p>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div>
-                        <h3>المواقع الطبية</h3>
-                        <p>مواقع للعيادات والمراكز الطبية لعرض الخدمات والأطباء وحجز المواعيد للمرضى.</p>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div>
-                        <h3>المتاجر الإلكترونية</h3>
-                        <p>إنشاء واجهات احترافية للمتاجر والمنتجات مع إمكانية ربط أنظمة البيع والدفع.</p>
-                    </div>
+                <div class="review-author">
+                    <div class="avatar" aria-hidden="true">م</div>
+                    <div class="author-info"><p class="author-name">محمد الـ.</p><span class="author-role">مدير شركة استشارات</span></div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Sectors Section -->
-    <section id="sectors" class="sectors-section section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>أيًا كان نشاطك، لدينا الحل المناسب</h2>
-                <p>نصمم واجهات مخصصة تلائم طبيعة عملك وجمهورك المستهدف.</p>
+        <div class="review-form-container">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <h3>أضف تقييمك لخدماتنا</h3>
+                <p>رأيك يهمنا ويسهم في تطوير حلولنا الرقمية</p>
             </div>
-            <div class="sectors-grid">
-                <div class="sector-item"><span class="sector-icon">🍔</span><span class="sector-title">مطاعم</span></div>
-                <div class="sector-item"><span class="sector-icon">☕</span><span class="sector-title">مقاهي</span></div>
-                <div class="sector-item"><span class="sector-icon">🏢</span><span class="sector-title">شركات</span></div>
-                <div class="sector-item"><span class="sector-icon">🏥</span><span class="sector-title">عيادات</span></div>
-                <div class="sector-item"><span class="sector-icon">🏠</span><span class="sector-title">عقارات</span></div>
-                <div class="sector-item"><span class="sector-icon">🛠</span><span class="sector-title">ورش</span></div>
-                <div class="sector-item"><span class="sector-icon">💇</span><span class="sector-title">صالونات</span></div>
-                <div class="sector-item"><span class="sector-icon">🏨</span><span class="sector-title">فنادق</span></div>
-                <div class="sector-item"><span class="sector-icon">📚</span><span class="sector-title">مراكز تدريب</span></div>
-                <div class="sector-item"><span class="sector-icon">⚖</span><span class="sector-title">مكاتب قانونية</span></div>
-                <div class="sector-item"><span class="sector-icon">🛒</span><span class="sector-title">متاجر</span></div>
-                <div class="sector-item"><span class="sector-icon">🏗</span><span class="sector-title">مقاولات</span></div>
-            </div>
-            <div class="sectors-footer">
-                <p>لم تجد نشاطك؟ لا مشكلة — يمكننا تصميم موقع مخصص يناسب احتياجاتك بدقة.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>من الفكرة إلى موقعك الإلكتروني</h2>
-                <p>خطوات منظمة وواضحة لضمان تسليم مشروعك بأعلى جودة.</p>
-            </div>
-            <div class="process-steps">
-                <div class="step-card">
-                    <span class="step-number">01</span>
-                    <h3>فهم نشاطك</h3>
-                    <p>نتعرف على طبيعة نشاطك والجمهور المستهدف والهدف الأساسي من الموقع.</p>
+            <form id="reviewForm" action="https://formspree.io/f/xqkvqrbp" method="POST" novalidate>
+                <input type="hidden" name="_subject" value="تقييم جديد للخدمات - DSC Hub">
+                <div class="hp-field" aria-hidden="true">
+                    <label for="reviewWebsite">اتركه فارغاً</label>
+                    <input type="text" id="reviewWebsite" name="_gotcha" tabindex="-1" autocomplete="off">
                 </div>
-                <div class="step-card">
-                    <span class="step-number">02</span>
-                    <h3>التخطيط والتصميم</h3>
-                    <p>نضع هيكل الموقع ونصمم واجهة مخصصة تعكس هوية نشاطك الفريدة.</p>
-                </div>
-                <div class="step-card">
-                    <span class="step-number">03</span>
-                    <h3>التطوير</h3>
-                    <p>نحوّل التصميم إلى موقع إلكتروني فعلي، سريع، متجاوب، وآمن.</p>
-                </div>
-                <div class="step-card">
-                    <span class="step-number">04</span>
-                    <h3>الإطلاق</h3>
-                    <p>نختبر الموقع بدقة على كافة الأجهزة ونجهزه للنشر والظهور للعملاء.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio-section section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>نماذج من أعمالنا</h2>
-                <p>استعرض بعض المشاريع والواجهات التي تم تنفيذها مسبقاً.</p>
-            </div>
-            <div class="portfolio-filter" role="tablist" aria-label="تصفية معرض الأعمال">
-                <button type="button" class="filter-btn active" data-filter="all" role="tab" aria-selected="true" aria-pressed="true">الكل</button>
-                <button type="button" class="filter-btn" data-filter="restaurant" role="tab" aria-selected="false" aria-pressed="false">مطاعم</button>
-                <button type="button" class="filter-btn" data-filter="corporate" role="tab" aria-selected="false" aria-pressed="false">شركات</button>
-                <button type="button" class="filter-btn" data-filter="medical" role="tab" aria-selected="false" aria-pressed="false">عيادات</button>
-            </div>
-            <div class="portfolio-grid">
-                
-                <!-- Restaurant Item -->
-                <div class="portfolio-card" data-category="restaurant">
-                    <div class="portfolio-img">
-                        <img src="img/royal.png">
-                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#EEF1F4"/>
-                            <circle cx="200" cy="100" r="50" fill="none" stroke="#B8863A" stroke-width="2" stroke-dasharray="4"/>
-                            <text x="200" y="105" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">قائمة وجبات تفاعلية</text>
-                            <path d="M120,150 L280,150" stroke="rgba(16,24,38,0.15)" stroke-width="8" stroke-linecap="round"/>
-                        </svg>
-                        
-                    </div>
-                    <div class="portfolio-body">
-                        <span class="portfolio-category">مطاعم ومقاهي</span>
-                        <h4> مطعم Royal Taste </h4>
-                        <p> مطعم فاخر يجمع بين تقديم الاطباق العالمية والمحلية في اجواء راقية وخدمة احترافية</p>
-                         <a href="https://mohamaedtowfigmahmoud-maker.github.io/Royal-Restaurant/" class="project-btn"> <span>تصفح المشروع</span> <i>←</i> </a>
+                <div class="form-group" role="radiogroup" aria-labelledby="ratingLabel">
+                    <span class="rating-label" id="ratingLabel">التقييم بالنجوم *</span>
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="rating" value="5 Stars" required><label for="star5"><span aria-hidden="true">★</span><span class="sr-only">5 نجوم</span></label>
+                        <input type="radio" id="star4" name="rating" value="4 Stars"><label for="star4"><span aria-hidden="true">★</span><span class="sr-only">4 نجوم</span></label>
+                        <input type="radio" id="star3" name="rating" value="3 Stars"><label for="star3"><span aria-hidden="true">★</span><span class="sr-only">3 نجوم</span></label>
+                        <input type="radio" id="star2" name="rating" value="2 Stars"><label for="star2"><span aria-hidden="true">★</span><span class="sr-only">نجمتان</span></label>
+                        <input type="radio" id="star1" name="rating" value="1 Star"><label for="star1"><span aria-hidden="true">★</span><span class="sr-only">نجمة واحدة</span></label>
                     </div>
                 </div>
-                <!-- Corporate Item -->
-                <div class="portfolio-card" data-category="corporate">
-                    <div class="portfolio-img">
-                        <img src="img/afaq.png">
-                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#EEF1F4"/>
-                            <rect x="80" y="40" width="240" height="120" rx="8" fill="#FFFFFF" stroke="#1F5C6E" stroke-width="1.5"/>
-                            <text x="200" y="105" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">بوابة استشارية متكاملة</text>
-                        </svg>
-                    </div>
-                    <div class="portfolio-body">
-                        <span class="portfolio-category">شركات ومؤسسات</span>
-                        <h4>  شركة افاق لاستيراد والتصدير</h4>
-                        <p> شركة متخصصه في مجال التجارة الدولية والخدمات اللوجستية والوسائط التجارية</p>
-                        <a href="https://mohamaedtowfigmahmoud-maker.github.io/nnn/" class="project-btn"> <span>تصفح المشروع</span> <i>←</i> </a>
-                    </div>
-                </div>
-                <!-- Medical Item -->
-                <div class="portfolio-card" data-category="medical">
-                    <div class="portfolio-img">
-                        <img src="img/alrahama.png">
-                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <rect width="400" height="200" fill="#EEF1F4"/>
-                            <path d="M180,100 L220,100 M200,80 L200,120" stroke="#27c93f" stroke-width="4" stroke-linecap="round"/>
-                            <text x="200" y="150" text-anchor="middle" fill="#101826" font-family="Cairo" font-size="16" font-weight="bold">نظام حجز مواعيد العيادة</text>
-                        </svg>
-                    </div>
-                    <div class="portfolio-body">
-                        <span class="portfolio-category">عيادات ومراكز طبية</span>
-                        <h4> مجمع الرحمة الطبي </h4>
-                        <p>  مؤسسة صحية متكاملة تقدم خدمات الأطباء وجدولة حجز المواعيد بسهولة.</p>
-                        <a href="https://mohamaedtowfigmahmoud-maker.github.io/mmn/" class="project-btn"> <span>تصفح المشروع</span> <i>←</i> </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Reviews & Testimonials Section -->
-    <section id="reviews" class="reviews-section section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>آراء وتقييمات العملاء</h2>
-                <p>ثقة شركائنا هي الدافع الأكبر لتقديم أفضل ما لدينا دائماً.</p>
-            </div>
-            
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div>
-                        <div class="review-stars">★★★★★</div>
-                        <p>"خدمة ممتازة واحترافية عالية! تم تنفيذ موقع المطعم الخاص بنا بسرعة فائقة والتصميم كان جذاباً ومناسباً جداً لعملائنا."</p>
-                    </div>
-                    <div class="review-author">
-                        <div class="avatar">أ</div>
-                        <div class="author-info">
-                            <h4>أحمد م.</h4>
-                            <span>مالك سلسلة مطاعم</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="review-card">
-                    <div>
-                        <div class="review-stars">★★★★★</div>
-                        <p>"الموقع ساعدنا بشكل كبير في تنظيم حجز المواعيد بالعيادة. السرعة والتجاوب مع الهواتف الذكية كان أسرع مما توقعنا."</p>
-                    </div>
-                    <div class="review-author">
-                        <div class="avatar">د</div>
-                        <div class="author-info">
-                            <h4>د. سارة ع.</h4>
-                            <span>مجمع طبي متخصص</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="review-card">
-                    <div>
-                        <div class="review-stars">★★★★★</div>
-                        <p>"تعامل راقي ودقة في المواعيد. تم بناء الهوية الرقمية لشركتنا بأعلى معايير الأمان والجودة."</p>
-                    </div>
-                    <div class="review-author">
-                        <div class="avatar">م</div>
-                        <div class="author-info">
-                            <h4>محمد الـ.</h4>
-                            <span>مدير شركة استشارات</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Review Submission Form -->
-            <div class="review-form-container">
-                <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <h3>أضف تقييمك لخدماتنا</h3>
-                    <p>رأيك يهمنا ويسهم في تطوير حلولنا الرقمية</p>
-                </div>
-                <form id="reviewForm" action="https://formspree.io/f/xqkvqrbp" method="POST" novalidate>
-                    <input type="hidden" name="_subject" value="تقييم جديد للخدمات - DSC Hub">
-                    <!-- Honeypot: hidden from real visitors, bots often auto-fill every field they find -->
-                    <div class="hp-field" aria-hidden="true">
-                        <label for="reviewWebsite">اتركه فارغاً</label>
-                        <input type="text" id="reviewWebsite" name="_gotcha" tabindex="-1" autocomplete="off">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="reviewerName">الاسم الكريم *</label>
+                        <input type="text" id="reviewerName" name="reviewerName" required placeholder="أدخل اسمك" autocomplete="name">
                     </div>
                     <div class="form-group">
-                        <label>التقييم بالنجوم *</label>
-                        <div class="star-rating">
-                            <input type="radio" id="star5" name="rating" value="5 Stars" required><label for="star5" title="5 نجوم">★</label>
-                            <input type="radio" id="star4" name="rating" value="4 Stars"><label for="star4" title="4 نجوم">★</label>
-                            <input type="radio" id="star3" name="rating" value="3 Stars"><label for="star3" title="3 نجوم">★</label>
-                            <input type="radio" id="star2" name="rating" value="2 Stars"><label for="star2" title="2 نجمتان">★</label>
-                            <input type="radio" id="star1" name="rating" value="1 Star"><label for="star1" title="نجمة واحدة">★</label>
-                        </div>
+                        <label for="reviewerRole">طبيعة النشاط / المسمى *</label>
+                        <input type="text" id="reviewerRole" name="reviewerRole" required placeholder="مثال: صاحب متجر / طبيب">
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="reviewerName">الاسم الكريم *</label>
-                            <input type="text" id="reviewerName" name="reviewerName" required placeholder="أدخل اسمك" autocomplete="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="reviewerRole">طبيعة النشاط / المسمى *</label>
-                            <input type="text" id="reviewerRole" name="reviewerRole" required placeholder="مثال: صاحب متجر / طبيب">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="reviewMessage">تعليقك وتقييمك *</label>
-                            <textarea id="reviewMessage" name="reviewMessage" rows="3" required placeholder="اكتب رأيك وتجربتك في التعامل معنا..."></textarea>
-                        </div>
+                    <div class="form-group full-width">
+                        <label for="reviewMessage">تعليقك وتقييمك *</label>
+                        <textarea id="reviewMessage" name="reviewMessage" rows="3" required placeholder="اكتب رأيك وتجربتك في التعامل معنا..."></textarea>
                     </div>
-                    <div class="captcha-wrap">
-                        <div id="review-hcaptcha"></div>
-                    </div>
-                    <button type="submit" id="reviewSubmitBtn" class="btn btn-secondary btn-full">إرسال التقييم</button>
-                    <div id="reviewStatus" class="form-status" role="alert"></div>
-                </form>
+                </div>
+                <div class="captcha-wrap"><div id="review-hcaptcha"></div></div>
+                <button type="submit" id="reviewSubmitBtn" class="btn btn-secondary btn-full">إرسال التقييم</button>
+                <div id="reviewStatus" class="form-status" role="alert"></div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section-padding">
+    <div class="container">
+        <div class="cta-banner">
+            <h2>هل نشاطك جاهز للظهور بشكل أفضل؟</h2>
+            <p>أخبرنا عن نشاطك، وسنساعدك في بناء موقع إلكتروني يعكس احترافيتك ويقدم خدماتك لعملائك بطريقة واضحة ومميزة.</p>
+            <div class="btn-group">
+                <a href="#order" class="btn btn-primary">ابدأ مشروعك الآن</a>
+                <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">تواصل عبر WhatsApp</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- CTA Section -->
-    <section class="section-padding">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>هل نشاطك جاهز للظهور بشكل أفضل؟</h2>
-                <p>أخبرنا عن نشاطك، وسنساعدك في بناء موقع إلكتروني يعكس احترافيتك ويقدم خدماتك لعملائك بطريقة واضحة ومميزة.</p>
-                <div class="btn-group">
-                    <a href="#order" class="btn btn-primary">ابدأ مشروعك الآن</a>
-                    <a href="https://wa.me/249964629236" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">تواصل عبر WhatsApp</a>
-                </div>
-            </div>
+<!-- Order Form -->
+<section id="order" class="form-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>اطلب موقعك الآن</h2>
+            <p>قم بملء النموذج وسنتواصل معك لمناقشة التفاصيل وبدء التنفيذ.</p>
         </div>
-    </section>
-
-    <!-- Order Form Section -->
-    <section id="order" class="form-section section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>اطلب موقعك الآن</h2>
-                <p>قم بملء النموذج وسنتواصل معك لمناقشة التفاصيل وبدء التنفيذ.</p>
-            </div>
-            <div class="form-container">
-                <form id="orderForm" action="https://formspree.io/f/xqkvqrbp" method="POST" novalidate>
-                    <!-- Honeypot: hidden from real visitors, bots often auto-fill every field they find -->
-                    <div class="hp-field" aria-hidden="true">
-                        <label for="orderWebsite">اتركه فارغاً</label>
-                        <input type="text" id="orderWebsite" name="_gotcha" tabindex="-1" autocomplete="off">
+        <div class="form-container">
+            <form id="orderForm" action="https://formspree.io/f/xqkvqrbp" method="POST" novalidate>
+                <div class="hp-field" aria-hidden="true">
+                    <label for="orderWebsite">اتركه فارغاً</label>
+                    <input type="text" id="orderWebsite" name="_gotcha" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullName">الاسم الكامل *</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="أدخل اسمك" autocomplete="name">
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="fullName">الاسم الكامل *</label>
-                            <input type="text" id="fullName" name="fullName" required placeholder="أدخل اسمك" autocomplete="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="businessName">اسم النشاط التجاري *</label>
-                            <input type="text" id="businessName" name="businessName" required placeholder="اسم شركتك أو مشروعك" autocomplete="organization">
-                        </div>
-                        <div class="form-group">
-                            <label for="businessType">نوع النشاط *</label>
-                            <select id="businessType" name="businessType" required>
-                                <option value="">اختر نوع النشاط...</option>
-                                <option value="restaurant">مطعم / مقهى</option>
-                                <option value="company">شركة / مؤسسة</option>
-                                <option value="clinic">عيادة / مركز طبي</option>
-                                <option value="store">متجر إلكتروني</option>
-                                <option value="realestate">عقارات / مقاولات</option>
-                                <option value="personal">موقع شخصي / معرض أعمال</option>
-                                <option value="other">نشاط آخر</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="location">المدينة / الدولة *</label>
-                            <input type="text" id="location" name="location" required placeholder="مثال: كسلا، السودان / الرياض، السعودية">
-                        </div>
-                        <div class="form-group">
-                            <label for="whatsapp">رقم الواتساب *</label>
-                            <input type="tel" id="whatsapp" name="whatsapp" required placeholder="مع المفتاح الدولي" inputmode="tel" autocomplete="tel">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">البريد الإلكتروني</label>
-                            <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="hasWebsite">هل لديك موقع إلكتروني حالياً؟</label>
-                            <select id="hasWebsite" name="hasWebsite">
-                                <option value="no">لا</option>
-                                <option value="yes">نعم، أريد تحديثه</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="needMultiLang">هل تحتاج لغتين (عربي/إنجليزي)؟</label>
-                            <select id="needMultiLang" name="needMultiLang">
-                                <option value="no">لغة واحدة فقط</option>
-                                <option value="yes">نعم، متعدد اللغات</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="details">تفاصيل إضافية عن خدماتك ومتطلباتك</label>
-                            <textarea id="details" name="details" rows="4" placeholder="اكتب هنا أي تفاصيل تود مشاركتها معنا..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label for="businessName">اسم النشاط التجاري *</label>
+                        <input type="text" id="businessName" name="businessName" required placeholder="اسم شركتك أو مشروعك" autocomplete="organization">
                     </div>
-                    <div class="captcha-wrap">
-                        <div id="order-hcaptcha"></div>
+                    <div class="form-group">
+                        <label for="businessType">نوع النشاط *</label>
+                        <select id="businessType" name="businessType" required>
+                            <option value="">اختر نوع النشاط...</option>
+                            <option value="restaurant">مطعم / مقهى</option>
+                            <option value="company">شركة / مؤسسة</option>
+                            <option value="clinic">عيادة / مركز طبي</option>
+                            <option value="store">متجر إلكتروني</option>
+                            <option value="realestate">عقارات / مقاولات</option>
+                            <option value="personal">موقع شخصي / معرض أعمال</option>
+                            <option value="other">نشاط آخر</option>
+                        </select>
                     </div>
-                    <button type="submit" id="submitBtn" class="btn btn-primary btn-full">إرسال طلب الموقع</button>
-                    <div id="formStatus" class="form-status" role="alert"></div>
-                </form>
-            </div>
+                    <div class="form-group">
+                        <label for="location">المدينة / الدولة *</label>
+                        <input type="text" id="location" name="location" required placeholder="مثال: كسلا، السودان / الرياض، السعودية">
+                    </div>
+                    <div class="form-group">
+                        <label for="whatsapp">رقم الواتساب *</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" required placeholder="مع المفتاح الدولي" inputmode="tel" autocomplete="tel">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="hasWebsite">هل لديك موقع إلكتروني حالياً؟</label>
+                        <select id="hasWebsite" name="hasWebsite">
+                            <option value="no">لا</option>
+                            <option value="yes">نعم، أريد تحديثه</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="needMultiLang">هل تحتاج لغتين (عربي/إنجليزي)؟</label>
+                        <select id="needMultiLang" name="needMultiLang">
+                            <option value="no">لغة واحدة فقط</option>
+                            <option value="yes">نعم، متعدد اللغات</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="details">تفاصيل إضافية عن خدماتك ومتطلباتك</label>
+                        <textarea id="details" name="details" rows="4" placeholder="اكتب هنا أي تفاصيل تود مشاركتها معنا..."></textarea>
+                    </div>
+                </div>
+                <div class="captcha-wrap"><div id="order-hcaptcha"></div></div>
+                <button type="submit" id="submitBtn" class="btn btn-primary btn-full">إرسال طلب الموقع</button>
+                <div id="formStatus" class="form-status" role="alert"></div>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>الأسئلة الشائعة</h2>
-                <p>إجابات شفافة على أكثر الاستفسارات شيوعاً حول خدماتنا.</p>
+<!-- FAQ -->
+<section id="faq" class="section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2>الأسئلة الشائعة</h2>
+            <p>إجابات شفافة على أكثر الاستفسارات شيوعاً حول خدماتنا.</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button type="button" class="faq-question" id="faq-btn-1" aria-expanded="false" aria-controls="faq-answer-1">
+                    <span>هل تصممون مواقع لجميع الأنشطة؟</span><span class="faq-icon" aria-hidden="true">▼</span>
+                </button>
+                <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-btn-1">
+                    <p>نعم، نصمم ونطور مواقع مخصصة لكل الأنشطة التجارية، المتاجر، المؤسسات، الأفراد، والعيادات وفق الهوية المحددة لكل مجال.</p>
+                </div>
             </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-1" aria-expanded="false" aria-controls="faq-answer-1">
-                        <span>هل تصممون مواقع لجميع الأنشطة؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
-                    </button>
-                    <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-btn-1" aria-hidden="true">
-                        <p>نعم، نصمم ونطور مواقع مخصصة لكل الأنشطة التجارية، المتاجر، المؤسسات، الأفراد، والعيادات وفق الهوية المحددة لكل مجال.</p>
-                    </div>
+            <div class="faq-item">
+                <button type="button" class="faq-question" id="faq-btn-2" aria-expanded="false" aria-controls="faq-answer-2">
+                    <span>هل تستخدمون قوالب جاهزة؟</span><span class="faq-icon" aria-hidden="true">▼</span>
+                </button>
+                <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-btn-2">
+                    <p>لا، يتم التخطيط والتصميم والتطوير بناءً على متطلبات وهوية مشروعك المحددة دون الاعتماد على قوالب جاهزة مكررة.</p>
                 </div>
-                <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-2" aria-expanded="false" aria-controls="faq-answer-2">
-                        <span>هل تستخدمون قوالب جاهزة؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
-                    </button>
-                    <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-btn-2" aria-hidden="true">
-                        <p>لا، يتم التخطيط والتصميم والتطوير بناءً على متطلبات وهوية مشروعك المحددة دون الاعتماد على قوالب جاهزة مكررة.</p>
-                    </div>
+            </div>
+            <div class="faq-item">
+                <button type="button" class="faq-question" id="faq-btn-3" aria-expanded="false" aria-controls="faq-answer-3">
+                    <span>هل الموقع يعمل على الهواتف والأجهزة الذكية؟</span><span class="faq-icon" aria-hidden="true">▼</span>
+                </button>
+                <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-btn-3">
+                    <p>بالتأكيد، نعتمد أسلوب تصميم متجاوب (Responsive Design) ليكون موقعك مرناً وسريعاً على مختلف أحجام الشاشات والأجهزة.</p>
                 </div>
-                <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-3" aria-expanded="false" aria-controls="faq-answer-3">
-                        <span>هل الموقع يعمل على الهواتف والأجهزة الذكية؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
-                    </button>
-                    <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-btn-3" aria-hidden="true">
-                        <p>بالتأكيد، نعتمد أسلوب تصميم متجاوب (Responsive Design) ليكون موقعك مرناً وسريعاً على مختلف أحجام الشاشات والأجهزة.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button type="button" class="faq-question" id="faq-btn-4" aria-expanded="false" aria-controls="faq-answer-4">
-                        <span>هل يمكن ربط الموقع مباشرة بـ WhatsApp؟</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
-                    </button>
-                    <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-btn-4" aria-hidden="true">
-                        <p>نعم، نقوم بإضافة أزرار الربط والتواصل المباشر مع الواتساب والخرائط وجميع وسائل التواصل الخاصة بنشاطك.</p>
-                    </div>
+            </div>
+            <div class="faq-item">
+                <button type="button" class="faq-question" id="faq-btn-4" aria-expanded="false" aria-controls="faq-answer-4">
+                    <span>هل يمكن ربط الموقع مباشرة بـ WhatsApp؟</span><span class="faq-icon" aria-hidden="true">▼</span>
+                </button>
+                <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-btn-4">
+                    <p>نعم، نقوم بإضافة أزرار الربط والتواصل المباشر مع الواتساب والخرائط وجميع وسائل التواصل الخاصة بنشاطك.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+</main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <a href="#" class="logo footer-logo">
-                        <img src="logo.png" alt="DSC Nova" class="logo-img logo-img-on-dark" width="170" height="40" onerror="this.parentElement.style.background='none'; this.style.display='none'">
-                        <span class="logo-tagline">مركز الدعم الرقمي</span>
-                    </a>
-                    <p>نحوّل نشاطك التجاري إلى حضور رقمي احترافي وعصري يرفع من ثقة عملائك ويبني هويتك الرقمية الخاصة.</p>
-                </div>
-                <div>
-                    <h4 class="footer-title">الروابط السريعة</h4>
-                    <ul class="footer-links">
-                        <li><a href="#hero">الرئيسية</a></li>
-                        <li><a href="#services">خدماتنا</a></li>
-                        <li><a href="#portfolio">أعمالنا</a></li>
-                        <li><a href="#reviews">التقييمات</a></li>
-                        <li><a href="#faq">الأسئلة الشائعة</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title">الخدمات</h4>
-                    <ul class="footer-links">
-                        <li><a href="#services">تصميم المواقع</a></li>
-                        <li><a href="#services">تطوير البرمجيات</a></li>
-                        <li><a href="#services">المتاجر الإلكترونية</a></li>
-                        <li><a href="#services">المواقع الطبية</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title">تواصل معنا</h4>
-                    <p>البريد: support@dsc-hub.com</p>
-                    <p>الواتساب: 249964629236+</p>
-                    <p>الموقع: كسلا / الخرطوم / الرياض</p>
-                </div>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <a href="#hero" class="logo footer-logo" aria-label="DSC Nova - الصفحة الرئيسية">
+                    <img src="img/DSC_Nova_Primary_Transparent.png" alt="" class="logo-img logo-img-on-dark" width="170" height="40" loading="lazy" onerror="this.parentElement.style.background='none'; this.style.display='none'">
+                    <span class="logo-tagline">مركز الدعم الرقمي</span>
+                </a>
+                <p>نحوّل نشاطك التجاري إلى حضور رقمي احترافي وعصري يرفع من ثقة عملائك ويبني هويتك الرقمية الخاصة.</p>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 مركز الدعم الرقمي DSC — جميع الحقوق محفوظة.</p>
+            <div>
+                <div class="footer-title">الروابط السريعة</div>
+                <ul class="footer-links">
+                    <li><a href="#hero">الرئيسية</a></li>
+                    <li><a href="#services">خدماتنا</a></li>
+                    <li><a href="#portfolio">أعمالنا</a></li>
+                    <li><a href="#reviews">التقييمات</a></li>
+                    <li><a href="#faq">الأسئلة الشائعة</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-title">الخدمات</div>
+                <ul class="footer-links">
+                    <li><a href="#services">تصميم المواقع</a></li>
+                    <li><a href="#services">تطوير البرمجيات</a></li>
+                    <li><a href="#services">المتاجر الإلكترونية</a></li>
+                    <li><a href="#services">المواقع الطبية</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-title">تواصل معنا</div>
+                <p>البريد: <a href="mailto:support@dsc-hub.com">support@dsc-hub.com</a></p>
+                <p>الواتساب: <a href="https://wa.me/249964629236" dir="ltr" target="_blank" rel="noopener noreferrer">+249964629236</a></p>
+                <p>الموقع: كسلا / الخرطوم / الرياض</p>
             </div>
         </div>
-    </footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 مركز الدعم الرقمي DSC — جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+</footer>
 
-    <!-- Vanilla JavaScript -->
-    <script>
-        // =========================
-        // Firebase Configuration
-        // =========================
-        // Replace with your own project's config from:
-        // Firebase Console → Project Settings → General → Your apps → SDK setup and configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
-            authDomain: "dsc-8e421.firebaseapp.com",
-            projectId: "dsc-8e421",
-            storageBucket: "dsc-8e421.firebasestorage.app",
-            messagingSenderId: "157087109660",
-            appId: "1:157087109660:web:6c5419e63714d3b4ca85d9"
-        };
+<script>
+(function () {
+    'use strict';
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+    // =========================
+    // Config
+    // =========================
+    var FIREBASE_CONFIG = {
+        apiKey: "AIzaSyB3qA41MaUi0Wak3E3ykPZUyj6UnuxZEto",
+        authDomain: "dsc-8e421.firebaseapp.com",
+        projectId: "dsc-8e421",
+        storageBucket: "dsc-8e421.firebasestorage.app",
+        messagingSenderId: "157087109660",
+        appId: "1:157087109660:web:6c5419e63714d3b4ca85d9"
+    };
+    var HCAPTCHA_SITE_KEY = '36c0929c-b16e-4e56-83e0-6f5c039cf2b8';
+    var WA_NUMBER = '249964629236';
 
-        // =========================
-        // hCaptcha Configuration
-        // =========================
-        // Replace with your site key from: https://dashboard.hcaptcha.com/sites
-        const HCAPTCHA_SITE_KEY = '36c0929c-b16e-4e56-83e0-6f5c039cf2b8';
+    // =========================
+    // Helpers
+    // =========================
+    function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text != null) e.textContent = text;
+        return e;
+    }
+    function isSafeUrl(u) {
+        try { var p = new URL(u, location.href).protocol; return p === 'https:' || p === 'http:'; }
+        catch (e) { return false; }
+    }
+    // Run cb once when `target` gets near the viewport (or on first user interaction as fallback)
+    function onNear(target, cb, margin) {
+        if (!target) return;
+        if (!('IntersectionObserver' in window)) { window.addEventListener('load', function () { setTimeout(cb, 2500); }); return; }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries.some(function (x) { return x.isIntersecting; })) { io.disconnect(); cb(); }
+        }, { rootMargin: margin || '400px 0px' });
+        io.observe(target);
+    }
 
-        let orderCaptchaWidgetId = null;
-        let reviewCaptchaWidgetId = null;
+    // =========================
+    // Lazy Firebase (modular SDK, loaded only when needed)
+    // =========================
+    var dbPromise = null;
+    function getDb() {
+        if (!dbPromise) {
+            dbPromise = Promise.all([
+                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'),
+                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js')
+            ]).then(function (m) {
+                var app = m[0].initializeApp(FIREBASE_CONFIG);
+                return { db: m[1].getFirestore(app), fs: m[1] };
+            });
+            dbPromise.catch(function () { dbPromise = null; });
+        }
+        return dbPromise;
+    }
 
-        // Called automatically by the hCaptcha script once it finishes loading
-        function onHcaptchaLoad() {
-            orderCaptchaWidgetId = hcaptcha.render('order-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
-            reviewCaptchaWidgetId = hcaptcha.render('review-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
+    // =========================
+    // Lazy hCaptcha
+    // =========================
+    var hcPromise = null;
+    var widgetIds = {};
+    function loadHcaptcha() {
+        if (hcPromise) return hcPromise;
+        hcPromise = new Promise(function (resolve, reject) {
+            window.onHcaptchaLoad = function () {
+                widgetIds.order = hcaptcha.render('order-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
+                widgetIds.review = hcaptcha.render('review-hcaptcha', { sitekey: HCAPTCHA_SITE_KEY });
+                resolve();
+            };
+            var s = document.createElement('script');
+            s.src = 'https://js.hcaptcha.com/1/api.js?render=explicit&onload=onHcaptchaLoad';
+            s.async = true; s.defer = true;
+            s.onerror = function () { hcPromise = null; reject(new Error('hcaptcha-load')); };
+            document.head.appendChild(s);
+        });
+        return hcPromise;
+    }
+
+    // =========================
+    // Mobile menu
+    // =========================
+    var hamburger = document.getElementById('hamburger');
+    var navMenu = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', function () {
+        var isActive = navMenu.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', String(isActive));
+        hamburger.setAttribute('aria-label', isActive ? 'إغلاق قائمة التصفح' : 'فتح قائمة التصفح');
+    });
+    document.querySelectorAll('.nav-link, .nav-btn').forEach(function (item) {
+        item.addEventListener('click', function () {
+            navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'فتح قائمة التصفح');
+        });
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) { hamburger.click(); hamburger.focus(); }
+    });
+
+    // =========================
+    // FAQ
+    // =========================
+    var faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(function (item) {
+        var btn = item.querySelector('.faq-question');
+        var answer = item.querySelector('.faq-answer');
+        btn.addEventListener('click', function () {
+            var wasOpen = item.classList.contains('active');
+            faqItems.forEach(function (o) {
+                o.classList.remove('active');
+                o.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                o.querySelector('.faq-answer').style.maxHeight = null;
+            });
+            if (!wasOpen) {
+                item.classList.add('active');
+                btn.setAttribute('aria-expanded', 'true');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
+    });
+
+    // =========================
+    // Portfolio filter
+    // =========================
+    var currentFilter = 'all';
+    function applyFilter() {
+        document.querySelectorAll('.portfolio-card').forEach(function (card) {
+            card.hidden = !(currentFilter === 'all' || card.getAttribute('data-category') === currentFilter);
+        });
+    }
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            filterBtns.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            currentFilter = btn.getAttribute('data-filter');
+            applyFilter();
+        });
+    });
+
+    // =========================
+    // Dynamic portfolio (lazy)
+    // =========================
+    var portfolioGrid = document.querySelector('.portfolio-grid');
+    function loadPortfolio() {
+        getDb().then(function (c) {
+            var q = c.fs.query(c.fs.collection(c.db, 'portfolio'), c.fs.orderBy('createdAt', 'desc'));
+            return c.fs.getDocs(q);
+        }).then(function (snapshot) {
+            snapshot.forEach(function (doc) {
+                var p = doc.data();
+                var card = el('div', 'portfolio-card');
+                card.setAttribute('data-category', p.category || 'other');
+
+                var imgWrap = el('div', 'portfolio-img');
+                if (p.imageUrl && isSafeUrl(p.imageUrl)) {
+                    var img = document.createElement('img');
+                    img.src = p.imageUrl;
+                    img.alt = p.title || '';
+                    img.width = 400; img.height = 200;
+                    img.loading = 'lazy'; img.decoding = 'async';
+                    imgWrap.appendChild(img);
+                }
+                var body = el('div', 'portfolio-body');
+                body.appendChild(el('span', 'portfolio-category', p.categoryLabel || ''));
+                body.appendChild(el('h3', null, p.title || ''));
+                body.appendChild(el('p', null, p.description || ''));
+                if (p.projectUrl && isSafeUrl(p.projectUrl)) {
+                    var a = el('a', 'portfolio-link', 'زيارة المشروع ←');
+                    a.href = p.projectUrl; a.target = '_blank'; a.rel = 'noopener noreferrer';
+                    if (p.title) a.setAttribute('aria-label', 'زيارة مشروع ' + p.title);
+                    body.appendChild(a);
+                }
+                card.appendChild(imgWrap);
+                card.appendChild(body);
+                portfolioGrid.appendChild(card);
+            });
+            applyFilter();
+        }).catch(function (err) { console.warn('portfolio load failed', err); });
+    }
+
+    // =========================
+    // Approved reviews (lazy)
+    // =========================
+    var reviewsGrid = document.querySelector('.reviews-grid');
+    function loadReviews() {
+        getDb().then(function (c) {
+            // Only approved reviews are requested, so security rules can forbid reading pending ones.
+            var q = c.fs.query(c.fs.collection(c.db, 'reviews'), c.fs.where('status', '==', 'approved'));
+            return c.fs.getDocs(q);
+        }).then(function (snapshot) {
+            var list = [];
+            snapshot.forEach(function (doc) { list.push(doc.data()); });
+            list.sort(function (a, b) {
+                return ((b.createdAt && b.createdAt.seconds) || 0) - ((a.createdAt && a.createdAt.seconds) || 0);
+            });
+            list.forEach(function (r) {
+                var starCount = Math.min(5, Math.max(1, parseInt(r.rating, 10) || 5));
+                var name = (r.reviewerName || '').trim();
+
+                var card = el('div', 'review-card');
+                var top = document.createElement('div');
+                var stars = el('div', 'review-stars', '★'.repeat(starCount));
+                stars.setAttribute('role', 'img');
+                stars.setAttribute('aria-label', starCount + ' من 5 نجوم');
+                top.appendChild(stars);
+                top.appendChild(el('p', null, '"' + (r.reviewMessage || '') + '"'));
+
+                var author = el('div', 'review-author');
+                var avatar = el('div', 'avatar', name.charAt(0) || '؟');
+                avatar.setAttribute('aria-hidden', 'true');
+                var info = el('div', 'author-info');
+                info.appendChild(el('p', 'author-name', name));
+                info.appendChild(el('span', 'author-role', r.reviewerRole || ''));
+                author.appendChild(avatar);
+                author.appendChild(info);
+
+                card.appendChild(top);
+                card.appendChild(author);
+                reviewsGrid.appendChild(card);
+            });
+        }).catch(function (err) { console.warn('reviews load failed', err); });
+    }
+
+    onNear(document.getElementById('portfolio'), loadPortfolio, '500px 0px');
+    onNear(document.getElementById('reviews'), loadReviews, '500px 0px');
+    document.querySelectorAll('.captcha-wrap').forEach(function (w) {
+        onNear(w, function () { loadHcaptcha().catch(function () {}); }, '300px 0px');
+    });
+    ['orderForm', 'reviewForm'].forEach(function (id) {
+        document.getElementById(id).addEventListener('focusin', function () { loadHcaptcha().catch(function () {}); }, { once: true });
+    });
+
+    // =========================
+    // Order form
+    // =========================
+    var orderForm = document.getElementById('orderForm');
+    var formStatus = document.getElementById('formStatus');
+    var submitBtn = document.getElementById('submitBtn');
+
+    function setStatus(box, type, msg) {
+        box.className = 'form-status' + (type ? ' ' + type : '');
+        box.textContent = msg || '';
+    }
+
+    orderForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        var fullName = document.getElementById('fullName').value.trim();
+        var businessName = document.getElementById('businessName').value.trim();
+        var businessType = document.getElementById('businessType').value;
+        var location = document.getElementById('location').value.trim();
+        var whatsapp = document.getElementById('whatsapp').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var hasWebsite = document.getElementById('hasWebsite').value;
+        var needMultiLang = document.getElementById('needMultiLang').value;
+        var details = document.getElementById('details').value.trim();
+
+        setStatus(formStatus, '', '');
+
+        if (!fullName || !businessName || !businessType || !location || !whatsapp) {
+            return setStatus(formStatus, 'error', 'يرجى ملء كافة الحقول الإلزامية (*) قبل الإرسال.');
+        }
+        if (!/^[+\d\s()-]{7,20}$/.test(whatsapp)) {
+            return setStatus(formStatus, 'error', 'يرجى إدخال رقم واتساب صحيح يشتمل على الرمز الدولي.');
+        }
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return setStatus(formStatus, 'error', 'يرجى إدخال عنوان بريد إلكتروني صحيح.');
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Accessible Mobile Menu Toggle
-            const hamburger = document.getElementById('hamburger');
-            const navMenu = document.getElementById('nav-menu');
+        try { await loadHcaptcha(); }
+        catch (err) { return setStatus(formStatus, 'error', 'تعذر تحميل مربع التحقق. تأكد من اتصالك وحاول مجدداً.'); }
 
-            hamburger.addEventListener('click', () => {
-                const isActive = navMenu.classList.toggle('active');
-                hamburger.setAttribute('aria-expanded', String(isActive));
-                hamburger.setAttribute('aria-label', isActive ? 'إغلاق قائمة التصفح' : 'فتح قائمة التصفح');
+        if (!hcaptcha.getResponse(widgetIds.order)) {
+            return setStatus(formStatus, 'error', 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.');
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.setAttribute('aria-busy', 'true');
+        submitBtn.textContent = 'جاري الإرسال...';
+
+        try {
+            var c = await getDb();
+            await c.fs.addDoc(c.fs.collection(c.db, 'orders'), {
+                fullName: fullName, businessName: businessName, businessType: businessType,
+                location: location, whatsapp: whatsapp, email: email,
+                hasWebsite: hasWebsite, needMultiLang: needMultiLang, details: details,
+                createdAt: c.fs.serverTimestamp()
             });
 
-            // Close Mobile Menu for all links AND CTA Buttons inside the Nav
-            const navItems = document.querySelectorAll('.nav-link, .nav-btn');
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    navMenu.classList.remove('active');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    hamburger.setAttribute('aria-label', 'فتح قائمة التصفح');
-                });
+            // Build the notification payload BEFORE resetting the form
+            var formData = new FormData(orderForm);
+            setStatus(formStatus, 'success', 'تم إرسال طلبك بنجاح! سيتم التواصل معك خلال أقرب وقت.');
+            orderForm.reset();
+            hcaptcha.reset(widgetIds.order);
+
+            fetch(orderForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
+                .catch(function (err) { console.warn('Formspree notification failed', err); });
+        } catch (err) {
+            console.warn(err);
+            formStatus.className = 'form-status error';
+            formStatus.textContent = '';
+            formStatus.appendChild(el('div', null, 'تعذر إرسال الطلب عبر النموذج حالياً. يمكنك التواصل المباشر معنا فوراً عبر الواتساب:'));
+            var wa = el('a', 'btn btn-whatsapp form-status-btn', 'إرسال الطلب عبر الواتساب مباشرة');
+            wa.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(
+                'مرحباً، أود طلب موقع إلكتروني لـ (' + (businessName || 'مشروعي') + '). الاسم: ' + fullName + '، الواتساب: ' + whatsapp);
+            wa.target = '_blank'; wa.rel = 'noopener noreferrer';
+            formStatus.appendChild(wa);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.removeAttribute('aria-busy');
+            submitBtn.textContent = 'إرسال طلب الموقع';
+        }
+    });
+
+    // =========================
+    // Review form
+    // =========================
+    var reviewForm = document.getElementById('reviewForm');
+    var reviewStatus = document.getElementById('reviewStatus');
+    var reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
+
+    reviewForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        var ratingSelected = reviewForm.querySelector('input[name="rating"]:checked');
+        var reviewerName = document.getElementById('reviewerName').value.trim();
+        var reviewerRole = document.getElementById('reviewerRole').value.trim();
+        var reviewMessage = document.getElementById('reviewMessage').value.trim();
+
+        setStatus(reviewStatus, '', '');
+
+        if (!ratingSelected || !reviewerName || !reviewerRole || !reviewMessage) {
+            return setStatus(reviewStatus, 'error', 'يرجى تحديد التقييم بالنجوم وإكمال كافة الحقول.');
+        }
+
+        try { await loadHcaptcha(); }
+        catch (err) { return setStatus(reviewStatus, 'error', 'تعذر تحميل مربع التحقق. تأكد من اتصالك وحاول مجدداً.'); }
+
+        if (!hcaptcha.getResponse(widgetIds.review)) {
+            return setStatus(reviewStatus, 'error', 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.');
+        }
+
+        reviewSubmitBtn.disabled = true;
+        reviewSubmitBtn.textContent = 'جاري إرسال التقييم...';
+
+        try {
+            var c = await getDb();
+            await c.fs.addDoc(c.fs.collection(c.db, 'reviews'), {
+                rating: ratingSelected.value,
+                reviewerName: reviewerName, reviewerRole: reviewerRole, reviewMessage: reviewMessage,
+                status: 'pending',
+                createdAt: c.fs.serverTimestamp()
             });
 
-            // Accessible FAQ Accordion Toggle with aria-hidden
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const questionBtn = item.querySelector('.faq-question');
-                const answer = item.querySelector('.faq-answer');
+            var formData = new FormData(reviewForm);
+            setStatus(reviewStatus, 'success', 'شكرًا لك! تم إرسال تقييمك بنجاح وسنعمل على مراجعته وإضافته للموقع.');
+            reviewForm.reset();
+            hcaptcha.reset(widgetIds.review);
 
-                questionBtn.addEventListener('click', () => {
-                    const isOpen = item.classList.contains('active');
+            fetch(reviewForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
+                .catch(function (err) { console.warn('Formspree notification failed', err); });
+        } catch (err) {
+            console.warn(err);
+            setStatus(reviewStatus, 'error', 'حدث خطأ أثناء إرسال التقييم، يرجى المحاولة لاحقاً أو إرساله لنا عبر الواتساب.');
+        } finally {
+            reviewSubmitBtn.disabled = false;
+            reviewSubmitBtn.textContent = 'إرسال التقييم';
+        }
+    });
+})();
+</script>
 
-                    faqItems.forEach(otherItem => {
-                        otherItem.classList.remove('active');
-                        const otherBtn = otherItem.querySelector('.faq-question');
-                        const otherAnswer = otherItem.querySelector('.faq-answer');
-                        otherBtn.setAttribute('aria-expanded', 'false');
-                        otherAnswer.setAttribute('aria-hidden', 'true');
-                        otherAnswer.style.maxHeight = null;
-                    });
-
-                    if (!isOpen) {
-                        item.classList.add('active');
-                        questionBtn.setAttribute('aria-expanded', 'true');
-                        answer.setAttribute('aria-hidden', 'false');
-                        answer.style.maxHeight = answer.scrollHeight + 'px';
-                    }
-                });
-            });
-
-            // Portfolio Filter & Accessibility Handling
-            const filterBtns = document.querySelectorAll('.filter-btn');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => {
-                        b.classList.remove('active');
-                        b.setAttribute('aria-selected', 'false');
-                        b.setAttribute('aria-pressed', 'false');
-                    });
-
-                    btn.classList.add('active');
-                    btn.setAttribute('aria-selected', 'true');
-                    btn.setAttribute('aria-pressed', 'true');
-
-                    const filterValue = btn.getAttribute('data-filter');
-                    // Re-query every click so projects added dynamically from the
-                    // admin dashboard after page load are included in the filter too.
-                    document.querySelectorAll('.portfolio-card').forEach(card => {
-                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-
-            // Load real portfolio projects added via the admin dashboard
-            const portfolioGrid = document.querySelector('.portfolio-grid');
-            db.collection('portfolio').orderBy('createdAt', 'desc').get()
-                .then(snapshot => {
-                    snapshot.forEach(doc => {
-                        const p = doc.data();
-                        const card = document.createElement('div');
-                        card.className = 'portfolio-card';
-                        card.setAttribute('data-category', p.category || 'other');
-                        card.innerHTML = `
-                            <div class="portfolio-img">
-                                <img src="${p.imageUrl}" alt="${p.title || ''}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                            </div>
-                            <div class="portfolio-body">
-                                <span class="portfolio-category">${p.categoryLabel || ''}</span>
-                                <h3>${p.title || ''}</h3>
-                                <p>${p.description || ''}</p>
-                                ${p.projectUrl ? `<a class="portfolio-link" href="${p.projectUrl}" target="_blank" rel="noopener noreferrer">زيارة المشروع ←</a>` : ''}
-                            </div>
-                        `;
-                        portfolioGrid.appendChild(card);
-                    });
-                })
-                .catch(err => console.error('تعذر تحميل مشاريع المعرض:', err));
-
-            // Load approved customer reviews (moderated from the admin dashboard).
-            // Filtering status client-side (instead of a server-side "where") avoids
-            // needing a Firestore composite index for this query.
-            const reviewsGrid = document.querySelector('.reviews-grid');
-            db.collection('reviews').orderBy('createdAt', 'desc').get()
-                .then(snapshot => {
-                    snapshot.forEach(doc => {
-                        const r = doc.data();
-                        if (r.status !== 'approved') return;
-                        const starCount = parseInt(r.rating) || 5;
-                        const initial = (r.reviewerName || '').trim().charAt(0) || '؟';
-                        const card = document.createElement('div');
-                        card.className = 'review-card';
-                        card.innerHTML = `
-                            <div>
-                                <div class="review-stars" aria-label="${starCount} من 5 نجوم">${'★'.repeat(starCount)}</div>
-                                <p>"${r.reviewMessage || ''}"</p>
-                            </div>
-                            <div class="review-author">
-                                <div class="avatar" aria-hidden="true">${initial}</div>
-                                <div class="author-info">
-                                    <h4>${r.reviewerName || ''}</h4>
-                                    <span>${r.reviewerRole || ''}</span>
-                                </div>
-                            </div>
-                        `;
-                        reviewsGrid.appendChild(card);
-                    });
-                })
-                .catch(err => {
-                    console.error('تعذر تحميل التقييمات:', err);
-                    reviewsGrid.insertAdjacentHTML('beforeend', `<div style="grid-column:1/-1; font-size:0.75rem; color:#ff5f56; direction:ltr; text-align:center; padding:1rem;">reviews load error: ${err.message || err}</div>`);
-                });
-
-            // Dynamic Form Handling for Orders
-            const orderForm = document.getElementById('orderForm');
-            const formStatus = document.getElementById('formStatus');
-            const submitBtn = document.getElementById('submitBtn');
-
-            orderForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const fullName = document.getElementById('fullName').value.trim();
-                const businessName = document.getElementById('businessName').value.trim();
-                const businessType = document.getElementById('businessType').value;
-                const location = document.getElementById('location').value.trim();
-                const whatsapp = document.getElementById('whatsapp').value.trim();
-                const email = document.getElementById('email').value.trim();
-
-                formStatus.className = 'form-status';
-                formStatus.innerHTML = '';
-
-                if (!fullName || !businessName || !businessType || !location || !whatsapp) {
-                    formStatus.className = 'form-status error';
-                    formStatus.textContent = 'يرجى ملء كافة الحقول الإلزامية (*) قبل الإرسال.';
-                    return;
-                }
-
-                const whatsappPattern = /^[+\d\s()-]{7,20}$/;
-                if (!whatsappPattern.test(whatsapp)) {
-                    formStatus.className = 'form-status error';
-                    formStatus.textContent = 'يرجى إدخال رقم واتساب صحيح يشتمل على الرمز الدولي.';
-                    return;
-                }
-
-                if (email) {
-                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailPattern.test(email)) {
-                        formStatus.className = 'form-status error';
-                        formStatus.textContent = 'يرجى إدخال عنوان بريد إلكتروني صحيح.';
-                        return;
-                    }
-                }
-
-                const captchaToken = hcaptcha.getResponse(orderCaptchaWidgetId);
-                if (!captchaToken) {
-                    formStatus.className = 'form-status error';
-                    formStatus.textContent = 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.';
-                    return;
-                }
-
-                submitBtn.disabled = true;
-                submitBtn.setAttribute('aria-busy', 'true');
-                submitBtn.textContent = 'جاري الإرسال...';
-
-                const businessTypeVal = document.getElementById('businessType').value;
-                const hasWebsiteVal = document.getElementById('hasWebsite').value;
-                const needMultiLangVal = document.getElementById('needMultiLang').value;
-                const detailsVal = document.getElementById('details').value.trim();
-
-                try {
-                    // Save to Firestore (this is the record that matters — it feeds the dashboard)
-                    await db.collection('orders').add({
-                        fullName, businessName, businessType: businessTypeVal,
-                        location, whatsapp, email,
-                        hasWebsite: hasWebsiteVal, needMultiLang: needMultiLangVal,
-                        details: detailsVal,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    // The request is saved — tell the customer now, don't make them wait on email
-                    formStatus.className = 'form-status success';
-                    formStatus.textContent = 'تم إرسال طلبك بنجاح! سيتم التواصل معك خلال أقرب وقت.';
-                    orderForm.reset();
-                    hcaptcha.reset(orderCaptchaWidgetId);
-
-                    // Best-effort email notification via Formspree — failure here is silent
-                    // and never affects what the customer sees, since the order is already saved.
-                    const formData = new FormData(orderForm);
-                    fetch(orderForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    }).catch(err => console.error('Formspree notification failed:', err));
-                } catch (err) {
-                    formStatus.className = 'form-status error';
-                    console.error(err);
-                    const waText = encodeURIComponent(`مرحباً، أود طلب موقع إلكتروني لـ (${businessName || 'مشروعي'}). الاسم: ${fullName}، الواتساب: ${whatsapp}`);
-                    const waUrl = `https://wa.me/249964629236?text=${waText}`;
-
-                    formStatus.innerHTML = `
-                        <div>تعذر إرسال الطلب عبر النموذج حالياً. يمكنك التواصل المباشر معنا فوراً عبر الواتساب:</div>
-                        <div style="font-size:0.75rem; opacity:0.7; margin-top:0.5rem; direction:ltr; text-align:center;">${err.message || err}</div>
-                        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp form-status-btn">
-                            إرسال الطلب عبر الواتساب مباشرة
-                        </a>
-                    `;
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.removeAttribute('aria-busy');
-                    submitBtn.textContent = 'إرسال طلب الموقع';
-                }
-            });
-
-            // Dynamic Form Handling for Reviews
-            const reviewForm = document.getElementById('reviewForm');
-            const reviewStatus = document.getElementById('reviewStatus');
-            const reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
-
-            reviewForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const ratingSelected = reviewForm.querySelector('input[name="rating"]:checked');
-                const reviewerName = document.getElementById('reviewerName').value.trim();
-                const reviewerRole = document.getElementById('reviewerRole').value.trim();
-                const reviewMessage = document.getElementById('reviewMessage').value.trim();
-
-                reviewStatus.className = 'form-status';
-                reviewStatus.innerHTML = '';
-
-                if (!ratingSelected || !reviewerName || !reviewerRole || !reviewMessage) {
-                    reviewStatus.className = 'form-status error';
-                    reviewStatus.textContent = 'يرجى تحديد التقييم بالنجوم وإكمال كافة الحقول.';
-                    return;
-                }
-
-                const reviewCaptchaToken = hcaptcha.getResponse(reviewCaptchaWidgetId);
-                if (!reviewCaptchaToken) {
-                    reviewStatus.className = 'form-status error';
-                    reviewStatus.textContent = 'يرجى تأكيد أنك لست روبوتاً عبر مربع التحقق.';
-                    return;
-                }
-
-                reviewSubmitBtn.disabled = true;
-                reviewSubmitBtn.textContent = 'جاري إرسال التقييم...';
-
-                try {
-                    // Save to Firestore. status:'pending' lets you review before it appears live.
-                    await db.collection('reviews').add({
-                        rating: ratingSelected.value,
-                        reviewerName, reviewerRole, reviewMessage,
-                        status: 'pending',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    reviewStatus.className = 'form-status success';
-                    reviewStatus.textContent = 'شكرًا لك! تم إرسال تقييمك بنجاح وسنعمل على مراجعته وإضافته للموقع.';
-                    reviewForm.reset();
-                    hcaptcha.reset(reviewCaptchaWidgetId);
-
-                    // Best-effort email notification — failure here is silent and never
-                    // affects what the reviewer sees, since the review is already saved.
-                    const formData = new FormData(reviewForm);
-                    fetch(reviewForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    }).catch(err => console.error('Formspree notification failed:', err));
-                } catch (err) {
-                    reviewStatus.className = 'form-status error';
-                    console.error(err);
-                    reviewStatus.innerHTML = `
-                        <div>حدث خطأ أثناء إرسال التقييم، يرجى المحاولة لاحقاً أو إرساله لنا عبر الواتساب.</div>
-                        <div style="font-size:0.75rem; opacity:0.7; margin-top:0.5rem; direction:ltr; text-align:center;">${err.message || err}</div>
-                    `;
-                } finally {
-                    reviewSubmitBtn.disabled = false;
-                    reviewSubmitBtn.textContent = 'إرسال التقييم';
-                }
-            });
-        });
-    </script>
 </body>
 </html>
